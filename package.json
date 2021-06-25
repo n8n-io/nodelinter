@@ -1,0 +1,28 @@
+{
+  "name": "nodelinter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "tsc && node dist/scripts/lint.js",
+    "lintall": "tsc && node dist/scripts/lintAll.js",
+    "clear": "rm -rf dist",
+    "test": "jest"
+  },
+  "keywords": [
+    "n8n"
+  ],
+  "author": "Iván Ovejero",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.6.0",
+    "jest": "^27.0.4",
+    "prettier": "^2.3.0",
+    "ts-jest": "^27.0.3"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "typescript": "^4.3.4"
+  }
+}

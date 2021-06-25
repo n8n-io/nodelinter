@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true
+  },
+
+  "exclude": ["src/input/*", "src/tests/input/*"]
+}

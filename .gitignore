@@ -1,0 +1,6 @@
+node_modules
+.todo
+*_
+.DS_Store
+dist
+package-lock.json

@@ -1,0 +1,186 @@
+export const LINTINGS: {
+  [key in string]: Linting;
+} = {
+  WRONG_DEFAULT_FOR_STRING_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-string default for string-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  WRONG_DEFAULT_FOR_NUMBER_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-numeric default for number-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  WRONG_DEFAULT_FOR_BOOLEAN_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-boolean default for boolean-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  WRONG_DEFAULT_FOR_COLLECTION_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-object default for collection-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  WRONG_DEFAULT_FOR_MULTIOPTIONS_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-array default for multiOptions-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  WRONG_DEFAULT_FOR_OPTIONS_TYPE_PARAM: {
+    lintArea: "default",
+    lintIssue: "wrong",
+    message: "Non-option default for options-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  DEFAULT_MISSING: {
+    lintArea: "default",
+    lintIssue: "missing",
+    message: "Default value missing for param",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  DISPLAYNAME_WITH_MISCASED_ID: {
+    lintArea: "displayName",
+    lintIssue: "casing",
+    message: "Miscased `ID` in `displayName` property",
+    enabled: true,
+    logLevel: "error",
+  },
+  DISPLAYNAME_WITH_NO_TITLECASE: {
+    lintArea: "displayName",
+    lintIssue: "casing",
+    message: "No title case in `displayName` property",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  LIMIT_WITHOUT_TYPE_OPTIONS: {
+    lintArea: "limit",
+    lintIssue: "missing",
+    message: "Limit without `typeOptions`",
+    enabled: true,
+    logLevel: "error",
+  },
+  LIMIT_LOWER_THAN_ONE: {
+    lintArea: "limit",
+    lintIssue: "missing",
+    message: "Limit with value lower than one",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  REQUIRED_FALSE: {
+    lintArea: "miscellaneous",
+    lintIssue: "unneeded",
+    message: "Unneeded `required: false` in param property",
+    enabled: true,
+    logLevel: "warning",
+  },
+
+  NAME_WITH_MISCASED_ID: {
+    lintArea: "name",
+    lintIssue: "casing",
+    message: "Miscased `id` in `name` property",
+    enabled: true,
+    logLevel: "error",
+  },
+  NAME_WITH_NO_CAMELCASE: {
+    lintArea: "name",
+    lintIssue: "casing",
+    message: "No camel case in `name` property",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  PNG_ICON_IN_NODE_DESCRIPTION: {
+    lintArea: "nodeDescription",
+    lintIssue: "icon",
+    message: "Icon is PNG instead of SVG in node description",
+    enabled: true,
+    logLevel: "error",
+  },
+  SUBTITLE_MISSING_IN_NODE_DESCRIPTION: {
+    lintArea: "nodeDescription",
+    lintIssue: "missing",
+    message: "Missing `subtitle` in node description",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  NON_ALPHABETIZED_OPTIONS: {
+    lintArea: "options",
+    lintIssue: "alphabetization",
+    message: "Non-alphabetized `options` values in options-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+
+  PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
+    lintArea: "paramDescription",
+    lintIssue: "casing",
+    message: "Non-capital initial letter in param description",
+    enabled: true,
+    logLevel: "error",
+  },
+  PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD: {
+    lintArea: "paramDescription",
+    lintIssue: "punctuation",
+    message: "Excess final period in param description",
+    enabled: true,
+    logLevel: "error",
+  },
+  PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED: {
+    lintArea: "paramDescription",
+    lintIssue: "missing",
+    message: "Param description is missing where it is required",
+    enabled: true,
+    logLevel: "error",
+  },
+  PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL: {
+    lintArea: "paramDescription",
+    lintIssue: "missing",
+    message: "Param description is missing where it is optional",
+    enabled: true,
+    logLevel: "info",
+  },
+  PARAM_DESCRIPTION_WITH_UNNEEDED_BACKTICKS: {
+    lintArea: "paramDescription",
+    lintIssue: "unneeded",
+    message: "Param description has unneeded backticks",
+    enabled: true,
+    logLevel: "warning",
+  },
+  ANCHOR_LINK_WITH_TARGET_BLANK_MISSING: {
+    lintArea: "paramDescription",
+    lintIssue: "missing",
+    message: 'Anchor link has no attribute target="_blank"',
+    enabled: true,
+    logLevel: "error",
+  },
+  PARAM_DESCRIPTION_AS_EMPTY_STRING: {
+    lintArea: "paramDescription",
+    lintIssue: "missing",
+    message: "Param description is an empty string",
+    enabled: true,
+    logLevel: "error",
+  },
+  PARAM_DESCRIPTION_UNTRIMMED: {
+    lintArea: "paramDescription",
+    lintIssue: "whitespace",
+    message: "Param description is untrimmed",
+    enabled: true,
+    logLevel: "warning",
+  },
+};
