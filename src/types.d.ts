@@ -23,6 +23,7 @@ type Linting = {
   message: string;
   enabled: boolean;
   logLevel: LogLevel;
+  details?: string;
 };
 
 type ParameterType =
@@ -60,14 +61,10 @@ type LintIssue =
 //             log
 // ----------------------------------
 
-type Log = {
-  lintAreas: LintArea[];
-  lintIssue: string;
-  message: string;
+type Log = Omit<Linting, "enabled"> & {
   line: number;
   excerpt: string;
   sourceFilePath: string;
-  logLevel: LogLevel;
 };
 
 type LogLevel = "info" | "warning" | "error";

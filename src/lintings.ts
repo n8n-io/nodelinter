@@ -165,10 +165,11 @@ export const LINTINGS: {
   UPSERT_OPTION_WITH_WRONG_DESCRIPTION: {
     lintAreas: ["options"],
     lintIssue: "wrong",
-    message:
-      "Option for upsert is not described 'Create a new record, or update the current one if it already exists (upsert)'",
+    message: "Option for upsert is incorrect",
     enabled: true,
     logLevel: "error",
+    details:
+      "The upsert option description must be 'Create a new record, or update the current one if it already exists (upsert)'",
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
@@ -191,6 +192,8 @@ export const LINTINGS: {
     message: "Param description is missing where it is required",
     enabled: true,
     logLevel: "error",
+    details:
+      "All param and options are required except resource option, credentials option, and defaults option",
   },
   PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL: {
     lintAreas: ["paramDescription"],
@@ -198,6 +201,8 @@ export const LINTINGS: {
     message: "Param description is missing where it is optional",
     enabled: true,
     logLevel: "info",
+    details:
+      "The only pptional descriptions are resource option, credentials option, and defaults option",
   },
   PARAM_DESCRIPTION_WITH_UNNEEDED_BACKTICKS: {
     lintAreas: ["paramDescription"],
