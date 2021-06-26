@@ -1,14 +1,16 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
-import { config } from "../../config";
 
 export class DescriptionValidator implements SubValidator {
   static lintArea = "paramDescription" as const;
   logs: Log[];
   log: LogFunction;
 
-  private weakDescriptions = config.weakParamDescriptions;
+  private weakDescriptions = [
+    "The operation to perform",
+    "Method of authentication",
+  ];
 
   private hasExcessFinalPeriod(description: string) {
     const parts = description.split(". ");

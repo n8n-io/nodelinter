@@ -62,3 +62,22 @@ export class BoxTrigger implements INodeType {
 		outputs: ['main'],
 	}
 }
+
+// NON_STANDARD_SUBTITLE
+export class Drift implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Drift',
+		name: 'drift',
+		icon: 'file:drift.png',
+		group: ['output'],
+		version: 1,
+		subtitle: '={{$parameter["operation"]',
+		description: 'Consume Drift API',
+		defaults: {
+			name: 'Drift ',
+			color: '#404040',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+	};
+}

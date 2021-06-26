@@ -140,6 +140,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  NON_STANDARD_SUBTITLE: {
+    lintAreas: ["nodeDescription"],
+    lintIssue: "wording",
+    message: "Non-standard `subtitle` in node description",
+    enabled: true,
+    logLevel: "info",
+  },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "displayName"],
     lintIssue: "naming",

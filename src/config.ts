@@ -27,8 +27,4 @@ export const config: Config = {
     naming: true,
     location: true,
   },
-  weakParamDescriptions: [
-    "The operation to perform",
-    "Method of authentication",
-  ],
 };
