@@ -21,11 +21,14 @@ export function Logger<BaseClass extends Constructor>(
       );
 
       if (lintIssueIsDisabled(linting.lintIssue)) return;
-      if (lintAreaIsDisabled(linting.lintArea)) return;
+
+      for (const lintArea of linting.lintAreas) {
+        if (lintAreaIsDisabled(lintArea)) return;
+      }
 
       this.logs.push({
         message: linting.message,
-        lintArea: linting.lintArea,
+        lintAreas: linting.lintAreas,
         lintIssue: linting.lintIssue,
         line: line + 1,
         excerpt: config.truncation.enabled

@@ -1,7 +1,7 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
-import { Traverser, Validator } from "../services";
+import { Traverser, Validator } from "../services/";
 import { LINTINGS } from "../lintings";
 import { lintIssueIsDisabled } from "../utils";
 
@@ -29,11 +29,19 @@ export const buildSourceFilePath = (lintArea: LintArea) =>
   path.join("src", "tests", "input", `${lintArea}.ts`);
 
 const groupByLintArea = (list: Linting[]) =>
-  list.reduce<{ [key: string]: Linting[] }>((lintAreas, linting) => {
-    const lintArea = lintAreas[linting.lintArea] ?? [];
-    lintArea.push(linting);
-    lintAreas[linting.lintArea] = lintArea;
-    return lintAreas;
+  list.reduce<{ [key: string]: Linting[] }>((acc, linting) => {
+    linting.lintAreas.forEach((lintArea) => {
+      const accLintArea = acc[lintArea] ?? [];
+      accLintArea.push(linting);
+      acc[lintArea] = accLintArea;
+    });
+
+    return acc;
+
+    // const lintArea = lintAreas[linting.lintArea] ?? [];
+    // lintArea.push(linting);
+    // lintAreas[linting.lintArea] = lintArea;
+    // return lintAreas;
   }, {});
 
 export const lintingsByGroup = groupByLintArea(Object.values(LINTINGS));

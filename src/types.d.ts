@@ -18,7 +18,7 @@ type Config = {
 // ----------------------------------
 
 type Linting = {
-  lintArea: LintArea;
+  lintAreas: LintArea[];
   lintIssue: LintIssue;
   message: string;
   enabled: boolean;
@@ -61,7 +61,7 @@ type LintIssue =
 // ----------------------------------
 
 type Log = {
-  lintArea: LintArea;
+  lintAreas: LintArea[];
   lintIssue: string;
   message: string;
   line: number;

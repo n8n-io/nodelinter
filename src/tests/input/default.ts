@@ -86,4 +86,17 @@ export const properties = [
     type: 'string',
     description: 'Some description.',
   },
+
+  // WRONG_DEFAULT_FOR_LIMIT_PARAM
+  {
+    displayName: 'Limit',
+    name: 'limit',
+    type: 'number',
+    default: 5,
+    description: 'The number of results to return.',
+    typeOptions: {
+      minValue: 1,
+      maxValue: 1000,
+    },
+  },
 ];

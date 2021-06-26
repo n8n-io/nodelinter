@@ -14,4 +14,32 @@ export const properties = [
     type: 'string',
     default: '',
   },
+
+  // PARAM_DESCRIPTION_IDENTICAL_TO_DISPLAY_NAME
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+    description: 'User ID'
+  },
 ];
+
+// DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
+export class BoxTrigger implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Box Traigger', // misspelled
+		name: 'boxTraigger', // misspelled
+		icon: 'file:box.svg',
+		group: ['trigger'],
+		version: 1,
+		subtitle: 'Whatever',
+		description: 'Starts the workflow when a Box events occurs',
+		defaults: {
+			name: 'Box Trigger',
+			color: '#00aeef',
+		},
+		inputs: [],
+		outputs: ['main'],
+	}
+}
