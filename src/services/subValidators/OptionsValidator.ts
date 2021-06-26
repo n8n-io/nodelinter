@@ -14,8 +14,13 @@ export class OptionsValidator implements SubValidator {
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "type" &&
-      node.getChildAt(2).getText() === "'options'"
+      (node.getChildAt(2).getText() === "'options'" ||
+        node.getChildAt(2).getText() === "'multiOptions'")
     ) {
+      let isOptionsType = node.getChildAt(2).getText() === "'options'";
+      let isMultiOptionsType =
+        node.getChildAt(2).getText() === "'multiOptions'";
+
       let optionsNodeToReport: ts.Node = node;
       let optionsValues: string[] = [];
 
@@ -36,7 +41,9 @@ export class OptionsValidator implements SubValidator {
                 node.parent.forEachChild((child) => {
                   if (child.getChildAt(0).getText() === "name") {
                     if (child.getChildAt(2).getText() !== "Create or Update") {
-                      this.log(LINTINGS.UPSERT_OPTION_WITH_WRONG_NAME)(child);
+                      this.log(LINTINGS.UPSERT_OPTION_WITH_MISWORDED_NAME)(
+                        child
+                      );
                     }
                   }
 
@@ -45,9 +52,9 @@ export class OptionsValidator implements SubValidator {
                       child.getChildAt(2).getText() !==
                       "Create a new record, or update the current one if it already exists (upsert)"
                     ) {
-                      this.log(LINTINGS.UPSERT_OPTION_WITH_WRONG_DESCRIPTION)(
-                        child
-                      );
+                      this.log(
+                        LINTINGS.UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION
+                      )(child);
                     }
                   }
                 });
@@ -61,8 +68,16 @@ export class OptionsValidator implements SubValidator {
         });
       });
 
-      if (!areAlphabetized(optionsValues)) {
-        this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS)(optionsNodeToReport);
+      if (isOptionsType && !areAlphabetized(optionsValues)) {
+        this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM)(
+          optionsNodeToReport
+        );
+      }
+
+      if (isMultiOptionsType && !areAlphabetized(optionsValues)) {
+        this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM)(
+          optionsNodeToReport
+        );
       }
     }
     return this.logs;

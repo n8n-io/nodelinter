@@ -148,28 +148,36 @@ export const LINTINGS: {
     logLevel: "error",
   },
 
-  NON_ALPHABETIZED_OPTIONS: {
+  NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM: {
     lintAreas: ["options"],
     lintIssue: "alphabetization",
-    message: "Non-alphabetized `options` values in options-type param",
+    message: "Non-alphabetized `options` values in `options`-type param",
     enabled: true,
     logLevel: "error",
   },
-  UPSERT_OPTION_WITH_WRONG_NAME: {
+  NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM: {
     lintAreas: ["options"],
-    lintIssue: "wrong",
-    message: "Option for upsert is not named 'Create or Update'",
+    lintIssue: "alphabetization",
+    message: "Non-alphabetized `options` values in `multiOptions`-type param",
     enabled: true,
     logLevel: "error",
   },
-  UPSERT_OPTION_WITH_WRONG_DESCRIPTION: {
+  UPSERT_OPTION_WITH_MISWORDED_NAME: {
     lintAreas: ["options"],
-    lintIssue: "wrong",
-    message: "Option for upsert is incorrect",
+    lintIssue: "wording",
+    message: "Name of option for upsert is misworded",
+    enabled: true,
+    logLevel: "error",
+    details: "The upsert option must be worded: 'Create or Update'",
+  },
+  UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION: {
+    lintAreas: ["options"],
+    lintIssue: "wording",
+    message: "Description of option for upsert is misworded",
     enabled: true,
     logLevel: "error",
     details:
-      "The upsert option description must be 'Create a new record, or update the current one if it already exists (upsert)'",
+      "The upsert option description must be worded: 'Create a new record, or update the current one if it already exists (upsert)'",
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {

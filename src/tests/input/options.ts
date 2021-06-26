@@ -1,5 +1,5 @@
 export const properties = [
-  // NON_ALPHABETIZED_OPTIONS
+  // NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM
   {
     displayName: 'Choices',
     name: 'choices',
@@ -18,10 +18,30 @@ export const properties = [
     ],
     default: 'public',
   },
+
+	// NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM
+	{
+		displayName: 'Include',
+		name: 'include',
+		type: 'multiOptions',
+		options: [
+			{
+				name: 'bbbb',
+				value: 'bbb',
+			},
+			{
+				name: 'approved',
+				value: 'approved',
+			},
+		],
+		default: [],
+		description: 'You may specify relations to include with your response.',
+	},
 ];
 
-// UPSERT_OPTION_WITH_WRONG_NAME
-// UPSERT_OPTION_WITH_WRONG_DESCRIPTION
+
+// UPSERT_OPTION_WITH_MISWORDED_NAME
+// UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION
 export const contactOperations = [
 	{
 		displayName: 'Operation',
