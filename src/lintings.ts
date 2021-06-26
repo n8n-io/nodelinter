@@ -69,14 +69,14 @@ export const LINTINGS: {
   LIMIT_WITHOUT_TYPE_OPTIONS: {
     lintAreas: ["limit"],
     lintIssue: "missing",
-    message: "Limit without `typeOptions`",
+    message: "Limit param without `typeOptions`",
     enabled: true,
     logLevel: "error",
   },
   LIMIT_WITH_MIN_VALUE_LOWER_THAN_ONE: {
     lintAreas: ["limit"],
     lintIssue: "missing",
-    message: "Limit with minimum value lower than one",
+    message: "Limit param with min value lower than one",
     enabled: true,
     logLevel: "error",
   },
@@ -86,6 +86,13 @@ export const LINTINGS: {
     message: "Non-50 default for limit param",
     enabled: true,
     logLevel: "error",
+  },
+  NON_STANDARD_LIMIT_DESCRIPTION: {
+    lintAreas: ["limit"],
+    lintIssue: "wording",
+    message: "Non-standard description for limit param",
+    enabled: true,
+    logLevel: "info",
   },
 
   REQUIRED_FALSE: {

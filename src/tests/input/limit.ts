@@ -31,10 +31,38 @@ export const properties = [
 		name: 'limit',
 		type: 'number',
 		default: 5,
-		description: 'The number of results to return.',
+		description: 'How many results to return',
 		typeOptions: {
 			minValue: 1,
 			maxValue: 1000,
 		},
 	},
 ];
+
+// NON_STANDARD_LIMIT_DESCRIPTION
+export const accountContactOperations = [
+	{
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		displayOptions: {
+			show: {
+				operation: [
+					'getAll',
+				],
+				resource: [
+					'project',
+				],
+				returnAll: [
+					false,
+				],
+			},
+		},
+		typeOptions: {
+			minValue: 1,
+			maxValue: 500,
+		},
+		default: 100,
+		description: 'Something is wrong here',
+	},
+]

@@ -6,6 +6,8 @@ export class LimitValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
+  standardLimitDescription = "How many results to return";
+
   public run(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
@@ -23,6 +25,14 @@ export class LimitValidator implements SubValidator {
             node.getChildAt(2).getText() !== "50"
           ) {
             this.log(LINTINGS.WRONG_DEFAULT_FOR_LIMIT_PARAM)(node);
+          }
+
+          if (
+            ts.isPropertyAssignment(node) &&
+            node.getChildAt(0).getText() === "description" &&
+            node.getChildAt(2).getText() !== this.standardLimitDescription
+          ) {
+            this.log(LINTINGS.NON_STANDARD_LIMIT_DESCRIPTION)(node);
           }
 
           if (
