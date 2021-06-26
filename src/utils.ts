@@ -28,3 +28,6 @@ export const lintAreaIsDisabled = (lintArea: LintArea) =>
 
 export const lintIssueIsDisabled = (lintIssue: LintIssue) =>
   !config.lintIssuesEnabled[lintIssue];
+
+export const logLevelIsDisabled = (logLevel: LogLevel) =>
+  !config.logLevelsEnabled[logLevel];

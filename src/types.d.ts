@@ -6,6 +6,7 @@ type Config = {
   n8nRepoPath: string;
   lintAreasEnabled: { [key in LintArea]: boolean };
   lintIssuesEnabled: { [key in LintIssue]: boolean };
+  logLevelsEnabled: { [key in LogLevel]: boolean };
   truncation: {
     enabled: boolean;
     charLimit: number;

@@ -27,4 +27,9 @@ export const config: Config = {
     naming: true,
     location: true,
   },
+  logLevelsEnabled: {
+    error: true,
+    warning: true,
+    info: true,
+  },
 };

@@ -1,6 +1,10 @@
 import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { config } from "../config";
-import { lintAreaIsDisabled, lintIssueIsDisabled } from "../utils";
+import {
+  lintAreaIsDisabled,
+  lintIssueIsDisabled,
+  logLevelIsDisabled,
+} from "../utils";
 import { Traverser } from "../services";
 
 // type SubValidatorConstructor<T = {}> = new (...args: any[]) => T;
@@ -21,6 +25,7 @@ export function Logger<BaseClass extends Constructor>(
       );
 
       if (lintIssueIsDisabled(linting.lintIssue)) return;
+      if (logLevelIsDisabled(linting.logLevel)) return;
 
       for (const lintArea of linting.lintAreas) {
         if (lintAreaIsDisabled(lintArea)) return;
