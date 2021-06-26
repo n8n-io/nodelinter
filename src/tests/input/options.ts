@@ -184,4 +184,24 @@ export const hello = [
 	}
 ];
 
-] as INodeProperties[];
+// NO_TITLECASE_IN_OPTIONS_NAME
+// NO_CAMELCASE_IN_OPTIONS_VALUE
+export const hello2 = [
+	{
+		displayName: 'Encoding',
+		name: 'encoding',
+		type: 'options',
+		options: [
+			{
+				name: 'alice',
+				value: 'Alice',
+			},
+			{
+				name: 'bob',
+				value: 'Bob',
+			},
+		],
+		default: 'Bob',
+		required: true,
+	},
+];

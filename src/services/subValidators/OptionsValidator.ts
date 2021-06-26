@@ -120,8 +120,21 @@ export class OptionsValidator implements SubValidator {
           node.forEachChild((node) => {
             if (
               ts.isPropertyAssignment(node) &&
+              node.getChildAt(0).getText() === "name"
+            ) {
+              if (!isTitleCase(node.getChildAt(2).getText())) {
+                this.log(LINTINGS.NO_TITLECASE_IN_OPTIONS_NAME)(node);
+              }
+            }
+
+            if (
+              ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "value"
             ) {
+              if (!isCamelCase(node.getChildAt(2).getText())) {
+                this.log(LINTINGS.NO_CAMELCASE_IN_OPTIONS_VALUE)(node);
+              }
+
               if (node.getChildAt(2).getText() === "'upsert'") {
                 node.parent.forEachChild((child) => {
                   if (child.getChildAt(0).getText() === "name") {

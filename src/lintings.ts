@@ -191,6 +191,20 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  NO_TITLECASE_IN_OPTIONS_NAME: {
+    lintAreas: ["options"],
+    lintIssue: "casing",
+    message: "No title case in `options` name",
+    enabled: true,
+    logLevel: "error",
+  },
+  NO_CAMELCASE_IN_OPTIONS_VALUE: {
+    lintAreas: ["options"],
+    lintIssue: "casing",
+    message: "No camel case in `options` value",
+    enabled: true,
+    logLevel: "error",
+  },
 
   UPSERT_OPTION_WITH_MISWORDED_NAME: {
     lintAreas: ["options"],
