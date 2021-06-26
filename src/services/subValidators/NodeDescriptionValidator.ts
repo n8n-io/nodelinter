@@ -6,7 +6,24 @@ export class NodeDescriptionValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  public run = (node: ts.Node) => {
+  public run(node: ts.Node) {
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.getChildAt(0).getText() === "displayName"
+    ) {
+      node.parent.parent.parent.parent.forEachChild((child) => {
+        if (
+          ts.isClassDeclaration(child) &&
+          child.getChildAt(2).getText().endsWith("Trigger") &&
+          !node.getChildAt(2).getText().endsWith(" Trigger'")
+        ) {
+          this.log(
+            LINTINGS.DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
+          )(node);
+        }
+      });
+    }
+
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "icon"
@@ -37,5 +54,5 @@ export class NodeDescriptionValidator implements SubValidator {
     }
 
     return this.logs;
-  };
+  }
 }

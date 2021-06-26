@@ -81,7 +81,7 @@ export const LINTINGS: {
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_LIMIT_PARAM: {
-    lintArea: "limit",
+    lintArea: "limit", // and default
     lintIssue: "wrong",
     message: "Non-50 default for limit param",
     enabled: true,
@@ -122,6 +122,14 @@ export const LINTINGS: {
     lintArea: "nodeDescription",
     lintIssue: "missing",
     message: "Missing `subtitle` in node description",
+    enabled: true,
+    logLevel: "error",
+  },
+  DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
+    lintArea: "nodeDescription", // and displayName
+    lintIssue: "missing",
+    message:
+      "Display name in trigger node description not ending with 'Trigger'",
     enabled: true,
     logLevel: "error",
   },
