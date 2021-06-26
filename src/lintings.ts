@@ -151,17 +151,25 @@ export const LINTINGS: {
   NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM: {
     lintAreas: ["options"],
     lintIssue: "alphabetization",
-    message: "Non-alphabetized `options` values in `options`-type param",
+    message: "Non-alphabetized `options` in `options`-type param",
     enabled: true,
     logLevel: "error",
   },
   NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM: {
     lintAreas: ["options"],
     lintIssue: "alphabetization",
-    message: "Non-alphabetized `options` values in `multiOptions`-type param",
+    message: "Non-alphabetized `options` in `multiOptions`-type param",
     enabled: true,
     logLevel: "error",
   },
+  NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM: {
+    lintAreas: ["options"], // strictly `values`, but functionally same as `options`
+    lintIssue: "alphabetization",
+    message: "Non-alphabetized `values` in `fixedCollection`-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+
   UPSERT_OPTION_WITH_MISWORDED_NAME: {
     lintAreas: ["options"],
     lintIssue: "wording",

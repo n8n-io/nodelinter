@@ -6,8 +6,8 @@ export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
   node.kind === ts.SyntaxKind.FalseKeyword;
 
-export const areAlphabetized = (optionValues: string[]) =>
-  optionValues.join() === optionValues.sort().join();
+export const areAlphabetized = (items: string[]) =>
+  items.join() === items.sort().join();
 
 export const startsWithCapital = (str: string) =>
   str[0] === str[0].toUpperCase();

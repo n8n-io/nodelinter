@@ -7,10 +7,47 @@ export class OptionsValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  /**
-   * Validate if every param has a default and if the value for the default conforms to the param type.
-   */
   public run(node: ts.Node) {
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.getChildAt(0).getText() === "type" &&
+      node.getChildAt(2).getText() === "'fixedCollection'"
+    ) {
+      let valuesValues: string[] = [];
+      let nodeToReport: ts.Node = node;
+
+      node.parent.forEachChild((child) => {
+        if (child.getChildAt(0).getText() === "options") {
+          child
+            .getChildAt(2)
+            .getChildAt(1)
+            .getChildAt(0)
+            .forEachChild((child) => {
+              if (child.getChildAt(0).getText() === "values") {
+                nodeToReport = child.getChildAt(2);
+                child.getChildAt(2).forEachChild((child) => {
+                  if (ts.isObjectLiteralExpression(child)) {
+                    child.forEachChild((child) => {
+                      if (child.getChildAt(0).getText() === "name") {
+                        valuesValues.push(
+                          child.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
+                        );
+                      }
+                    });
+                  }
+                });
+              }
+            });
+        }
+      });
+
+      if (!areAlphabetized(valuesValues)) {
+        this.log(
+          LINTINGS.NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM
+        )(nodeToReport);
+      }
+    }
+
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "type" &&
@@ -21,14 +58,14 @@ export class OptionsValidator implements SubValidator {
       let isMultiOptionsType =
         node.getChildAt(2).getText() === "'multiOptions'";
 
-      let optionsNodeToReport: ts.Node = node;
+      let nodeToReport: ts.Node = node;
       let optionsValues: string[] = [];
 
       node.parent.forEachChild((node) => {
         if (node.getChildAt(0).getText() !== "options") return;
         if (!ts.isArrayLiteralExpression(node.getChildAt(2))) return;
 
-        optionsNodeToReport = node;
+        nodeToReport = node;
         node.getChildAt(2).forEachChild((node) => {
           if (!ts.isObjectLiteralExpression(node)) return;
 
@@ -70,13 +107,13 @@ export class OptionsValidator implements SubValidator {
 
       if (isOptionsType && !areAlphabetized(optionsValues)) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM)(
-          optionsNodeToReport
+          nodeToReport
         );
       }
 
       if (isMultiOptionsType && !areAlphabetized(optionsValues)) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM)(
-          optionsNodeToReport
+          nodeToReport
         );
       }
     }

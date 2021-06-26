@@ -14,14 +14,14 @@ export const properties = [
 				name: 'templateDataValues',
 				values: [
 					{
-						displayName: 'Value',
-						name: 'value',
+						displayName: 'Bob',
+						name: 'bob',
 						type: 'string',
 						default: '',
 					},
 					{
-						displayName: 'Key',
-						name: 'key',
+						displayName: 'Alice',
+						name: 'alice',
 						type: 'string',
 						default: '',
 					},

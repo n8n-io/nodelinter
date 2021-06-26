@@ -80,3 +80,37 @@ export const contactOperations = [
 		description: 'The operation to perform.',
 	},
 ] as INodeProperties[];
+
+// NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM
+export const otherProperties = [
+	{
+		displayName: 'Template Data',
+		name: 'templateDataUi',
+		type: 'fixedCollection',
+		placeholder: 'Add Data',
+		typeOptions: {
+			multipleValues: true,
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Data',
+				name: 'templateDataValues',
+				values: [
+					{
+						displayName: 'Bob',
+						name: 'bob',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Alice',
+						name: 'alice',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+		],
+	}
+];
