@@ -1,7 +1,7 @@
 export class BoxTrigger implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Box Traigger',
-		name: 'boxTrigger',
+		displayName: 'Box Trigger',
+		name: 'boxTraigger',
 		icon: 'file:box.svg',
 		group: ['trigger'],
 		version: 1,

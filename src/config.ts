@@ -24,5 +24,6 @@ export const config: Config = {
     punctuation: true,
     whitespace: true,
     wording: true,
+    naming: true,
   },
 };

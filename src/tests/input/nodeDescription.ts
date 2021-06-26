@@ -44,10 +44,11 @@ export class QuickBooks implements INodeType {
 }
 
 // DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
+// NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
 export class BoxTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Box Traigger', // misspelled
-		name: 'boxTrigger',
+		name: 'boxTraigger', // misspelled
 		icon: 'file:box.svg',
 		group: ['trigger'],
 		version: 1,

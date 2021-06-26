@@ -9,7 +9,8 @@ export class NodeDescriptionValidator implements SubValidator {
   public run(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "displayName"
+      (node.getChildAt(0).getText() === "displayName" ||
+        node.getChildAt(0).getText() === "name")
     ) {
       node.parent.parent.parent.parent.forEachChild((child) => {
         if (
@@ -17,9 +18,15 @@ export class NodeDescriptionValidator implements SubValidator {
           child.getChildAt(2).getText().endsWith("Trigger") &&
           !node.getChildAt(2).getText().endsWith(" Trigger'")
         ) {
-          this.log(
-            LINTINGS.DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
-          )(node);
+          if (node.getChildAt(0).getText() === "displayName") {
+            this.log(
+              LINTINGS.DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
+            )(node);
+          } else if (node.getChildAt(0).getText() === "name") {
+            this.log(LINTINGS.NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION)(
+              node
+            );
+          }
         }
       });
     }

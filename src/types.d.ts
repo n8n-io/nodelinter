@@ -51,7 +51,8 @@ type LintIssue =
   | "icon"
   | "punctuation"
   | "whitespace"
-  | "wording";
+  | "wording"
+  | "naming";
 
 // ----------------------------------
 //             log

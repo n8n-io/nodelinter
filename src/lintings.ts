@@ -127,9 +127,16 @@ export const LINTINGS: {
   },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintArea: "nodeDescription", // and displayName
-    lintIssue: "missing",
+    lintIssue: "naming",
     message:
       "Display name in trigger node description not ending with 'Trigger'",
+    enabled: true,
+    logLevel: "error",
+  },
+  NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
+    lintArea: "nodeDescription", // and name
+    lintIssue: "naming",
+    message: "Name in trigger node description not ending with 'trigger'",
     enabled: true,
     logLevel: "error",
   },
