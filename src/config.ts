@@ -23,5 +23,6 @@ export const config: Config = {
     icon: true,
     punctuation: true,
     whitespace: true,
+    wording: true,
   },
 };

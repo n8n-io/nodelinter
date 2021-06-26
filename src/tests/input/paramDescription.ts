@@ -83,4 +83,13 @@ const properties = [
     default: '',
 		description: '',
 	},
+
+  // BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
+  {
+		displayName: 'Is Admin',
+		name: 'isAdmin',
+		type: 'boolean',
+		default: true,
+		description: 'This property determines if a user is an admin.',
+	},
 ];

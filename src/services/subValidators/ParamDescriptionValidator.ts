@@ -78,8 +78,13 @@ export class DescriptionValidator implements SubValidator {
     ) {
       let hasDescription = false;
       let hasResourceParent = false; // skip check for resource options
+      let isBooleanType = false;
 
       node.parent.forEachChild((node) => {
+        if (node.getText() === "type: 'boolean'") {
+          isBooleanType = true;
+        }
+
         node.parent.parent.parent.parent.forEachChild((child) => {
           if (child.getText() === "name: 'resource'") {
             hasResourceParent = true;
@@ -91,6 +96,15 @@ export class DescriptionValidator implements SubValidator {
           node.getChildAt(0).getText() === "description"
         ) {
           hasDescription = true;
+
+          if (
+            isBooleanType &&
+            !node.getChildAt(2).getText().startsWith("'Whether")
+          ) {
+            this.log(LINTINGS.BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER)(
+              node
+            );
+          }
         }
       });
 

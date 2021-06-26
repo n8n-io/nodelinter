@@ -190,4 +190,11 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER: {
+    lintArea: "paramDescription",
+    lintIssue: "wording",
+    message: "Boolean param description not starting with 'Whether'",
+    enabled: true,
+    logLevel: "warning",
+  },
 };

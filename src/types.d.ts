@@ -50,7 +50,8 @@ type LintIssue =
   | "unneeded"
   | "icon"
   | "punctuation"
-  | "whitespace";
+  | "whitespace"
+  | "wording";
 
 // ----------------------------------
 //             log
