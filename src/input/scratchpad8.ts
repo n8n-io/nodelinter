@@ -6,6 +6,6 @@ export const accountContactOperations = [
     name: 'userId',
     type: 'string',
     default: '',
-		description: ' This is untrimmed'
+		description: 'User ID'
   },
 ] as INodeProperties[];

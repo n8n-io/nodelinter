@@ -241,4 +241,11 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  PARAM_DESCRIPTION_IDENTICAL_TO_DISPLAY_NAME: {
+    lintArea: "paramDescription", // and displayName
+    lintIssue: "unneeded",
+    message: "Param description identical to `displayName`",
+    enabled: true,
+    logLevel: "warning",
+  },
 };

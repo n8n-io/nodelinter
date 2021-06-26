@@ -4,7 +4,7 @@ import { Traverser, Validator, Summarizer, Presenter } from "../services";
 
 const executionStart = new Date().getTime();
 
-const SOURCE_FILE_PATH = "src/input/scratchpad9.ts";
+const SOURCE_FILE_PATH = "src/input/scratchpad8.ts";
 
 const source = fs.readFileSync(SOURCE_FILE_PATH, "utf8");
 

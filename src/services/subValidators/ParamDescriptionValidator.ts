@@ -38,6 +38,16 @@ export class DescriptionValidator implements SubValidator {
     if (!ts.isPropertyAssignment(node)) return;
 
     if (node.getChildAt(0).getText() === "description") {
+      node.parent.forEachChild((child) => {
+        if (child.getChildAt(0).getText() === "displayName") {
+          if (node.getChildAt(2).getText() === child.getChildAt(2).getText()) {
+            this.log(LINTINGS.PARAM_DESCRIPTION_IDENTICAL_TO_DISPLAY_NAME)(
+              node
+            );
+          }
+        }
+      });
+
       this.weakDescriptions.forEach((weakDescription) => {
         if (node.getChildAt(2).getText().includes(weakDescription)) {
           this.log(LINTINGS.WEAK_PARAM_DESCRIPTION)(node);

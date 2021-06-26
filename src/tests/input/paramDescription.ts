@@ -92,6 +92,15 @@ const properties = [
 		default: true,
 		description: 'This property determines if a user is an admin.',
 	},
+
+  // PARAM_DESCRIPTION_IDENTICAL_TO_DISPLAY_NAME
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+		description: 'User ID'
+  },
 ];
 
 // WEAK_PARAM_DESCRIPTION
