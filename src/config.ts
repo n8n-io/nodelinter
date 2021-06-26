@@ -25,5 +25,6 @@ export const config: Config = {
     whitespace: true,
     wording: true,
     naming: true,
+    location: true,
   },
 };

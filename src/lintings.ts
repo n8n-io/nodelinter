@@ -110,6 +110,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS: {
+    lintArea: "name",
+    lintIssue: "location",
+    message: "Authentication param should be in credentials",
+    enabled: true,
+    logLevel: "info",
+  },
 
   PNG_ICON_IN_NODE_DESCRIPTION: {
     lintArea: "nodeDescription",

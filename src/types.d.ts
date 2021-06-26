@@ -52,7 +52,8 @@ type LintIssue =
   | "punctuation"
   | "whitespace"
   | "wording"
-  | "naming";
+  | "naming"
+  | "location";
 
 // ----------------------------------
 //             log

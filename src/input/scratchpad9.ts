@@ -1,17 +1,36 @@
-export class BoxTrigger implements INodeType {
+export class Harvest implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Box Trigger',
-		name: 'boxTraigger',
-		icon: 'file:box.svg',
-		group: ['trigger'],
+		displayName: 'Harvest',
+		name: 'harvest',
+		icon: 'file:harvest.png',
+		group: ['input'],
 		version: 1,
-		subtitle: 'Whatever',
-		description: 'Starts the workflow when a Box events occurs',
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Access data on Harvest',
 		defaults: {
-			name: 'Box Trigger',
-			color: '#00aeef',
+			name: 'Harvest',
+			color: '#e7863f',
 		},
-		inputs: [],
+		inputs: ['main'],
 		outputs: ['main'],
+		properties: [
+			{
+				displayName: 'Authentication',
+				name: 'authentication',
+				type: 'options',
+				options: [
+					{
+						name: 'Access Token',
+						value: 'accessToken',
+					},
+					{
+						name: 'OAuth2',
+						value: 'oAuth2',
+					},
+				],
+				default: 'accessToken',
+				description: 'Method of authentication.',
+			},
+		]
 	}
 }

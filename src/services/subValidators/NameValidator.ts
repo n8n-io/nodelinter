@@ -19,6 +19,11 @@ export class NameValidator implements SubValidator {
       if (hasDefaultsParent) return;
 
       const nameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
+
+      if (nameValue === "authentication") {
+        this.log(LINTINGS.AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS)(node);
+      }
+
       let isOption = false;
       node.parent.forEachChild((node) => {
         if (
