@@ -95,6 +95,14 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  PUSH_APPLY: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "unneeded",
+    message:
+      "Unneeded `arr.push.apply(arr, arg)` instead of `arr.push(...arg)`",
+    enabled: true,
+    logLevel: "warning",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],
