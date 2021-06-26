@@ -10,13 +10,7 @@ export class OptionsValidator implements SubValidator {
   /**
    * Validate if every param has a default and if the value for the default conforms to the param type.
    */
-  public run = (node: ts.Node) => {
-    [this.validateOptionsAlphabetization].forEach((f) => f(node));
-
-    return this.logs;
-  };
-
-  private validateOptionsAlphabetization = (node: ts.Node) => {
+  public run(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "type" &&
@@ -32,11 +26,33 @@ export class OptionsValidator implements SubValidator {
         optionsNodeToReport = node;
         node.getChildAt(2).forEachChild((node) => {
           if (!ts.isObjectLiteralExpression(node)) return;
+
           node.forEachChild((node) => {
             if (
               ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "value"
             ) {
+              if (node.getChildAt(2).getText() === "'upsert'") {
+                node.parent.forEachChild((child) => {
+                  if (child.getChildAt(0).getText() === "name") {
+                    if (child.getChildAt(2).getText() !== "Create or Update") {
+                      this.log(LINTINGS.UPSERT_OPTION_WITH_WRONG_NAME)(child);
+                    }
+                  }
+
+                  if (child.getChildAt(0).getText() === "description") {
+                    if (
+                      child.getChildAt(2).getText() !==
+                      "Create a new record, or update the current one if it already exists (upsert)"
+                    ) {
+                      this.log(LINTINGS.UPSERT_OPTION_WITH_WRONG_DESCRIPTION)(
+                        child
+                      );
+                    }
+                  }
+                });
+              }
+
               optionsValues.push(
                 node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
               );
@@ -49,5 +65,6 @@ export class OptionsValidator implements SubValidator {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS)(optionsNodeToReport);
       }
     }
-  };
+    return this.logs;
+  }
 }

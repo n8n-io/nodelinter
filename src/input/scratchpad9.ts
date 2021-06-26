@@ -1,43 +1,38 @@
-export class OpenWeatherMap implements INodeType {
-	description: INodeTypeDescription = {
-		displayName: 'OpenWeatherMap',
-		name: 'openWeatherMap',
-		icon: 'fa:sun',
-		group: ['input'],
-		version: 1,
-		description: 'Gets current and future weather information.',
-		defaults: {
-			name: 'OpenWeatherMap',
-			color: '#554455',
+export const contactOperations = [
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: [
+					'contact',
+				],
+			},
 		},
-		inputs: ['main'],
-		outputs: ['main'],
-		credentials: [
+		options: [
 			{
-				name: 'openWeatherMapApi',
-				required: true,
+				name: 'Create/Update',
+				value: 'upsert',
+				description: 'Create/Update a contact',
+			},
+			{
+				name: 'Delete',
+				value: 'delete',
+				description: 'Delete a contact',
+			},
+			{
+				name: 'Get',
+				value: 'get',
+				description: 'Get a contact',
+			},
+			{
+				name: 'Get All',
+				value: 'getAll',
+				description: 'Get all contacts',
 			},
 		],
-		properties: [
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				options: [
-					{
-						name: 'Current Weather',
-						value: 'currentWeather',
-						description: 'Returns the current weather data',
-					},
-					{
-						name: '5 day Forecast',
-						value: '5DayForecast',
-						description: 'Returns the weather data for the next 5 days',
-					},
-				],
-				default: 'currentWeather',
-				description: 'The operation to perform.',
-			},
-		]
-	}
-}
+		default: 'upsert',
+		description: 'The operation to perform.',
+	},
+] as INodeProperties[];

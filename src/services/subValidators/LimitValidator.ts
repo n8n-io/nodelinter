@@ -34,7 +34,7 @@ export class LimitValidator implements SubValidator {
                 hasTypeOptions = true;
                 const minValue = node.getChildAt(2).getText();
                 if (Number(minValue) < 1) {
-                  this.log(LINTINGS.LIMIT_LOWER_THAN_ONE)(node);
+                  this.log(LINTINGS.LIMIT_WITH_MIN_VALUE_LOWER_THAN_ONE)(node);
                 }
               }
             });

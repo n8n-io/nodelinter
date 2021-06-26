@@ -12,7 +12,7 @@ export const properties = [
     description: 'Number of results to return.',
   },
 
-  // LIMIT_LOWER_THAN_ONE
+  // LIMIT_WITH_MIN_VALUE_LOWER_THAN_ONE
   {
     displayName: 'Limit',
     name: 'limit',

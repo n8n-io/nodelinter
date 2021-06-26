@@ -73,10 +73,10 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
-  LIMIT_LOWER_THAN_ONE: {
+  LIMIT_WITH_MIN_VALUE_LOWER_THAN_ONE: {
     lintArea: "limit",
     lintIssue: "missing",
-    message: "Limit with value lower than one",
+    message: "Limit with minimum value lower than one",
     enabled: true,
     logLevel: "error",
   },
@@ -152,6 +152,21 @@ export const LINTINGS: {
     lintArea: "options",
     lintIssue: "alphabetization",
     message: "Non-alphabetized `options` values in options-type param",
+    enabled: true,
+    logLevel: "error",
+  },
+  UPSERT_OPTION_WITH_WRONG_NAME: {
+    lintArea: "options",
+    lintIssue: "wrong",
+    message: "Option for upsert is not named 'Create or Update'",
+    enabled: true,
+    logLevel: "error",
+  },
+  UPSERT_OPTION_WITH_WRONG_DESCRIPTION: {
+    lintArea: "options",
+    lintIssue: "wrong",
+    message:
+      "Option for upsert is not described 'Create a new record, or update the current one if it already exists (upsert)'",
     enabled: true,
     logLevel: "error",
   },
