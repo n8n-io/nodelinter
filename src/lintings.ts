@@ -230,7 +230,7 @@ export const LINTINGS: {
   NON_STANDARD_NAME_FOR_UPSERT_OPTION: {
     lintAreas: ["options"],
     lintIssue: "wording",
-    message: "Name of option for upsert is misworded",
+    message: "Non-standard name of upsert option",
     enabled: true,
     logLevel: "error",
     details: "The upsert option must be worded: 'Create or Update'",
@@ -239,7 +239,7 @@ export const LINTINGS: {
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
     lintAreas: ["options"],
     lintIssue: "wording",
-    message: "Description of option for upsert is misworded",
+    message: "Non-standard description of upsert option",
     enabled: true,
     logLevel: "error",
     details:
@@ -281,21 +281,21 @@ export const LINTINGS: {
   PARAM_DESCRIPTION_WITH_UNNEEDED_BACKTICKS: {
     lintAreas: ["paramDescription"],
     lintIssue: "unneeded",
-    message: "Param description has unneeded backticks",
+    message: "Param description with unneeded backticks",
     enabled: true,
     logLevel: "warning",
   },
   ANCHOR_LINK_WITH_TARGET_BLANK_MISSING: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
-    message: 'Anchor link has no attribute target="_blank"',
+    message: 'Anchor link without attribute target="_blank"',
     enabled: true,
     logLevel: "error",
   },
   PARAM_DESCRIPTION_AS_EMPTY_STRING: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
-    message: "Param description is an empty string",
+    message: "Param description as empty string",
     enabled: true,
     logLevel: "error",
   },
