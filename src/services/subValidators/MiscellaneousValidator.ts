@@ -6,7 +6,24 @@ export class MiscellaneousValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
+  standardReturnAllDescription =
+    "Whether to return all results or only up to a given limit.";
+
   public run(node: ts.Node) {
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.getChildAt(0).getText() === "name" &&
+      node.getChildAt(2).getText() === "'returnAll'"
+    ) {
+      node.parent.forEachChild((node) => {
+        if (
+          node.getChildAt(0).getText() === "description" &&
+          node.getChildAt(2).getText() !== this.standardReturnAllDescription
+        )
+          this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
+      });
+    }
+
     if (
       ts.isPropertyAccessExpression(node) &&
       node.getChildAt(2).getText() === "apply" &&

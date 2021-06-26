@@ -139,7 +139,7 @@ export class OptionsValidator implements SubValidator {
                 node.parent.forEachChild((child) => {
                   if (child.getChildAt(0).getText() === "name") {
                     if (child.getChildAt(2).getText() !== "Create or Update") {
-                      this.log(LINTINGS.UPSERT_OPTION_WITH_MISWORDED_NAME)(
+                      this.log(LINTINGS.NON_STANDARD_NAME_FOR_UPSERT_OPTION)(
                         child
                       );
                     }
@@ -151,7 +151,7 @@ export class OptionsValidator implements SubValidator {
                       "Create a new record, or update the current one if it already exists (upsert)"
                     ) {
                       this.log(
-                        LINTINGS.UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION
+                        LINTINGS.NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION
                       )(child);
                     }
                   }

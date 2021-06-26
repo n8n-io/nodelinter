@@ -40,8 +40,8 @@ export const properties = [
 ];
 
 
-// UPSERT_OPTION_WITH_MISWORDED_NAME
-// UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION
+// NON_STANDARD_NAME_FOR_UPSERT_OPTION
+// NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION
 export const contactOperations = [
 	{
 		displayName: 'Operation',

@@ -1,8 +1,8 @@
 export const accountContactOperations = [
 	{
-		displayName: 'Limit',
-		name: 'limit',
-		type: 'number',
+		displayName: 'Return All',
+		name: 'returnAll',
+		type: 'boolean',
 		displayOptions: {
 			show: {
 				operation: [
@@ -11,16 +11,9 @@ export const accountContactOperations = [
 				resource: [
 					'project',
 				],
-				returnAll: [
-					false,
-				],
 			},
 		},
-		typeOptions: {
-			minValue: 1,
-			maxValue: 500,
-		},
-		default: 100,
-		description: 'Something is wrong here',
+		default: false,
+		description: 'Whether all results should be returned',
 	},
 ]

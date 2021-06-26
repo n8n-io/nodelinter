@@ -110,6 +110,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  NON_STANDARD_RETURNALL_DESCRIPTION: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wording",
+    message: "Non-standard description for returnAll param",
+    enabled: true,
+    logLevel: "info",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],
@@ -220,7 +227,7 @@ export const LINTINGS: {
     logLevel: "error",
   },
 
-  UPSERT_OPTION_WITH_MISWORDED_NAME: {
+  NON_STANDARD_NAME_FOR_UPSERT_OPTION: {
     lintAreas: ["options"],
     lintIssue: "wording",
     message: "Name of option for upsert is misworded",
@@ -228,7 +235,8 @@ export const LINTINGS: {
     logLevel: "error",
     details: "The upsert option must be worded: 'Create or Update'",
   },
-  UPSERT_OPTION_WITH_MISWORDED_DESCRIPTION: {
+
+  NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
     lintAreas: ["options"],
     lintIssue: "wording",
     message: "Description of option for upsert is misworded",
