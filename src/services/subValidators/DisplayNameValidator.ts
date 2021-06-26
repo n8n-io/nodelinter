@@ -7,7 +7,7 @@ export class DisplayNameValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  public run = (node: ts.Node) => {
+  public run(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "displayName"
@@ -24,5 +24,5 @@ export class DisplayNameValidator implements SubValidator {
     }
 
     return this.logs;
-  };
+  }
 }

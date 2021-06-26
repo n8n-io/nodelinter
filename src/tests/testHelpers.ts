@@ -15,13 +15,11 @@ export const transpile = (validator: Validator, sourceFilePath: string) => {
 
 export const runTest = (validator: Validator) => (linting: Linting) => {
   test(linting.message, () => {
-    const loggedError = validator.logs.find(
-      (loggedError) => loggedError.message === linting.message
-    );
+    const found = validator.logs.find((log) => log.message === linting.message);
 
     if (lintIssueIsDisabled(linting.lintIssue)) return;
 
-    expect(loggedError).toBeDefined();
+    expect(found).toBeDefined();
   });
 };
 

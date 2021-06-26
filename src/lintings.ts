@@ -184,6 +184,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME: {
+    lintAreas: ["options", "displayName"], // strictly `values`, but functionally same as `options`
+    lintIssue: "casing",
+    message: "No title case in `fixedCollection` value display name",
+    enabled: true,
+    logLevel: "error",
+  },
 
   UPSERT_OPTION_WITH_MISWORDED_NAME: {
     lintAreas: ["options"],

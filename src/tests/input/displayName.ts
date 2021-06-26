@@ -43,3 +43,37 @@ export class BoxTrigger implements INodeType {
 		outputs: ['main'],
 	}
 }
+
+// NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME
+export const hello = [
+	{
+		displayName: 'Template Data',
+		name: 'templateDataUi',
+		type: 'fixedCollection',
+		placeholder: 'Add Data',
+		typeOptions: {
+			multipleValues: true,
+		},
+		default: {},
+		options: [
+			{
+				displayName: 'Data',
+				name: 'templateDataValues',
+				values: [
+					{
+						displayName: 'alice',
+						name: 'alice',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Bob',
+						name: 'bob',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+		],
+	}
+];

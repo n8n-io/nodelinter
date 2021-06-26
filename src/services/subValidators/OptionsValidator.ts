@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { areAlphabetized } from "../../utils";
+import { areAlphabetized, isCamelCase, isTitleCase } from "../../utils";
 import { LINTINGS } from "../../lintings";
 
 export class OptionsValidator implements SubValidator {
@@ -28,6 +28,18 @@ export class OptionsValidator implements SubValidator {
                 child.getChildAt(2).forEachChild((child) => {
                   if (ts.isObjectLiteralExpression(child)) {
                     child.forEachChild((child) => {
+                      if (child.getChildAt(0).getText() === "displayName") {
+                        if (
+                          !isTitleCase(
+                            child.getChildAt(2).getText().replace(/'/g, "")
+                          )
+                        ) {
+                          this.log(
+                            LINTINGS.NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME
+                          )(child);
+                        }
+                      }
+
                       if (child.getChildAt(0).getText() === "name") {
                         fixedCollectionValuesValues.push(
                           child.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
