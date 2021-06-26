@@ -219,4 +219,11 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  WEAK_PARAM_DESCRIPTION: {
+    lintArea: "paramDescription",
+    lintIssue: "wording",
+    message: "Weak param description to be improved or omitted",
+    enabled: true,
+    logLevel: "warning",
+  },
 };

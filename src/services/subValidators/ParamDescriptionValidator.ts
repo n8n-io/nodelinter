@@ -1,11 +1,14 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
+import { config } from "../../config";
 
 export class DescriptionValidator implements SubValidator {
   static lintArea = "paramDescription" as const;
   logs: Log[];
   log: LogFunction;
+
+  private weakDescriptions = config.weakParamDescriptions;
 
   private hasExcessFinalPeriod(description: string) {
     const parts = description.split(". ");
@@ -35,6 +38,12 @@ export class DescriptionValidator implements SubValidator {
     if (!ts.isPropertyAssignment(node)) return;
 
     if (node.getChildAt(0).getText() === "description") {
+      this.weakDescriptions.forEach((weakDescription) => {
+        if (node.getChildAt(2).getText().includes(weakDescription)) {
+          this.log(LINTINGS.WEAK_PARAM_DESCRIPTION)(node);
+        }
+      });
+
       if (
         node.getChildAt(2).getText().startsWith("' ") ||
         node.getChildAt(2).getText().endsWith(" '")

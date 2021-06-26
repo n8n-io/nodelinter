@@ -1,35 +1,42 @@
-export class Harvest implements INodeType {
+export class OpenWeatherMap implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Harvest',
-		name: 'harvest',
-		icon: 'file:harvest.png',
+		displayName: 'OpenWeatherMap',
+		name: 'openWeatherMap',
+		icon: 'fa:sun',
 		group: ['input'],
 		version: 1,
-		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Access data on Harvest',
+		description: 'Gets current and future weather information.',
 		defaults: {
-			name: 'Harvest',
-			color: '#e7863f',
+			name: 'OpenWeatherMap',
+			color: '#554455',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
+		credentials: [
+			{
+				name: 'openWeatherMapApi',
+				required: true,
+			},
+		],
 		properties: [
 			{
-				displayName: 'Authentication',
-				name: 'authentication',
+				displayName: 'Operation',
+				name: 'operation',
 				type: 'options',
 				options: [
 					{
-						name: 'Access Token',
-						value: 'accessToken',
+						name: 'Current Weather',
+						value: 'currentWeather',
+						description: 'Returns the current weather data',
 					},
 					{
-						name: 'OAuth2',
-						value: 'oAuth2',
+						name: '5 day Forecast',
+						value: '5DayForecast',
+						description: 'Returns the weather data for the next 5 days',
 					},
 				],
-				default: 'accessToken',
-				description: 'Method of authentication.',
+				default: 'currentWeather',
+				description: 'The operation to perform.',
 			},
 		]
 	}

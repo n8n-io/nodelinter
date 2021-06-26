@@ -10,6 +10,7 @@ type Config = {
     enabled: boolean;
     charLimit: number;
   };
+  weakParamDescriptions: string[];
 };
 
 // ----------------------------------
