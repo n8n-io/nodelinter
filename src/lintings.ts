@@ -162,6 +162,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  NON_ALPHABETIZED_OPTIONS_IN_COLLECTION_TYPE_PARAM: {
+    lintAreas: ["options"],
+    lintIssue: "alphabetization",
+    message: "Non-alphabetized `options` in `collection`-type param",
+    enabled: true,
+    logLevel: "error",
+  },
   NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM: {
     lintAreas: ["options"], // strictly `values`, but functionally same as `options`
     lintIssue: "alphabetization",

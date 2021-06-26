@@ -13,7 +13,7 @@ export class OptionsValidator implements SubValidator {
       node.getChildAt(0).getText() === "type" &&
       node.getChildAt(2).getText() === "'fixedCollection'"
     ) {
-      let valuesValues: string[] = [];
+      let fixedCollectionValuesValues: string[] = [];
       let nodeToReport: ts.Node = node;
 
       node.parent.forEachChild((child) => {
@@ -29,7 +29,7 @@ export class OptionsValidator implements SubValidator {
                   if (ts.isObjectLiteralExpression(child)) {
                     child.forEachChild((child) => {
                       if (child.getChildAt(0).getText() === "name") {
-                        valuesValues.push(
+                        fixedCollectionValuesValues.push(
                           child.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
                         );
                       }
@@ -41,10 +41,46 @@ export class OptionsValidator implements SubValidator {
         }
       });
 
-      if (!areAlphabetized(valuesValues)) {
+      if (!areAlphabetized(fixedCollectionValuesValues)) {
         this.log(
           LINTINGS.NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM
         )(nodeToReport);
+      }
+    }
+
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.getChildAt(0).getText() === "type" &&
+      node.getChildAt(2).getText() === "'collection'"
+    ) {
+      let nodeToReport: ts.Node = node;
+      let collectionOptionsValues: string[] = [];
+
+      node.parent.forEachChild((node) => {
+        if (node.getChildAt(0).getText() !== "options") return;
+        if (!ts.isArrayLiteralExpression(node.getChildAt(2))) return;
+
+        nodeToReport = node;
+        node.getChildAt(2).forEachChild((node) => {
+          if (!ts.isObjectLiteralExpression(node)) return;
+
+          node.forEachChild((node) => {
+            if (
+              ts.isPropertyAssignment(node) &&
+              node.getChildAt(0).getText() === "name"
+            ) {
+              collectionOptionsValues.push(
+                node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
+              );
+            }
+          });
+        });
+      });
+
+      if (!areAlphabetized(collectionOptionsValues)) {
+        this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_COLLECTION_TYPE_PARAM)(
+          nodeToReport
+        );
       }
     }
 

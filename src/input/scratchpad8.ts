@@ -1,31 +1,32 @@
 export const properties = [
 	{
-		displayName: 'Template Data',
-		name: 'templateDataUi',
-		type: 'fixedCollection',
-		placeholder: 'Add Data',
-		typeOptions: {
-			multipleValues: true,
-		},
+		displayName: 'Additional Fields',
+		name: 'additionalFields',
+		type: 'collection',
+		placeholder: 'Add Field',
 		default: {},
 		options: [
 			{
-				displayName: 'Data',
-				name: 'templateDataValues',
-				values: [
-					{
-						displayName: 'Bob',
-						name: 'bob',
-						type: 'string',
-						default: '',
-					},
-					{
-						displayName: 'Alice',
-						name: 'alice',
-						type: 'string',
-						default: '',
-					},
-				],
+				displayName: 'Bob',
+				name: 'bob',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Bcc Email',
+				},
+				description: 'Bcc Recipients of the email.',
+				default: [],
+			},
+			{
+				displayName: 'Alice',
+				name: 'alice',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Cc Email',
+				},
+				description: 'Cc recipients of the email.',
+				default: [],
 			},
 		],
 	}
