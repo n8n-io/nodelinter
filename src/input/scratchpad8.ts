@@ -1,19 +1,11 @@
 export const accountContactOperations = [
 	{
-		displayName: 'Return All',
-		name: 'returnAll',
-		type: 'boolean',
-		displayOptions: {
-			show: {
-				operation: [
-					'getAll',
-				],
-				resource: [
-					'project',
-				],
-			},
-		},
-		default: false,
-		description: 'Whether all results should be returned',
+		displayName: 'Binary Property',
+		name: 'binaryPropertyName',
+		type: 'string',
+		default: 'data',
+		required: true,
+		placeholder: '',
+		description: 'Name of the binary property which contains<br />the data for the file(s) to be compress/decompress. Multiple can be used separated by ,',
 	},
 ]

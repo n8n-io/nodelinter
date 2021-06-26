@@ -50,6 +50,10 @@ export class DescriptionValidator implements SubValidator {
         }
       });
 
+      if (node.getChildAt(2).getText().includes("<br />")) {
+        this.log(LINTINGS.NON_STANDARD_HTML_LINE_BREAK)(node);
+      }
+
       this.weakDescriptions.forEach((weakDescription) => {
         if (node.getChildAt(2).getText().includes(weakDescription)) {
           this.log(LINTINGS.WEAK_PARAM_DESCRIPTION)(node);

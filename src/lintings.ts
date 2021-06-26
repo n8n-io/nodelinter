@@ -327,4 +327,11 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
+  NON_STANDARD_HTML_LINE_BREAK: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "unneeded",
+    message: "Non-standard HTML element syntax for line break",
+    enabled: true,
+    logLevel: "info",
+  },
 };
