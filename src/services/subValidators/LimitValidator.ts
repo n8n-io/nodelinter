@@ -6,7 +6,7 @@ export class LimitValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  public run = (node: ts.Node) => {
+  public run(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "name"
@@ -17,6 +17,14 @@ export class LimitValidator implements SubValidator {
         let hasTypeOptions = false;
 
         node.parent.forEachChild((node) => {
+          if (
+            ts.isPropertyAssignment(node) &&
+            node.getChildAt(0).getText() === "default" &&
+            node.getChildAt(2).getText() !== "50"
+          ) {
+            this.log(LINTINGS.WRONG_DEFAULT_FOR_LIMIT_PARAM)(node);
+          }
+
           if (
             ts.isPropertyAssignment(node) &&
             node.getChildAt(0).getText() === "typeOptions"
@@ -40,5 +48,5 @@ export class LimitValidator implements SubValidator {
     }
 
     return this.logs;
-  };
+  }
 }

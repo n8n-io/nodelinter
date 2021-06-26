@@ -80,6 +80,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  WRONG_DEFAULT_FOR_LIMIT_PARAM: {
+    lintArea: "limit",
+    lintIssue: "wrong",
+    message: "Non-50 default for limit param",
+    enabled: true,
+    logLevel: "error",
+  },
 
   REQUIRED_FALSE: {
     lintArea: "miscellaneous",

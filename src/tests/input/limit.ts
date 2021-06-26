@@ -24,4 +24,17 @@ export const properties = [
     default: 100,
     description: 'Number of results to return.',
   },
+
+  // WRONG_DEFAULT_FOR_LIMIT_PARAM
+  {
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		default: 5,
+		description: 'The number of results to return.',
+		typeOptions: {
+			minValue: 1,
+			maxValue: 1000,
+		},
+	},
 ];

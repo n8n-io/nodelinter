@@ -1,13 +1,26 @@
 export const accountContactOperations = [
   {
-		displayName: 'For Customer',
-		name: 'CustomerRef',
-		type: 'options',
-		required: true,
-		description: 'The ID of the customer who the estimate is for.',
-		default: '',
+		displayName: 'Limit',
+		name: 'limit',
+		type: 'number',
+		default: 5,
+		description: 'The number of results to return.',
 		typeOptions: {
-			loadOptionsMethod: 'getCustomers',
+			minValue: 1,
+			maxValue: 1000,
+		},
+		displayOptions: {
+			show: {
+				resource: [
+					'customer',
+				],
+				operation: [
+					'getAll',
+				],
+				returnAll: [
+					false,
+				],
+			},
 		},
 	},
 ] as INodeProperties[];
