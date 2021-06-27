@@ -51,6 +51,8 @@ export class Presenter {
   // ----------------------------------
 
   private static showHeader(logs: Log[]) {
+    if (!logs[0]) return; // file with no lint logs
+
     const filePath = this.targetHasFullPath
       ? logs[0].sourceFilePath.split("/").slice(-3).join("/")
       : logs[0].sourceFilePath;
