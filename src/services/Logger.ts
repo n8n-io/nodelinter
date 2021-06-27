@@ -36,8 +36,8 @@ export function Logger<BaseClass extends Constructor>(
         lintAreas: linting.lintAreas,
         lintIssue: linting.lintIssue,
         line: line + 1,
-        excerpt: config.truncation.enabled
-          ? this.truncate(node.getText())
+        excerpt: config.truncateExcerpts.enabled
+          ? this.truncateExcerpt(node.getText())
           : node.getText(),
         sourceFilePath: sourceFilePath,
         logLevel: linting.logLevel,
@@ -45,10 +45,11 @@ export function Logger<BaseClass extends Constructor>(
       });
     };
 
-    private truncate = (text: string) => {
+    private truncateExcerpt(text: string) {
       if (text.includes("\t")) return "<large excerpt omitted>";
+      if (text.length <= config.truncateExcerpts.charLimit) return text;
 
-      return text.slice(0, config.truncation.charLimit);
-    };
+      return text.slice(0, config.truncateExcerpts.charLimit - 3) + "...";
+    }
   };
 }

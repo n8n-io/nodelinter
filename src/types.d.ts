@@ -7,10 +7,10 @@ type Config = {
   sortLogs: "importance" | "lineNumber";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color
-  lintAreasEnabled: { [key in LintArea]: boolean };
-  lintIssuesEnabled: { [key in LintIssue]: boolean };
-  logLevelsEnabled: { [key in LogLevel]: boolean };
-  truncation: {
+  toggleLintAreas: { [key in LintArea]: boolean };
+  toggleLintIssues: { [key in LintIssue]: boolean };
+  toggleLogLevels: { [key in LogLevel]: boolean };
+  truncateExcerpts: {
     enabled: boolean;
     charLimit: number;
   };

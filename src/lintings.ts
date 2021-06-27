@@ -1,5 +1,5 @@
 export const LINTINGS: {
-  [key in string]: Linting;
+  [LintingName in string]: Linting;
 } = {
   WRONG_DEFAULT_FOR_STRING_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -62,6 +62,13 @@ export const LINTINGS: {
     lintAreas: ["displayName"],
     lintIssue: "casing",
     message: "No title case in `displayName` property",
+    enabled: true,
+    logLevel: "error",
+  },
+  DISPLAYNAME_UNTRIMMED: {
+    lintAreas: ["displayName"],
+    lintIssue: "whitespace",
+    message: "Display name is untrimmed",
     enabled: true,
     logLevel: "error",
   },

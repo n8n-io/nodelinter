@@ -1,22 +1,49 @@
 export const config: Config = {
+  /**
+   * Path of target directory whose `.node.ts` and `*Description.ts` files to lint.
+   */
   targetDir: "/Users/ivov/Development/n8n/packages/nodes-base/nodes",
+
+  /**
+   * Log sorting method, either `lineNumber` or `importance` (error → warning → info).
+   */
   sortLogs: "lineNumber",
+
+  /**
+   * Whether to show details for lint messages, where available.
+   */
   showDetails: true,
+
+  /**
+   * Hex values e.g. `#FFFFFF` to customize log level colors in stdout. Hash symbol `#` required.
+   */
   logLevelColors: {
     error: "",
     warning: "",
     info: "",
   },
-  truncation: {
+
+  /**
+   * Whether to truncate source code excerpts and by how many characters.
+   */
+  truncateExcerpts: {
     enabled: true,
     charLimit: 60,
   },
-  logLevelsEnabled: {
+
+  /**
+   * Enable or disable log levels in output logs.
+   */
+  toggleLogLevels: {
     error: true,
     warning: true,
     info: true,
   },
-  lintAreasEnabled: {
+
+  /**
+   * Enable or disable lint areas in output logs.
+   */
+  toggleLintAreas: {
     default: true,
     displayName: true,
     limit: true,
@@ -26,7 +53,11 @@ export const config: Config = {
     options: true,
     paramDescription: true,
   },
-  lintIssuesEnabled: {
+
+  /**
+   * Enable or disable lint issues in output logs.
+   */
+  toggleLintIssues: {
     alphabetization: true,
     casing: true,
     icon: true,

@@ -26,10 +26,10 @@ export const printJson = (fileName: string, logs: Log[]) =>
   fs.writeFileSync(`${fileName}.json`, JSON.stringify(logs, null, 2));
 
 export const lintAreaIsDisabled = (lintArea: LintArea) =>
-  !config.lintAreasEnabled[lintArea];
+  !config.toggleLintAreas[lintArea];
 
 export const lintIssueIsDisabled = (lintIssue: LintIssue) =>
-  !config.lintIssuesEnabled[lintIssue];
+  !config.toggleLintIssues[lintIssue];
 
 export const logLevelIsDisabled = (logLevel: LogLevel) =>
-  !config.logLevelsEnabled[logLevel];
+  !config.toggleLogLevels[logLevel];

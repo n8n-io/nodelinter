@@ -21,6 +21,13 @@ export class DisplayNameValidator implements SubValidator {
       if (!isTitleCase(displayNameValue)) {
         this.log(LINTINGS.DISPLAYNAME_WITH_NO_TITLECASE)(node);
       }
+
+      if (
+        node.getChildAt(2).getText().startsWith("' ") ||
+        node.getChildAt(2).getText().endsWith(" '")
+      ) {
+        this.log(LINTINGS.DISPLAYNAME_UNTRIMMED)(node);
+      }
     }
 
     return this.logs;

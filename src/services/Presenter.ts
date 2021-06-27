@@ -3,7 +3,6 @@ import { config } from "../config";
 
 export class Presenter {
   static lineWrapChars = 60;
-
   static targetHasFullPath = false;
 
   static logs: Log[];
@@ -53,7 +52,7 @@ export class Presenter {
 
   private static showHeader(logs: Log[]) {
     const filePath = this.targetHasFullPath
-      ? logs[0].sourceFilePath.split("packages")[1]
+      ? logs[0].sourceFilePath.split("/").slice(-3).join("/")
       : logs[0].sourceFilePath;
 
     const parts = filePath.split("/");
