@@ -1,6 +1,6 @@
 import fs from "fs";
 import ts from "typescript";
-import { Traverser, Validator, Summarizer, Presenter } from "../services";
+import { Traverser, Validator, Presenter } from "../services";
 
 const executionStart = new Date().getTime();
 
@@ -17,4 +17,4 @@ ts.transpileModule(source, {
 const executionTimeMs = new Date().getTime() - executionStart;
 
 Presenter.showLogs(validator.logs);
-Presenter.showSummary(Summarizer.run(validator.logs, executionTimeMs));
+Presenter.summarize(validator.logs, executionTimeMs);

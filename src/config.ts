@@ -1,8 +1,20 @@
 export const config: Config = {
-  n8nRepoPath: "/Users/ivov/Development/n8n",
+  targetDir: "/Users/ivov/Development/n8n/packages/nodes-base/nodes",
+  sortLogs: "lineNumber",
+  showDetails: true,
+  logLevelColors: {
+    error: "",
+    warning: "",
+    info: "",
+  },
   truncation: {
     enabled: true,
-    charLimit: 80,
+    charLimit: 60,
+  },
+  logLevelsEnabled: {
+    error: true,
+    warning: true,
+    info: true,
   },
   lintAreasEnabled: {
     default: true,
@@ -26,10 +38,5 @@ export const config: Config = {
     whitespace: true,
     wording: true,
     wrong: true,
-  },
-  logLevelsEnabled: {
-    error: true,
-    warning: true,
-    info: true,
   },
 };

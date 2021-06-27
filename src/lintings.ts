@@ -4,42 +4,42 @@ export const LINTINGS: {
   WRONG_DEFAULT_FOR_STRING_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-string default for string-type param",
+    message: "Non-string default for `string`-type param",
     enabled: true,
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_NUMBER_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-numeric default for number-type param",
+    message: "Non-numeric default for `number`-type param",
     enabled: true,
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_BOOLEAN_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-boolean default for boolean-type param",
+    message: "Non-boolean default for `boolean`-type param",
     enabled: true,
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_COLLECTION_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-object default for collection-type param",
+    message: "Non-object default for `collection`-type param",
     enabled: true,
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_MULTIOPTIONS_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-array default for multiOptions-type param",
+    message: "Non-array default for `multiOptions`-type param",
     enabled: true,
     logLevel: "error",
   },
   WRONG_DEFAULT_FOR_OPTIONS_TYPE_PARAM: {
     lintAreas: ["default"],
     lintIssue: "wrong",
-    message: "Non-option default for options-type param",
+    message: "Non-option default for `options`-type param",
     enabled: true,
     logLevel: "error",
   },
@@ -105,8 +105,7 @@ export const LINTINGS: {
   PUSH_APPLY: {
     lintAreas: ["miscellaneous"],
     lintIssue: "unneeded",
-    message:
-      "Unneeded `arr.push.apply(arr, arg)` instead of `arr.push(...arg)`",
+    message: "`arr.push.apply(arr, arg)` instead of `arr.push(...arg)`",
     enabled: true,
     logLevel: "warning",
   },
@@ -145,7 +144,7 @@ export const LINTINGS: {
     lintIssue: "icon",
     message: "Icon is PNG instead of SVG in node description",
     enabled: true,
-    logLevel: "error",
+    logLevel: "warning",
   },
   SUBTITLE_MISSING_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription"],
@@ -276,7 +275,7 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "info",
     details:
-      "The only pptional descriptions are resource option, credentials option, and defaults option",
+      "The only optional descriptions are resource option, credentials option, and defaults option",
   },
   PARAM_DESCRIPTION_WITH_UNNEEDED_BACKTICKS: {
     lintAreas: ["paramDescription"],

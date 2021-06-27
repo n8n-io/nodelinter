@@ -3,7 +3,10 @@
 // ----------------------------------
 
 type Config = {
-  n8nRepoPath: string;
+  targetDir: string;
+  sortLogs: "importance" | "lineNumber";
+  showDetails: boolean;
+  logLevelColors: { [key in LogLevel]: string }; // hex color
   lintAreasEnabled: { [key in LintArea]: boolean };
   lintIssuesEnabled: { [key in LintIssue]: boolean };
   logLevelsEnabled: { [key in LogLevel]: boolean };
@@ -70,6 +73,14 @@ type Log = Omit<Linting, "enabled"> & {
 type LogLevel = "info" | "warning" | "error";
 
 type LogFunction = (linting: Linting) => (node: ts.Node) => void;
+
+type LogSummary = {
+  errors: number;
+  warnings: number;
+  infos: number;
+  total: number;
+  executionTimeMs: number;
+};
 
 // ----------------------------------
 //           validation

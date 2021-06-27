@@ -1,17 +1,10 @@
 import fs from "fs";
 import ts from "typescript";
 import path from "path";
-import { Validator, Traverser, Presenter, Summarizer } from "../services";
+import { Validator, Traverser, Presenter } from "../services";
 
 import { printJson } from "../utils";
 import { config } from "../config";
-
-const N8N_NODES_DIR = path.join(
-  config.n8nRepoPath,
-  "packages",
-  "nodes-base",
-  "nodes"
-);
 
 const executionStart = new Date().getTime();
 
@@ -36,9 +29,9 @@ const collect = (
 const isTargetFile = (fileName: string) =>
   fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
 
-const paths = collect(N8N_NODES_DIR, isTargetFile);
+const paths = collect(config.targetDir, isTargetFile);
 
-const lintAll: Log[] = [];
+const allFilesLogs: Log[] = [];
 
 paths.forEach((path) => {
   const source = fs.readFileSync(path, "utf8");
@@ -56,13 +49,13 @@ paths.forEach((path) => {
     console.log("******");
   }
 
-  if (validator.logs.length) lintAll.push(...validator.logs);
+  if (validator.logs.length) allFilesLogs.push(...validator.logs);
 
-  Presenter.showLogs(validator.logs, { forN8nRepo: true });
+  Presenter.showLogs(validator.logs, { targetHasFullPath: true });
 });
 
 const executionTimeMs = new Date().getTime() - executionStart;
 
-Presenter.showSummary(Summarizer.run(lintAll, executionTimeMs));
+Presenter.summarize(allFilesLogs, executionTimeMs);
 
-printJson("lintAll", lintAll);
+// printJson("lintAll", lintAll);

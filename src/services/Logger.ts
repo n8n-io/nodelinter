@@ -41,6 +41,7 @@ export function Logger<BaseClass extends Constructor>(
           : node.getText(),
         sourceFilePath: sourceFilePath,
         logLevel: linting.logLevel,
+        ...(linting.details && { details: linting.details }),
       });
     };
 

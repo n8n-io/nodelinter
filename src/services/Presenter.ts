@@ -1,117 +1,251 @@
-import path from "path";
 import chalk from "chalk";
-import ansiEscapes from "ansi-escapes";
+import { config } from "../config";
 
 export class Presenter {
+  static lineWrapChars = 60;
+
+  static targetHasFullPath = false;
+
+  static logs: Log[];
+  static log: Log;
+  static isLastLog: boolean;
+
+  static errorBaseColor = config.logLevelColors.error
+    ? chalk.hex(config.logLevelColors.error)
+    : chalk.redBright;
+
+  static warningBaseColor = config.logLevelColors.warning
+    ? chalk.hex(config.logLevelColors.warning)
+    : chalk.yellowBright;
+
+  static infoBaseColor = config.logLevelColors.info
+    ? chalk.hex(config.logLevelColors.info)
+    : chalk.blueBright;
+
   public static showLogs(
     logs: Log[],
-    { forN8nRepo: isN8nRepo } = { forN8nRepo: false }
+    { targetHasFullPath } = { targetHasFullPath: false }
   ) {
-    logs.forEach((error) => {
-      this.showFirstLine(error, { isN8nRepo });
-      this.showSecondLine(error);
-      this.showThirdLine(error);
-      console.log();
+    this.targetHasFullPath = targetHasFullPath;
+    this.showHeader(logs);
+
+    logs = this.sortLogs(logs);
+
+    logs.forEach((log, index) => {
+      this.logs = logs;
+      this.log = log;
+      this.isLastLog = index === this.logs.length - 1;
+
+      this.showMainLine();
+
+      if (config.showDetails) {
+        log.details && this.showDetailsLine();
+      }
+
+      this.showExcerptLine();
+      this.showFinalLine();
     });
   }
 
-  public static showSummary(summary: {
-    errors: number;
-    warnings: number;
-    infos: number;
-    total: number;
-    executionTimeMs: number;
-  }) {
-    const error = this.getMessagePaint("error");
-    const warning = this.getMessagePaint("warning");
-    const info = this.getMessagePaint("info");
-    const generic = chalk.white.bold;
+  // ----------------------------------
+  //             header
+  // ----------------------------------
 
-    console.log(generic("Total\t\t") + generic(summary.total));
-    console.log(error("  Errors\t") + error(summary.errors));
-    console.log(warning("  Warnings\t") + warning(summary.warnings));
-    console.log(info("  Infos\t\t") + info(summary.infos));
-    console.log("Time\t\t" + summary.executionTimeMs + " ms");
-  }
+  private static showHeader(logs: Log[]) {
+    const filePath = this.targetHasFullPath
+      ? logs[0].sourceFilePath.split("packages")[1]
+      : logs[0].sourceFilePath;
 
-  private static showFirstLine(
-    error: Log,
-    { isN8nRepo }: { isN8nRepo: boolean }
-  ) {
-    const sourcePath = isN8nRepo
-      ? this.formatSourceFilePath(error.sourceFilePath).split("packages")[1]
-      : this.formatSourceFilePath(error.sourceFilePath);
-
-    const linkPath = isN8nRepo
-      ? `file://${error.sourceFilePath}`
-      : path.join(`file://${path.resolve("./")}`, error.sourceFilePath);
-
-    const linkText = sourcePath + this.formatLineNumber(error.line);
-
-    const fileLink = ansiEscapes.link(linkText, linkPath);
-
-    console.log(this.formatLogLevel(error.logLevel) + " " + fileLink);
-  }
-
-  private static showSecondLine(error: Log) {
-    const secondLine = [
-      this.formatMessage(error.message, error.logLevel),
-      // this.formatlintArea(lintArea),
-    ].join(" ");
-
-    console.log(secondLine);
-  }
-
-  private static showThirdLine(error: Log) {
-    console.log(`  ${chalk.grey(`» ${error.excerpt}`)}`);
-  }
-
-  private static formatMessage(message: string, logLevel: LogLevel) {
-    const paint = this.getMessagePaint(logLevel);
-    return paint(`  ${message}`);
-  }
-
-  private static formatlintArea(lintArea: LintArea) {
-    return chalk.dim(`(${lintArea})`);
-  }
-
-  private static formatLogLevel(logLevel: LogLevel) {
-    const paint = this.getLogLevelPaint(logLevel);
-
-    const format = (logLevel: LogLevel) =>
-      paint(this.pad(logLevel.toUpperCase()));
-
-    return format(logLevel);
-  }
-
-  private static formatSourceFilePath(sourceFilePath: string) {
-    const parts = sourceFilePath.split("/");
+    const parts = filePath.split("/");
     const [fileName, ...basePath] = [parts.pop(), ...parts];
 
-    return chalk.grey(basePath.join("/") + "/") + chalk.bold(fileName);
+    console.log(
+      ` ` +
+        chalk.inverse(` • `) +
+        ` ` +
+        chalk.grey(basePath.join("/")) +
+        ` » ` +
+        chalk.bold.inverse(` ${fileName} `)
+    );
+
+    console.log(chalk.grey("  │"));
   }
 
-  private static formatLineNumber(lineNumber: number) {
-    return chalk.grey(":") + chalk.white(lineNumber);
+  // ----------------------------------
+  //            main line
+  // ----------------------------------
+
+  private static showMainLine() {
+    const connector = this.isLastLog ? "└──" : "├──";
+    const indentation = " ".repeat(2);
+
+    console.log(
+      indentation +
+        chalk.grey(connector) +
+        this.formatLineNumber(this.log.line) +
+        this.colorLogAndMessage(this.log.logLevel, this.log.message)
+    );
   }
 
-  private static pad(text: string, length = 11, char = " ") {
-    return text.padStart((text.length + length) / 2, char).padEnd(length, char);
+  private static formatLineNumber(line: number) {
+    const zeroPadded = line.toString().padStart(3, "0");
+    const whitespacePadded = this.pad(zeroPadded, 5, " ");
+    return chalk.white.inverse(whitespacePadded);
   }
 
-  private static getLogLevelPaint(logLevel: LogLevel) {
+  private static pad(text: string, length = 11, padChar: string) {
+    return text
+      .padStart((text.length + length) / 2, padChar)
+      .padEnd(length, padChar);
+  }
+
+  private static colorLogAndMessage(logLevel: LogLevel, message: string) {
+    const color = this.getColor(logLevel);
+    const indentation = " ".repeat(1);
+
+    return indentation + color(`${logLevel.toUpperCase()}: ${message}`);
+  }
+
+  // ----------------------------------
+  //           details line
+  // ----------------------------------
+
+  private static showDetailsLine() {
+    if (!this.log.details) throw new Error("Something went wrong"); // TODO: Rewrite as assert
+
+    const connector = this.isLastLog ? " " : "│";
+    const connectorIndentation = " ".repeat(2);
+    const detailsIndentation = " ".repeat(8);
+
+    const showDetailsLine = (detailsLine: string) =>
+      console.log(
+        connectorIndentation +
+          chalk.grey(connector) +
+          detailsIndentation +
+          chalk.white(detailsLine)
+      );
+
+    if (this.log.details.length > this.lineWrapChars) {
+      const detailsParts = this.splitDetails(this.log.details);
+      detailsParts.forEach(showDetailsLine);
+    } else {
+      showDetailsLine(this.log.details);
+    }
+  }
+
+  private static splitDetails(
+    details: string,
+    result: string[] = []
+  ): string[] {
+    if (details.length === 0) return result;
+
+    result.push(details.substring(0, this.lineWrapChars));
+    return this.splitDetails(details.substring(this.lineWrapChars), result);
+  }
+
+  // ----------------------------------
+  //           excerpt line
+  // ----------------------------------
+
+  private static showExcerptLine() {
+    const connector = this.isLastLog ? " " : "│";
+    const connectorIndentation = " ".repeat(2);
+    const excerptIndentation = " ".repeat(8);
+
+    console.log(
+      chalk.grey(
+        connectorIndentation + connector + excerptIndentation + this.log.excerpt
+      )
+    );
+  }
+
+  // ----------------------------------
+  //           final line
+  // ----------------------------------
+
+  private static showFinalLine() {
+    const connector = this.isLastLog ? " " : "│";
+    const indentation = " ".repeat(2);
+    console.log(chalk.grey(indentation + connector));
+  }
+
+  // ----------------------------------
+  //           summary
+  // ----------------------------------
+
+  public static summarize(allFilesLogs: Log[], executionTimeMs: number) {
+    let errors = 0;
+    let warnings = 0;
+    let infos = 0;
+
+    allFilesLogs.forEach((log) => {
+      if (log.logLevel === "error") errors++;
+      if (log.logLevel === "warning") warnings++;
+      if (log.logLevel === "info") infos++;
+    });
+
+    this.showSummary({
+      errors,
+      warnings,
+      infos,
+      total: allFilesLogs.length,
+      executionTimeMs,
+    });
+  }
+
+  public static showSummary({
+    total,
+    errors,
+    warnings,
+    infos,
+    executionTimeMs,
+  }: LogSummary) {
+    const indentation = " ".repeat(2);
+
+    console.log(chalk.white.bold(`Total\t\t${total}`));
+
+    console.log(this.getColor("error")(indentation + `Errors\t${errors}`));
+    console.log(
+      this.getColor("warning")(indentation + `Warnings\t${warnings}`)
+    );
+    console.log(this.getColor("info")(indentation + `Infos\t\t${infos}`));
+    console.log(`Time\t\t${executionTimeMs} ms`);
+  }
+
+  // ----------------------------------
+  //              utils
+  // ----------------------------------
+
+  private static getColor(logLevel: LogLevel, { thin } = { thin: false }) {
     return {
-      error: chalk.hex("#000000").bgRedBright.bold,
-      warning: chalk.hex("#000000").bgYellowBright.bold,
-      info: chalk.hex("#000000").bgBlueBright.bold,
+      error: thin ? this.errorBaseColor : this.errorBaseColor.bold,
+      warning: thin ? this.warningBaseColor : this.warningBaseColor.bold,
+      info: thin ? this.infoBaseColor : this.infoBaseColor.bold,
     }[logLevel];
   }
 
-  private static getMessagePaint(logLevel: LogLevel) {
-    return {
-      error: chalk.redBright.bold,
-      warning: chalk.yellowBright.bold,
-      info: chalk.blueBright.bold,
-    }[logLevel];
+  private static sortLogs(logs: Log[]) {
+    if (config.sortLogs === "importance") return this.sortByImportance(logs);
+    if (config.sortLogs === "lineNumber") return this.sortByLineNumber(logs);
+
+    throw new Error("Logs may only be sorted by importance or line number.");
+  }
+
+  private static sortByImportance(logs: Log[]) {
+    const errors: Log[] = [];
+    const warnings: Log[] = [];
+    const infos: Log[] = [];
+
+    logs.forEach((log) => {
+      if (log.logLevel === "error") errors.push(log);
+      if (log.logLevel === "warning") warnings.push(log);
+      if (log.logLevel === "info") infos.push(log);
+    });
+
+    return [...errors, ...warnings, ...infos];
+  }
+
+  private static sortByLineNumber(logs: Log[]) {
+    return logs.sort((a, b) => a.line - b.line);
   }
 }
