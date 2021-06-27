@@ -12,9 +12,11 @@ export const areAlphabetized = (items: string[]) =>
 export const startsWithCapital = (str: string) =>
   str[0] === str[0].toUpperCase();
 
-export const isTitleCase = (str: string) => /^([A-Z]\w*\s*)*$/.test(str);
+export const isTitleCase = (str: string) =>
+  /^([A-Z]\w*\s*)*$/.test(str) || /^[0-9]*$/.test(str);
 
-export const isCamelCase = (str: string) => /^([a-z]+[A-Z0-9]*)*$/.test(str);
+export const isCamelCase = (str: string) =>
+  /^([a-z]+[A-Z0-9]*)*$/.test(str) || /^[0-9]*$/.test(str);
 
 export const hasAnchorLink = (str: string) => /<a href=/.test(str);
 

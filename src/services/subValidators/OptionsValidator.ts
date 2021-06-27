@@ -122,7 +122,9 @@ export class OptionsValidator implements SubValidator {
               ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "name"
             ) {
-              if (!isTitleCase(node.getChildAt(2).getText())) {
+              if (
+                !isTitleCase(node.getChildAt(2).getText().replace(/'/g, ""))
+              ) {
                 this.log(LINTINGS.NO_TITLECASE_IN_OPTIONS_NAME)(node);
               }
             }
@@ -131,7 +133,9 @@ export class OptionsValidator implements SubValidator {
               ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "value"
             ) {
-              if (!isCamelCase(node.getChildAt(2).getText())) {
+              if (
+                !isCamelCase(node.getChildAt(2).getText().replace(/'/g, ""))
+              ) {
                 this.log(LINTINGS.NO_CAMELCASE_IN_OPTIONS_VALUE)(node);
               }
 
