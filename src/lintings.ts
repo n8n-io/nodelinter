@@ -152,6 +152,8 @@ export const LINTINGS: {
     message: "Icon is PNG instead of SVG in node description",
     enabled: true,
     logLevel: "warning",
+    details:
+      "Sources of SVG icons: https://vecta.io/symbols | https://github.com/gilbarbara/logos",
   },
   SUBTITLE_MISSING_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription"],
