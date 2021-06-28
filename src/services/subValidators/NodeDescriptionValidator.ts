@@ -18,18 +18,24 @@ export class NodeDescriptionValidator implements SubValidator {
       node.parent.parent.parent.parent.forEachChild((child) => {
         if (
           ts.isClassDeclaration(child) &&
-          child.getChildAt(2).getText().endsWith("Trigger") &&
-          !node.getChildAt(2).getText().endsWith(" Trigger'")
+          child.getChildAt(2).getText().endsWith("Trigger") && // class name is "*Trigger"
+          !node.getChildAt(2).getText().endsWith(" Trigger'") &&
+          node.getChildAt(0).getText() === "displayName" // display name is not "* Trigger"
         ) {
-          if (node.getChildAt(0).getText() === "displayName") {
-            this.log(
-              LINTINGS.DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
-            )(node);
-          } else if (node.getChildAt(0).getText() === "name") {
-            this.log(LINTINGS.NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION)(
-              node
-            );
-          }
+          this.log(
+            LINTINGS.DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION
+          )(node);
+        }
+
+        if (
+          ts.isClassDeclaration(child) &&
+          child.getChildAt(2).getText().endsWith("Trigger") && // class name is "*Trigger"
+          !node.getChildAt(2).getText().endsWith("Trigger'") &&
+          node.getChildAt(0).getText() === "name" // name is not "*Trigger"
+        ) {
+          this.log(LINTINGS.NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION)(
+            node
+          );
         }
       });
     }

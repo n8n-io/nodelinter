@@ -171,14 +171,14 @@ export const LINTINGS: {
     lintAreas: ["nodeDescription", "displayName"],
     lintIssue: "naming",
     message:
-      "Display name in trigger node description not ending with 'Trigger'",
+      "Display name in trigger node description not ending with ' Trigger'",
     enabled: true,
     logLevel: "error",
   },
   NAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "name"],
     lintIssue: "naming",
-    message: "Name in trigger node description not ending with 'trigger'",
+    message: "Name in trigger node description not ending with 'Trigger'",
     enabled: true,
     logLevel: "error",
   },
@@ -273,7 +273,7 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
     details:
-      "All param and options are required except resource option, credentials option, and defaults option",
+      "All param and options descriptions are required, except for resource option, credentials option, and defaults option",
   },
   PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL: {
     lintAreas: ["paramDescription"],
