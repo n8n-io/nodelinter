@@ -7,11 +7,10 @@ export class Traverser {
   static traverse(validator: Validator): ts.TransformerFactory<ts.SourceFile> {
     return (context) => {
       return (sourceFile) => {
+        this.sourceFile = sourceFile;
+
         const visitor: ts.Visitor = (node) => {
-          this.sourceFile = sourceFile;
-
           validator.setNode(node).run();
-
           return ts.visitEachChild(node, visitor, context);
         };
 
