@@ -19,7 +19,7 @@ export const runTest = (validator: Validator) => (linting: Linting) => {
 
     if (lintIssueIsDisabled(linting.lintIssue)) return;
 
-    expect(found).toBeDefined();
+    linting.enabled && expect(found).toBeDefined();
   });
 };
 

@@ -31,18 +31,19 @@ export function Logger<BaseClass extends Constructor>(
         if (lintAreaIsDisabled(lintArea)) return;
       }
 
-      this.logs.push({
-        message: linting.message,
-        lintAreas: linting.lintAreas,
-        lintIssue: linting.lintIssue,
-        line: line + 1,
-        excerpt: config.truncateExcerpts.enabled
-          ? this.truncateExcerpt(node.getText())
-          : node.getText(),
-        sourceFilePath: sourceFilePath,
-        logLevel: linting.logLevel,
-        ...(linting.details && { details: linting.details }),
-      });
+      linting.enabled &&
+        this.logs.push({
+          message: linting.message,
+          lintAreas: linting.lintAreas,
+          lintIssue: linting.lintIssue,
+          line: line + 1,
+          excerpt: config.truncateExcerpts.enabled
+            ? this.truncateExcerpt(node.getText())
+            : node.getText(),
+          sourceFilePath: sourceFilePath,
+          logLevel: linting.logLevel,
+          ...(linting.details && { details: linting.details }),
+        });
     };
 
     private truncateExcerpt(text: string) {

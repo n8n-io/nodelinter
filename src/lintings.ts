@@ -281,7 +281,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
     message: "Param description is missing where it is optional",
-    enabled: true,
+    enabled: false,
     logLevel: "info",
     details:
       "The only optional descriptions are resource option, credentials option, and defaults option",
