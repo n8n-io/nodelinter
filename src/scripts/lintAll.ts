@@ -6,21 +6,26 @@ import { Validator, Traverser, Presenter } from "../services";
 import { printJson } from "../utils";
 import { config } from "../config";
 
-const executionStart = new Date().getTime();
+// ----------------------------------
+//             utils
+// ----------------------------------
 
+/**
+ * Traverse a dir recursively and collect a file paths that pass a test.
+ */
 const collect = (
   dir: string,
-  check: (arg: string) => boolean,
+  test: (arg: string) => boolean,
   collection: string[] = []
 ): string[] => {
   fs.readdirSync(dir).forEach((i) => {
     const iPath = path.join(dir, i);
 
     if (fs.lstatSync(iPath).isDirectory()) {
-      collect(iPath, check, collection);
+      collect(iPath, test, collection);
     }
 
-    if (check(i)) collection.push(iPath);
+    if (test(i)) collection.push(iPath);
   });
 
   return collection;
@@ -29,23 +34,29 @@ const collect = (
 const isTargetFile = (fileName: string) =>
   fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
 
-const paths = collect(config.targetDir, isTargetFile);
+// ----------------------------------
+//             script
+// ----------------------------------
+
+const executionStart = new Date().getTime();
+
+const sourceFilePaths = collect(config.sourceDirPath, isTargetFile);
 
 const allFilesLogs: Log[] = [];
 
-paths.forEach((path) => {
-  const source = fs.readFileSync(path, "utf8");
-
-  const validator = new Validator(path);
+sourceFilePaths.forEach((sourceFilePath) => {
+  const sourceFileContents = fs.readFileSync(sourceFilePath, "utf8");
+  Traverser.sourceFilePath = sourceFilePath;
+  const validator = new Validator(sourceFilePath);
 
   try {
-    ts.transpileModule(source.toString(), {
+    ts.transpileModule(sourceFileContents.toString(), {
       transformers: { before: [Traverser.traverse(validator)] },
     });
-  } catch (transpilationError) {
+  } catch (traversalError) {
     console.log("******");
-    console.log(path);
-    console.log(transpilationError);
+    console.log(`Traversal failed for: ${sourceFilePath}`);
+    console.log(traversalError);
     console.log("******");
   }
 

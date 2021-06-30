@@ -3,7 +3,8 @@
 // ----------------------------------
 
 type Config = {
-  targetDir: string;
+  sourceDirPath: string;
+  sourceFilePath: string;
   sortLogs: "importance" | "lineNumber";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color

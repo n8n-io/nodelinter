@@ -6,8 +6,7 @@ export class NodeDescriptionValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  standardSubtitle =
-    '={{$parameter["operation"] + ": " + $parameter["resource"]}}';
+  standardSubtitle = `'={{$parameter["operation"] + ": " + $parameter["resource"]}}'`;
 
   public run(node: ts.Node) {
     if (

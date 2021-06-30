@@ -1,13 +1,15 @@
 import ts from "typescript";
+import { Traverser } from "..";
 import { LINTINGS } from "../../lintings";
 
 export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
   logs: Log[];
   log: LogFunction;
+  static hasContinueOnFail = false;
 
   standardReturnAllDescription =
-    "Whether to return all results or only up to a given limit.";
+    "'Whether to return all results or only up to a given limit'";
 
   public run(node: ts.Node) {
     if (
@@ -48,6 +50,14 @@ export class MiscellaneousValidator implements SubValidator {
           }
         })
       );
+    }
+
+    if (
+      Traverser.sourceFilePath.endsWith(".node.ts") &&
+      ts.isPropertyAccessExpression(node) &&
+      node.getChildAt(2).getText() === "continueOnFail"
+    ) {
+      MiscellaneousValidator.hasContinueOnFail = true;
     }
 
     return this.logs;

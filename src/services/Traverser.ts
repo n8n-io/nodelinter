@@ -3,6 +3,7 @@ import { Validator } from "../services";
 
 export class Traverser {
   static sourceFile: ts.SourceFile;
+  static sourceFilePath = "";
 
   static traverse(validator: Validator): ts.TransformerFactory<ts.SourceFile> {
     return (context) => {
@@ -14,7 +15,10 @@ export class Traverser {
           return ts.visitEachChild(node, visitor, context);
         };
 
-        return ts.visitNode(sourceFile, visitor);
+        ts.visitNode(sourceFile, visitor); // full AST traversal
+        validator.runFinal(sourceFile); // post-traversal checks
+
+        return sourceFile;
       };
     };
   }

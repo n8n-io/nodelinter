@@ -1,16 +1,16 @@
 import fs from "fs";
 import ts from "typescript";
+import { config } from "../config";
 import { Traverser, Validator, Presenter } from "../services";
 
 const executionStart = new Date().getTime();
 
-const SOURCE_FILE_PATH = "src/input/scratchpad8.ts";
+const sourceFileContents = fs.readFileSync(config.sourceFilePath, "utf8");
+Traverser.sourceFilePath = config.sourceFilePath;
 
-const source = fs.readFileSync(SOURCE_FILE_PATH, "utf8");
+const validator = new Validator(config.sourceFilePath);
 
-const validator = new Validator(SOURCE_FILE_PATH);
-
-ts.transpileModule(source, {
+ts.transpileModule(sourceFileContents, {
   transformers: { before: [Traverser.traverse(validator)] },
 });
 

@@ -6,7 +6,7 @@ export class LimitValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  standardLimitDescription = "How many results to return";
+  standardLimitDescription = "'How many results to return'";
 
   public run(node: ts.Node) {
     if (

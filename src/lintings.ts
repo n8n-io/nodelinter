@@ -123,6 +123,13 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "info",
   },
+  MISSING_CONTINUE_ON_FAIL: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "missing",
+    message: "Missing implementation of `continueOnFail`",
+    enabled: true,
+    logLevel: "error",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],

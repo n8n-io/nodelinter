@@ -11,10 +11,7 @@ import { Traverser } from "../services";
 
 type Constructor = new (...args: any[]) => {};
 
-export function Logger<BaseClass extends Constructor>(
-  Base: BaseClass,
-  sourceFilePath: string
-) {
+export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
   return class extends Base {
     logs: Log[] = [];
 
@@ -40,7 +37,7 @@ export function Logger<BaseClass extends Constructor>(
           excerpt: config.truncateExcerpts.enabled
             ? this.truncateExcerpt(node.getText())
             : node.getText(),
-          sourceFilePath: sourceFilePath,
+          sourceFilePath: Traverser.sourceFilePath,
           logLevel: linting.logLevel,
           ...(linting.details && { details: linting.details }),
         });

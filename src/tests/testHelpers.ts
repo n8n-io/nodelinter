@@ -35,11 +35,26 @@ const groupByLintArea = (list: Linting[]) =>
     });
 
     return acc;
-
-    // const lintArea = lintAreas[linting.lintArea] ?? [];
-    // lintArea.push(linting);
-    // lintAreas[linting.lintArea] = lintArea;
-    // return lintAreas;
   }, {});
 
 export const lintingsByGroup = groupByLintArea(Object.values(LINTINGS));
+
+/**
+ * Separate one linting from others based on a test.
+ *
+ * Only _one_ linting is expected to pass.
+ */
+const partition =
+  (test: (linting: Linting) => boolean) =>
+  (array: Linting[]): [Linting, Linting[]] => {
+    const pass: Linting[] = [];
+    const fail: Linting[] = [];
+    array.forEach((item) => (test(item) ? pass : fail).push(item));
+
+    return [pass[0], fail];
+  };
+
+export const separateContinueOnFail = partition(
+  (linting: Linting) =>
+    linting.message === "Missing implementation of `continueOnFail`"
+);

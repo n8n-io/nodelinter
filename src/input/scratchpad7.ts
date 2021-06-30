@@ -5,7 +5,7 @@ export class QuickBooks implements INodeType {
 		icon: 'file:quickbooks.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		// subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Consume the QuickBooks API',
 		defaults: {
 			name: 'QuickBooks',
