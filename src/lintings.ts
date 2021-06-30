@@ -1,3 +1,9 @@
+import {
+  MiscellaneousValidator,
+  NodeDescriptionValidator,
+  OptionsValidator,
+} from "./services/subValidators";
+
 export const LINTINGS: {
   [LintingName in string]: Linting;
 } = {
@@ -119,9 +125,10 @@ export const LINTINGS: {
   NON_STANDARD_RETURNALL_DESCRIPTION: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wording",
-    message: "Non-standard description for returnAll param",
+    message: "Non-standard description for `returnAll` param",
     enabled: true,
     logLevel: "info",
+    details: `The standard description for \`returnAll\` is: "${MiscellaneousValidator.standardReturnAllDescription}"`,
   },
   MISSING_CONTINUE_ON_FAIL: {
     lintAreas: ["miscellaneous"],
@@ -175,6 +182,7 @@ export const LINTINGS: {
     message: "Non-standard `subtitle` in node description",
     enabled: true,
     logLevel: "info",
+    details: `The standard node description subtitle is: "${NodeDescriptionValidator.standardSubtitle}"`,
   },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "displayName"],
@@ -248,7 +256,7 @@ export const LINTINGS: {
     message: "Non-standard name of upsert option",
     enabled: true,
     logLevel: "error",
-    details: "The upsert option must be worded: 'Create or Update'",
+    details: `The standard upsert option name is: "${OptionsValidator.standardUpsertOptionName}"`,
   },
 
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
@@ -257,8 +265,7 @@ export const LINTINGS: {
     message: "Non-standard description of upsert option",
     enabled: true,
     logLevel: "error",
-    details:
-      "The upsert option description must be worded: 'Create a new record, or update the current one if it already exists (upsert)'",
+    details: `The standard upsert option description is: "${OptionsValidator.standardUpsertOptionDescription}"`,
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {

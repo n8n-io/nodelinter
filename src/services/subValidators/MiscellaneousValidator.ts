@@ -8,7 +8,7 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
   static hasContinueOnFail = false;
 
-  standardReturnAllDescription =
+  static standardReturnAllDescription =
     "'Whether to return all results or only up to a given limit'";
 
   public run(node: ts.Node) {
@@ -20,7 +20,8 @@ export class MiscellaneousValidator implements SubValidator {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "description" &&
-          node.getChildAt(2).getText() !== this.standardReturnAllDescription
+          node.getChildAt(2).getText() !==
+            MiscellaneousValidator.standardReturnAllDescription
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });

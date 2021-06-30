@@ -6,6 +6,9 @@ export class OptionsValidator implements SubValidator {
   static lintArea = "options" as const;
   logs: Log[];
   log: LogFunction;
+  static standardUpsertOptionName = "'Create or Update'";
+  static standardUpsertOptionDescription =
+    "'Create a new record, or update the current one if it already exists (upsert)'";
 
   public run(node: ts.Node) {
     if (
@@ -142,7 +145,10 @@ export class OptionsValidator implements SubValidator {
               if (node.getChildAt(2).getText() === "'upsert'") {
                 node.parent.forEachChild((child) => {
                   if (child.getChildAt(0).getText() === "name") {
-                    if (child.getChildAt(2).getText() !== "Create or Update") {
+                    if (
+                      child.getChildAt(2).getText() !==
+                      OptionsValidator.standardUpsertOptionName
+                    ) {
                       this.log(LINTINGS.NON_STANDARD_NAME_FOR_UPSERT_OPTION)(
                         child
                       );
@@ -152,7 +158,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "description") {
                     if (
                       child.getChildAt(2).getText() !==
-                      "Create a new record, or update the current one if it already exists (upsert)"
+                      OptionsValidator.standardUpsertOptionDescription
                     ) {
                       this.log(
                         LINTINGS.NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION

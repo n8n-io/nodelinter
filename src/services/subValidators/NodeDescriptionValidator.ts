@@ -6,7 +6,7 @@ export class NodeDescriptionValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  standardSubtitle = `'={{$parameter["operation"] + ": " + $parameter["resource"]}}'`;
+  static standardSubtitle = `'={{$parameter["operation"] + ": " + $parameter["resource"]}}'`;
 
   public run(node: ts.Node) {
     if (
@@ -61,7 +61,10 @@ export class NodeDescriptionValidator implements SubValidator {
         if (child.getChildAt(0).getText() === "subtitle") {
           hasSubtitle = true;
 
-          if (child.getChildAt(2).getText() !== this.standardSubtitle) {
+          if (
+            child.getChildAt(2).getText() !==
+            NodeDescriptionValidator.standardSubtitle
+          ) {
             this.log(LINTINGS.NON_STANDARD_SUBTITLE)(child);
           }
         }
