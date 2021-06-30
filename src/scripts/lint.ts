@@ -5,10 +5,10 @@ import { Traverser, Validator, Presenter } from "../services";
 
 const executionStart = new Date().getTime();
 
-const sourceFileContents = fs.readFileSync(config.sourceFilePath, "utf8");
 Traverser.sourceFilePath = config.sourceFilePath;
+const validator = new Validator();
 
-const validator = new Validator(config.sourceFilePath);
+const sourceFileContents = fs.readFileSync(config.sourceFilePath, "utf8");
 
 ts.transpileModule(sourceFileContents, {
   transformers: { before: [Traverser.traverse(validator)] },

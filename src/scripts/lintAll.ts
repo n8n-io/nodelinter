@@ -45,20 +45,14 @@ const sourceFilePaths = collect(config.sourceDirPath, isTargetFile);
 const allFilesLogs: Log[] = [];
 
 sourceFilePaths.forEach((sourceFilePath) => {
-  const sourceFileContents = fs.readFileSync(sourceFilePath, "utf8");
   Traverser.sourceFilePath = sourceFilePath;
-  const validator = new Validator(sourceFilePath);
+  const validator = new Validator();
 
-  try {
-    ts.transpileModule(sourceFileContents.toString(), {
-      transformers: { before: [Traverser.traverse(validator)] },
-    });
-  } catch (traversalError) {
-    console.log("******");
-    console.log(`Traversal failed for: ${sourceFilePath}`);
-    console.log(traversalError);
-    console.log("******");
-  }
+  const sourceFileContents = fs.readFileSync(sourceFilePath, "utf8");
+
+  ts.transpileModule(sourceFileContents.toString(), {
+    transformers: { before: [Traverser.traverse(validator)] },
+  });
 
   if (validator.logs.length) allFilesLogs.push(...validator.logs);
 

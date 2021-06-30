@@ -1,20 +1,24 @@
 import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { LINTINGS } from "../lintings";
-import { Logger } from "../services";
+import { Logger, Traverser } from "../services";
 import * as subValidators from "./subValidators";
 import { MiscellaneousValidator } from "./subValidators";
 
 export class Validator {
   public logs: Log[] = [];
-  private node: ts.Node;
-  public sourceFilePath = "";
+  private currentNode: ts.Node;
 
-  constructor(sourceFilePath: string) {
-    this.sourceFilePath = sourceFilePath;
+  /**
+   * Path to test file in `src/tests/input/`.
+   */
+  public testSourceFilePath: string | undefined;
+
+  constructor(testSourceFilePath?: string) {
+    this.testSourceFilePath = testSourceFilePath;
   }
 
   public setNode(node: ts.Node) {
-    this.node = node;
+    this.currentNode = node;
     return this;
   }
 
@@ -26,7 +30,7 @@ export class Validator {
 
   private runSubValidator(constructor: SubValidatorConstructor) {
     const SubValidator = Logger(constructor);
-    const logs = new SubValidator().run(this.node);
+    const logs = new SubValidator().run(this.currentNode);
 
     if (logs?.length) this.logs.push(...logs);
   }
@@ -46,7 +50,7 @@ export class Validator {
         lintIssue: linting.lintIssue,
         line: line + 1,
         excerpt: "<large excerpt omitted>",
-        sourceFilePath: this.sourceFilePath,
+        sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
         logLevel: linting.logLevel,
         ...(linting.details && { details: linting.details }),
       });
