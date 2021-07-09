@@ -1,9 +1,11 @@
+#!/usr/bin/env node
+
 import fs from "fs";
 import minimist from "minimist";
 import ts from "typescript";
-import { config } from "../config";
-import { Traverser, Validator, Presenter } from "../services";
-import { collect, isTargetFile } from "../utils";
+import { config } from "./config";
+import { Traverser, Validator, Presenter } from "./services";
+import { collect, isTargetFile } from "./utils";
 
 const { path } = minimist(process.argv.slice(2), {
   string: "path",

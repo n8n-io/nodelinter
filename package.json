@@ -1,13 +1,15 @@
 {
   "name": "nodelinter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Linter for n8n nodes",
-  "main": "dist/scripts/lint.js",
-  "files": ["dist/**/*"],
+  "main": "dist/index.js",
+  "files": ["dist/**/*", "bin"],
+  "bin": {
+    "nodelinter": "dist/index.js"
+  },
   "scripts": {
     "prepare": "tsc",
-    "prepublishOnly": "npm run test",
-    "lint": "tsc && node dist/scripts/lint.js",
+    "lint": "tsc && node dist/index.js",
     "clear": "rm -rf dist",
     "test": "jest"
   },
