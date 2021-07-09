@@ -1,6 +1,7 @@
 import ts from "typescript";
 import fs from "fs";
 import { config } from "./config";
+import path from "path";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -33,3 +34,27 @@ export const lintIssueIsDisabled = (lintIssue: LintIssue) =>
 
 export const logLevelIsDisabled = (logLevel: LogLevel) =>
   !config.toggleLogLevels[logLevel];
+
+/**
+ * Traverse a dir recursively and collect a file paths that pass a test.
+ */
+export const collect = (
+  dir: string,
+  test: (arg: string) => boolean,
+  collection: string[] = []
+): string[] => {
+  fs.readdirSync(dir).forEach((i) => {
+    const iPath = path.join(dir, i);
+
+    if (fs.lstatSync(iPath).isDirectory()) {
+      collect(iPath, test, collection);
+    }
+
+    if (test(i)) collection.push(iPath);
+  });
+
+  return collection;
+};
+
+export const isTargetFile = (fileName: string) =>
+  fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
