@@ -1,4 +1,5 @@
 import path from "path";
+import { defaultConfig } from "../defaultConfig";
 import { Validator } from "../services";
 import { lintAreaIsDisabled } from "../utils";
 import {
@@ -12,7 +13,7 @@ import { lintingsByGroup } from "./testHelpers";
 describe("Validator should validate miscellaneous rules", () => {
   const lintArea = "miscellaneous";
 
-  if (lintAreaIsDisabled(lintArea)) return;
+  if (lintAreaIsDisabled(lintArea, defaultConfig)) return;
 
   const sourceFilePath = buildSourceFilePath(lintArea);
   const sourceFilePathNodeTs = path.join(

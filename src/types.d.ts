@@ -3,9 +3,8 @@
 // ----------------------------------
 
 type Config = {
-  sourceDirPath: string;
-  sourceFilePath: string;
-  sortLogs: "importance" | "lineNumber";
+  target: string;
+  sortLogs: "lineNumber" | "importance";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color
   toggleLintAreas: { [key in LintArea]: boolean };
@@ -105,14 +104,14 @@ interface SubValidatorConstructor {
 /**
  * Extend ObjectConstructor with a better type definition for `Object.keys()`
  */
-interface ObjectConstructor {
-  keys<T>(object: T): ObjectKeys<T>;
-}
+// interface ObjectConstructor {
+//   keys<T>(object: T): ObjectKeys<T>;
+// }
 
-type ObjectKeys<T> = T extends object
-  ? (keyof T)[]
-  : T extends number
-  ? []
-  : T extends Array<any> | string
-  ? string[]
-  : never;
+// type ObjectKeys<T> = T extends object
+//   ? (keyof T)[]
+//   : T extends number
+//   ? []
+//   : T extends Array<any> | string
+//   ? string[]
+//   : never;

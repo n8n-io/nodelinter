@@ -1,14 +1,8 @@
-export const config: Config = {
+export const defaultConfig: Config = {
   /**
-   * Path of target directory whose `.node.ts` and `*Description.ts` files to lint.
+   * Path of target file to lint or of the target dir whose `.node.ts` and `*Description.ts` files to lint.
    */
-  sourceDirPath: "/Users/ivov/Development/n8n/packages/nodes-base/nodes",
-
-  /**
-   * Path of source file to lint.
-   */
-  // sourceFilePath: "src/input/scratchpad7.ts",
-  sourceFilePath: "src/input/scratchpad8.node.ts",
+  target: "",
 
   /**
    * Log sorting method, either `lineNumber` or `importance` (error → warning → info).

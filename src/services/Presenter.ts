@@ -1,31 +1,38 @@
 import chalk from "chalk";
-import { config } from "../config";
 
 export class Presenter {
-  static lineWrapChars = 60;
-  static targetHasFullPath = false;
+  lineWrapChars = 60;
+  absolutePathTarget = false;
 
-  static logs: Log[];
-  static log: Log;
-  static isLastLog: boolean;
+  logs: Log[];
+  log: Log;
+  isLastLog: boolean;
 
-  static errorBaseColor = config.logLevelColors.error
-    ? chalk.hex(config.logLevelColors.error)
-    : chalk.redBright;
+  config: Config;
 
-  static warningBaseColor = config.logLevelColors.warning
-    ? chalk.hex(config.logLevelColors.warning)
-    : chalk.yellowBright;
+  errorBaseColor: chalk.Chalk;
+  warningBaseColor: chalk.Chalk;
+  infoBaseColor: chalk.Chalk;
 
-  static infoBaseColor = config.logLevelColors.info
-    ? chalk.hex(config.logLevelColors.info)
-    : chalk.blueBright;
+  constructor(config: Config) {
+    this.config = config;
 
-  public static showLogs(
-    logs: Log[],
-    { targetHasFullPath } = { targetHasFullPath: false }
-  ) {
-    this.targetHasFullPath = targetHasFullPath;
+    this.absolutePathTarget = config.target[0] !== ".";
+
+    this.errorBaseColor = this.config.logLevelColors.error
+      ? chalk.hex(this.config.logLevelColors.error)
+      : chalk.redBright;
+
+    this.warningBaseColor = this.config.logLevelColors.warning
+      ? chalk.hex(this.config.logLevelColors.warning)
+      : chalk.yellowBright;
+
+    this.infoBaseColor = this.config.logLevelColors.info
+      ? chalk.hex(this.config.logLevelColors.info)
+      : chalk.blueBright;
+  }
+
+  public showLogs(logs: Log[]) {
     this.showHeader(logs);
 
     logs = this.sortLogs(logs);
@@ -37,7 +44,7 @@ export class Presenter {
 
       this.showMainLine();
 
-      if (config.showDetails) {
+      if (this.config.showDetails) {
         log.details && this.showDetailsLine();
       }
 
@@ -50,10 +57,10 @@ export class Presenter {
   //             header
   // ----------------------------------
 
-  private static showHeader(logs: Log[]) {
+  private showHeader(logs: Log[]) {
     if (!logs[0]) return; // file with no lint logs
 
-    const filePath = this.targetHasFullPath
+    const filePath = this.absolutePathTarget
       ? logs[0].sourceFilePath.split("/").slice(-3).join("/")
       : logs[0].sourceFilePath;
 
@@ -76,7 +83,7 @@ export class Presenter {
   //            main line
   // ----------------------------------
 
-  private static showMainLine() {
+  private showMainLine() {
     const connector = this.isLastLog ? "└──" : "├──";
     const indentation = " ".repeat(2);
 
@@ -88,19 +95,19 @@ export class Presenter {
     );
   }
 
-  private static formatLineNumber(line: number) {
+  private formatLineNumber(line: number) {
     const zeroPadded = line.toString().padStart(3, "0");
     const whitespacePadded = this.pad(zeroPadded, 5, " ");
     return chalk.white.inverse(whitespacePadded);
   }
 
-  private static pad(text: string, length = 11, padChar: string) {
+  private pad(text: string, length = 11, padChar: string) {
     return text
       .padStart((text.length + length) / 2, padChar)
       .padEnd(length, padChar);
   }
 
-  private static colorLogAndMessage(logLevel: LogLevel, message: string) {
+  private colorLogAndMessage(logLevel: LogLevel, message: string) {
     const color = this.getColor(logLevel);
     const indentation = " ".repeat(1);
 
@@ -111,7 +118,7 @@ export class Presenter {
   //           details line
   // ----------------------------------
 
-  private static showDetailsLine() {
+  private showDetailsLine() {
     if (!this.log.details) throw new Error("Something went wrong"); // TODO: Rewrite as assert
 
     const connector = this.isLastLog ? " " : "│";
@@ -134,10 +141,7 @@ export class Presenter {
     }
   }
 
-  private static splitDetails(
-    details: string,
-    result: string[] = []
-  ): string[] {
+  private splitDetails(details: string, result: string[] = []): string[] {
     if (details.length === 0) return result;
 
     result.push(details.substring(0, this.lineWrapChars));
@@ -148,7 +152,7 @@ export class Presenter {
   //           excerpt line
   // ----------------------------------
 
-  private static showExcerptLine() {
+  private showExcerptLine() {
     const connector = this.isLastLog ? " " : "│";
     const connectorIndentation = " ".repeat(2);
     const excerptIndentation = " ".repeat(8);
@@ -164,7 +168,7 @@ export class Presenter {
   //           final line
   // ----------------------------------
 
-  private static showFinalLine() {
+  private showFinalLine() {
     const connector = this.isLastLog ? " " : "│";
     const indentation = " ".repeat(2);
     console.log(chalk.grey(indentation + connector));
@@ -174,7 +178,7 @@ export class Presenter {
   //           summary
   // ----------------------------------
 
-  public static summarize(allFilesLogs: Log[], executionTimeMs: number) {
+  public summarize(allFilesLogs: Log[], executionTimeMs: number) {
     let errors = 0;
     let warnings = 0;
     let infos = 0;
@@ -194,7 +198,7 @@ export class Presenter {
     });
   }
 
-  public static showSummary({
+  public showSummary({
     total,
     errors,
     warnings,
@@ -217,7 +221,7 @@ export class Presenter {
   //              utils
   // ----------------------------------
 
-  private static getColor(logLevel: LogLevel, { thin } = { thin: false }) {
+  private getColor(logLevel: LogLevel, { thin } = { thin: false }) {
     return {
       error: thin ? this.errorBaseColor : this.errorBaseColor.bold,
       warning: thin ? this.warningBaseColor : this.warningBaseColor.bold,
@@ -225,14 +229,16 @@ export class Presenter {
     }[logLevel];
   }
 
-  private static sortLogs(logs: Log[]) {
-    if (config.sortLogs === "importance") return this.sortByImportance(logs);
-    if (config.sortLogs === "lineNumber") return this.sortByLineNumber(logs);
+  private sortLogs(logs: Log[]) {
+    if (this.config.sortLogs === "importance")
+      return this.sortByImportance(logs);
+    if (this.config.sortLogs === "lineNumber")
+      return this.sortByLineNumber(logs);
 
     throw new Error("Logs may only be sorted by importance or line number.");
   }
 
-  private static sortByImportance(logs: Log[]) {
+  private sortByImportance(logs: Log[]) {
     const errors: Log[] = [];
     const warnings: Log[] = [];
     const infos: Log[] = [];
@@ -246,7 +252,7 @@ export class Presenter {
     return [...errors, ...warnings, ...infos];
   }
 
-  private static sortByLineNumber(logs: Log[]) {
+  private sortByLineNumber(logs: Log[]) {
     return logs.sort((a, b) => a.line - b.line);
   }
 }

@@ -1,8 +1,9 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
-import { Traverser, Validator } from "../services/";
+import { Traverser, Validator } from "../services";
 import { LINTINGS } from "../lintings";
+import { defaultConfig } from "../defaultConfig";
 import { lintIssueIsDisabled } from "../utils";
 
 export const transpile = (validator: Validator, sourceFilePath: string) => {
@@ -17,7 +18,7 @@ export const runTest = (validator: Validator) => (linting: Linting) => {
   test(linting.message, () => {
     const found = validator.logs.find((log) => log.message === linting.message);
 
-    if (lintIssueIsDisabled(linting.lintIssue)) return;
+    if (lintIssueIsDisabled(linting.lintIssue, defaultConfig)) return;
 
     linting.enabled && expect(found).toBeDefined();
   });

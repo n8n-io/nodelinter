@@ -1,5 +1,5 @@
 import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
-import { config } from "../config";
+import { masterConfig } from "../";
 import {
   lintAreaIsDisabled,
   lintIssueIsDisabled,
@@ -21,11 +21,11 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         node.getChildAt(2).getEnd()
       );
 
-      if (lintIssueIsDisabled(linting.lintIssue)) return;
-      if (logLevelIsDisabled(linting.logLevel)) return;
+      if (lintIssueIsDisabled(linting.lintIssue, masterConfig)) return;
+      if (logLevelIsDisabled(linting.logLevel, masterConfig)) return;
 
       for (const lintArea of linting.lintAreas) {
-        if (lintAreaIsDisabled(lintArea)) return;
+        if (lintAreaIsDisabled(lintArea, masterConfig)) return;
       }
 
       linting.enabled &&
@@ -34,7 +34,7 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
           lintAreas: linting.lintAreas,
           lintIssue: linting.lintIssue,
           line: line + 1,
-          excerpt: config.truncateExcerpts.enabled
+          excerpt: masterConfig.truncateExcerpts.enabled
             ? this.truncateExcerpt(node.getText())
             : node.getText(),
           sourceFilePath: Traverser.sourceFilePath,
@@ -45,9 +45,9 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
 
     truncateExcerpt(text: string) {
       if (text.includes("\t")) return "<large excerpt omitted>";
-      if (text.length <= config.truncateExcerpts.charLimit) return text;
+      if (text.length <= masterConfig.truncateExcerpts.charLimit) return text;
 
-      return text.slice(0, config.truncateExcerpts.charLimit - 3) + "...";
+      return text.slice(0, masterConfig.truncateExcerpts.charLimit - 3) + "...";
     }
   };
 }
