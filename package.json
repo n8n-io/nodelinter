@@ -2,8 +2,11 @@
   "name": "nodelinter",
   "version": "0.1.0",
   "description": "Linter for n8n nodes",
-  "main": "index.js",
+  "main": "dist/scripts/lint.js",
+  "files": ["dist/**/*"],
   "scripts": {
+    "prepare": "tsc",
+    "prepublishOnly": "npm run test",
     "lint": "tsc && node dist/scripts/lint.js",
     "clear": "rm -rf dist",
     "test": "jest"

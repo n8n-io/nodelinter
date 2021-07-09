@@ -43,7 +43,7 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         });
     };
 
-    private truncateExcerpt(text: string) {
+    truncateExcerpt(text: string) {
       if (text.includes("\t")) return "<large excerpt omitted>";
       if (text.length <= config.truncateExcerpts.charLimit) return text;
 

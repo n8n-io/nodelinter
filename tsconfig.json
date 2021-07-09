@@ -9,8 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "downlevelIteration": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "declaration": true
   },
 
-  "exclude": ["src/input/*", "src/tests/input/*"]
+  "exclude": ["src/input/*", "src/tests/input/*", "./dist/**/*"]
 }
