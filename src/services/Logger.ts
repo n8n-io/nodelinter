@@ -2,6 +2,7 @@ import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { masterConfig } from "../";
 import {
   lintAreaIsDisabled,
+  lintingIsEnabled,
   lintIssueIsDisabled,
   logLevelIsDisabled,
 } from "../utils";
@@ -28,7 +29,11 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         if (lintAreaIsDisabled(lintArea, masterConfig)) return;
       }
 
-      linting.enabled &&
+      if (!lintingIsEnabled(linting, masterConfig)) {
+        console.log(console.log(linting));
+      }
+
+      lintingIsEnabled(linting, masterConfig) &&
         this.logs.push({
           message: linting.message,
           lintAreas: linting.lintAreas,

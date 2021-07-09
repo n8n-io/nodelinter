@@ -1,15 +1,13 @@
 import ts from "typescript";
 import { Traverser } from "..";
 import { LINTINGS } from "../../lintings";
+import { TEXTS } from "../../texts";
 
 export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
   logs: Log[];
   log: LogFunction;
   static hasContinueOnFail = false;
-
-  static standardReturnAllDescription =
-    "'Whether to return all results or only up to a given limit'";
 
   public run(node: ts.Node) {
     if (
@@ -20,8 +18,7 @@ export class MiscellaneousValidator implements SubValidator {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "description" &&
-          node.getChildAt(2).getText() !==
-            MiscellaneousValidator.standardReturnAllDescription
+          node.getChildAt(2).getText() !== `'${TEXTS.returnAllDescription}'`
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });

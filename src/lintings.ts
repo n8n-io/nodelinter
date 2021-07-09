@@ -1,11 +1,7 @@
-import {
-  MiscellaneousValidator,
-  NodeDescriptionValidator,
-  OptionsValidator,
-} from "./services/subValidators";
+import { TEXTS } from "./texts";
 
 export const LINTINGS: {
-  [LintingName in string]: Linting;
+  [LintingName: string]: Linting;
 } = {
   WRONG_DEFAULT_FOR_STRING_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -128,7 +124,7 @@ export const LINTINGS: {
     message: "Non-standard description for `returnAll` param",
     enabled: true,
     logLevel: "info",
-    details: `The standard description for \`returnAll\` is: ${MiscellaneousValidator.standardReturnAllDescription}`,
+    details: `The standard description for \`returnAll\` is: ${TEXTS.returnAllDescription}`,
   },
   MISSING_CONTINUE_ON_FAIL: {
     lintAreas: ["miscellaneous"],
@@ -182,7 +178,7 @@ export const LINTINGS: {
     message: "Non-standard `subtitle` in node description",
     enabled: true,
     logLevel: "info",
-    details: `The standard node description subtitle is: ${NodeDescriptionValidator.standardSubtitle}`,
+    details: `The standard node description subtitle is: ${TEXTS.subtitle}`,
   },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "displayName"],
@@ -256,7 +252,7 @@ export const LINTINGS: {
     message: "Non-standard name of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option name is: ${OptionsValidator.standardUpsertOptionName}`,
+    details: `The standard upsert option name is: ${TEXTS.upsertOptionName}`,
   },
 
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
@@ -265,7 +261,7 @@ export const LINTINGS: {
     message: "Non-standard description of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option description is: ${OptionsValidator.standardUpsertOptionDescription}`,
+    details: `The standard upsert option description is: ${TEXTS.upsertOptionDescription}`,
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
@@ -295,7 +291,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
     message: "Param description is missing where it is optional",
-    enabled: false,
+    enabled: true,
     logLevel: "info",
     details:
       "The only optional descriptions are resource option, credentials option, and defaults option",

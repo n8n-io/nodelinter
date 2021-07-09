@@ -1,11 +1,13 @@
+import { LINTINGS } from "./lintings";
+
 export const defaultConfig: Config = {
   /**
-   * Path of target file to lint or of the target dir whose `.node.ts` and `*Description.ts` files to lint.
+   * Path of file to lint, or of the dir whose `.node.ts` and `*Description.ts` files to lint.
    */
   target: "",
 
   /**
-   * Log sorting method, either `lineNumber` or `importance` (error → warning → info).
+   * Log sorting method, either `lineNumber` (ascending) or `importance` (error → warning → info).
    */
   sortLogs: "lineNumber",
 
@@ -24,7 +26,7 @@ export const defaultConfig: Config = {
   },
 
   /**
-   * Whether to truncate source code excerpts and by how many characters.
+   * Whether to truncate source code excerpts and up to how many characters.
    */
   truncateExcerpts: {
     enabled: true,
@@ -32,42 +34,38 @@ export const defaultConfig: Config = {
   },
 
   /**
-   * Enable or disable log levels in output logs.
+   * Toggle logs state based on log level, lint area, and lint issue.
    */
-  toggleLogLevels: {
-    error: true,
-    warning: true,
-    info: true,
+  enable: {
+    logLevels: {
+      error: true,
+      warning: true,
+      info: true,
+    },
+    lintAreas: {
+      default: true,
+      displayName: true,
+      limit: true,
+      miscellaneous: true,
+      name: true,
+      nodeDescription: true,
+      options: true,
+      paramDescription: true,
+    },
+    lintIssues: {
+      alphabetization: true,
+      casing: true,
+      icon: true,
+      location: true,
+      missing: true,
+      naming: true,
+      punctuation: true,
+      unneeded: true,
+      whitespace: true,
+      wording: true,
+      wrong: true,
+    },
   },
 
-  /**
-   * Enable or disable lint areas in output logs.
-   */
-  toggleLintAreas: {
-    default: true,
-    displayName: true,
-    limit: true,
-    miscellaneous: true,
-    name: true,
-    nodeDescription: true,
-    options: true,
-    paramDescription: true,
-  },
-
-  /**
-   * Enable or disable lint issues in output logs.
-   */
-  toggleLintIssues: {
-    alphabetization: true,
-    casing: true,
-    icon: true,
-    location: true,
-    missing: true,
-    naming: true,
-    punctuation: true,
-    unneeded: true,
-    whitespace: true,
-    wording: true,
-    wrong: true,
-  },
+  lintings: LINTINGS,
 };

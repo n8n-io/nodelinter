@@ -1,12 +1,11 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
+import { TEXTS } from "../../texts";
 
 export class NodeDescriptionValidator implements SubValidator {
   static lintArea = "nodeDescription" as const;
   logs: Log[];
   log: LogFunction;
-
-  static standardSubtitle = `'={{$parameter["operation"] + ": " + $parameter["resource"]}}'`;
 
   public run(node: ts.Node) {
     if (
@@ -61,10 +60,7 @@ export class NodeDescriptionValidator implements SubValidator {
         if (child.getChildAt(0).getText() === "subtitle") {
           hasSubtitle = true;
 
-          if (
-            child.getChildAt(2).getText() !==
-            NodeDescriptionValidator.standardSubtitle
-          ) {
+          if (child.getChildAt(2).getText() !== `'${TEXTS.subtitle}'`) {
             this.log(LINTINGS.NON_STANDARD_SUBTITLE)(child);
           }
         }

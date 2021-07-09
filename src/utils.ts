@@ -25,10 +25,40 @@ export const printJson = (fileName: string, logs: Log[]) =>
   fs.writeFileSync(`${fileName}.json`, JSON.stringify(logs, null, 2));
 
 export const lintAreaIsDisabled = (lintArea: LintArea, config: Config) =>
-  !config.toggleLintAreas[lintArea];
+  !config.enable.lintAreas[lintArea];
 
 export const lintIssueIsDisabled = (lintIssue: LintIssue, config: Config) =>
-  !config.toggleLintIssues[lintIssue];
+  !config.enable.lintIssues[lintIssue];
 
 export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
-  !config.toggleLogLevels[logLevel];
+  !config.enable.logLevels[logLevel];
+
+// TODO: Inefficient retrieval of linting's enabled state in masterConfig
+export const lintingIsEnabled = (linting: Linting, config: Config) => {
+  const configLinting = Object.values(config.lintings).find((configLinting) => {
+    return configLinting.message === linting.message;
+  });
+
+  if (!configLinting) {
+    throw new Error(`No config linting found for: ${linting.message}`);
+  }
+
+  return configLinting.enabled;
+};
+
+// TODO: Type properly
+export const deepMerge = (...objects: any) => {
+  let result: any = {};
+
+  for (const o of objects) {
+    for (let [key, value] of Object.entries(o)) {
+      if (value instanceof Object && key in result) {
+        value = deepMerge(result[key], value);
+      }
+
+      result = { ...result, [key]: value };
+    }
+  }
+
+  return result;
+};

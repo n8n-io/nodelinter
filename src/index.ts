@@ -6,10 +6,11 @@ import { defaultConfig } from "./defaultConfig";
 import { lintAll } from "./scripts/lintAll";
 import { lintOne } from "./scripts/lintOne";
 import { ERRORS, showError } from "./errors";
+import { deepMerge } from "./utils";
 
 const { target, t, config, c } = minimist(process.argv.slice(2));
 
-let masterConfig: Config;
+let masterConfig = defaultConfig;
 
 if (c || config) {
   let customConfig;
@@ -31,6 +32,7 @@ if (c || config) {
     process.exit(1);
   }
 
+  // TODO: Validate nested keys in custom config
   for (const key in customConfig) {
     if (!Object.keys(defaultConfig).includes(key)) {
       showError(`${ERRORS.INVALID_CUSTOM_CONFIG} ${key}`);
@@ -39,9 +41,7 @@ if (c || config) {
     }
   }
 
-  masterConfig = { ...defaultConfig, ...customConfig };
-} else {
-  masterConfig = defaultConfig;
+  masterConfig = deepMerge(defaultConfig, customConfig);
 }
 
 export { masterConfig };

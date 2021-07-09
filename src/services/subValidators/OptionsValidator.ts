@@ -1,14 +1,12 @@
 import ts from "typescript";
 import { areAlphabetized, isCamelCase, isTitleCase } from "../../utils";
 import { LINTINGS } from "../../lintings";
+import { TEXTS } from "../../texts";
 
 export class OptionsValidator implements SubValidator {
   static lintArea = "options" as const;
   logs: Log[];
   log: LogFunction;
-  static standardUpsertOptionName = "'Create or Update'";
-  static standardUpsertOptionDescription =
-    "'Create a new record, or update the current one if it already exists (upsert)'";
 
   public run(node: ts.Node) {
     if (
@@ -147,7 +145,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "name") {
                     if (
                       child.getChildAt(2).getText() !==
-                      OptionsValidator.standardUpsertOptionName
+                      `${TEXTS.upsertOptionName}`
                     ) {
                       this.log(LINTINGS.NON_STANDARD_NAME_FOR_UPSERT_OPTION)(
                         child
@@ -158,7 +156,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "description") {
                     if (
                       child.getChildAt(2).getText() !==
-                      OptionsValidator.standardUpsertOptionDescription
+                      `${TEXTS.upsertOptionDescription}`
                     ) {
                       this.log(
                         LINTINGS.NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION
