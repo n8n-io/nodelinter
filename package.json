@@ -1,7 +1,7 @@
 {
   "name": "nodelinter",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Linter for n8n nodes",
   "main": "index.js",
   "scripts": {
     "lint": "tsc && node dist/scripts/lint.js",
