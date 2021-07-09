@@ -3,7 +3,9 @@
   "version": "0.1.2",
   "description": "Linter for n8n nodes",
   "main": "dist/index.js",
-  "files": ["dist/**/*", "bin"],
+  "files": [
+    "dist/**/*"
+  ],
   "bin": {
     "nodelinter": "dist/index.js"
   },
@@ -20,13 +22,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/minimist": "^1.2.2",
     "@types/node": "^15.6.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.0",
     "ts-jest": "^27.0.3"
   },
   "dependencies": {
-    "@types/minimist": "^1.2.2",
     "chalk": "^4.1.1",
     "minimist": "^1.2.5",
     "typescript": "^4.3.4"
