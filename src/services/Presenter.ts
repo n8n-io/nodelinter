@@ -227,7 +227,7 @@ export class Presenter {
       this.getColor("warning")(indentation + `Warnings\t${warnings}`)
     );
     console.log(this.getColor("info")(indentation + `Infos\t\t${infos}`));
-    console.log(`Time\t\t${executionTimeMs} ms`);
+    console.log(`Time\t\t${executionTimeMs} ms\n`);
   }
 
   // ----------------------------------
