@@ -42,8 +42,10 @@ export class Validator {
    *
    * TODO: Refactor to remove duplication with `Logger.log()`
    */
-  public runFinal(sourceFile: ts.SourceFile) {
-    if (!MiscellaneousValidator.hasContinueOnFail) {
+  public runFinal(sourceFile: ts.SourceFile, sourceFilePath: string) {
+    const isNodeFile = sourceFilePath.split("/").pop()?.endsWith(".node.ts");
+
+    if (isNodeFile && !MiscellaneousValidator.hasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
       const { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());

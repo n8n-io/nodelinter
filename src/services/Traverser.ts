@@ -16,7 +16,7 @@ export class Traverser {
         };
 
         ts.visitNode(sourceFile, visitor); // full AST traversal
-        validator.runFinal(sourceFile); // post-traversal checks
+        validator.runFinal(sourceFile, Traverser.sourceFilePath); // post-traversal checks
 
         return sourceFile;
       };
