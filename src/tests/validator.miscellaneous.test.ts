@@ -1,6 +1,6 @@
 import path from "path";
 import { defaultConfig } from "../defaultConfig";
-import { Validator } from "../services";
+import { Traverser, Validator } from "../services";
 import { lintAreaIsDisabled } from "../utils";
 import {
   buildSourceFilePath,
@@ -26,6 +26,7 @@ describe("Validator should validate miscellaneous rules", () => {
   const validatorNodeTs = new Validator(sourceFilePathNodeTs);
 
   transpile(validator, sourceFilePath);
+  Traverser.sourceFilePath = sourceFilePathNodeTs; // required for Validator.runFinal()
   transpile(validatorNodeTs, sourceFilePathNodeTs);
 
   const [continueOnFail, others] = separateContinueOnFail(

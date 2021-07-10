@@ -4,7 +4,7 @@ import path from "path";
 import { Traverser, Validator } from "../services";
 import { LINTINGS } from "../lintings";
 import { defaultConfig } from "../defaultConfig";
-import { lintIssueIsDisabled } from "../utils";
+import { lintingIsDisabled, lintIssueIsDisabled } from "../utils";
 
 export const transpile = (validator: Validator, sourceFilePath: string) => {
   const source = fs.readFileSync(sourceFilePath, "utf8");
@@ -20,7 +20,9 @@ export const runTest = (validator: Validator) => (linting: Linting) => {
 
     if (lintIssueIsDisabled(linting.lintIssue, defaultConfig)) return;
 
-    linting.enabled && expect(found).toBeDefined();
+    if (lintingIsDisabled(linting, defaultConfig)) return;
+
+    expect(found).toBeDefined();
   });
 };
 

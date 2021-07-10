@@ -135,7 +135,7 @@ export const LINTINGS: {
     lintAreas: ["miscellaneous"],
     lintIssue: "missing",
     message: "Missing implementation of `continueOnFail`",
-    enabled: false,
+    enabled: true,
     logLevel: "error",
   },
   WRONG_ERROR_THROWN: {
