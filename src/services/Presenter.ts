@@ -275,7 +275,7 @@ export class Presenter {
   private wrapLines(text: string, result: string[] = []): string[] {
     if (text.length === 0) return result;
 
-    if (text.length < this.config.lineWrapChars) {
+    if (text.length < this.config.lineWrapChars || !text.includes(" ")) {
       result.push(text);
       return result;
     }
