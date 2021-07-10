@@ -6,7 +6,7 @@ export const ERRORS = {
   OVERSPECIFIED_TARGET:
     "Overspecified target path: Specify the target path once - either as a CLI flag or in the config file.",
   INVALID_CUSTOM_CONFIG: "Invalid custom config: Unknown key",
-  UNSPECIFIED_TARGET_AND_NO_AUTODETECT:
+  UNSPECIFIED_TARGET_AND_NO_AUTODETECTED_CONFIG:
     "Autodetection of nodelinter.config.js failed\nUnspecified target path: Specify the target path either as a CLI flag or in the config file.",
   UNSPECIFIED_TARGET:
     "Unspecified target path: Specify the target path either as a CLI flag or in the config file.",

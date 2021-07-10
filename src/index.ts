@@ -10,45 +10,49 @@ import { collect, deepMerge } from "./utils";
 import chalk from "chalk";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
-let { target, t, config, c } = minimist(process.argv.slice(2));
+let { target, config } = minimist(process.argv.slice(2));
 
 let masterConfig = defaultConfig;
 
-if (isNotTestRun && !target && !t && !config && !c) {
+if (isNotTestRun && !target && !config) {
   console.log(chalk.bold("No --path or --config option specified"));
   console.log(chalk.bold("Attempting to locate config in working dir...\n"));
 
-  const found = collect(
+  const autoDetectedConfig = collect(
     process.cwd(),
     (f) => f === "nodelinter.config.json"
   ).pop();
 
-  if (!found) {
-    showError(ERRORS.UNSPECIFIED_TARGET_AND_NO_AUTODETECT);
+  if (!autoDetectedConfig) {
+    showError(ERRORS.UNSPECIFIED_TARGET_AND_NO_AUTODETECTED_CONFIG);
     process.exit(1);
   }
 
-  console.log(chalk.bold(`Config located: ${found}\n`));
+  console.log(chalk.bold(`Config located: ${autoDetectedConfig}\n`));
 
-  c = found;
+  config = autoDetectedConfig;
 }
 
-if (c || config) {
+if (!config && target) {
+  masterConfig.target = target;
+}
+
+if (config) {
   let customConfig;
 
   try {
-    customConfig = require(c || config);
+    customConfig = require(config);
   } catch (error) {
     showError(ERRORS.FAILED_TO_IMPORT_CONFIG_FILE);
     process.exit(1);
   }
 
-  if (!customConfig.target && !t && !target) {
+  if (!customConfig.target && !target) {
     showError(ERRORS.UNSPECIFIED_TARGET);
     process.exit(1);
   }
 
-  if (customConfig.target && (t || target)) {
+  if (customConfig.target && target) {
     showError(ERRORS.OVERSPECIFIED_TARGET);
     process.exit(1);
   }
@@ -68,7 +72,7 @@ if (c || config) {
 export { masterConfig };
 
 if (isNotTestRun) {
-  fs.lstatSync(t || target || masterConfig.target).isDirectory()
+  fs.lstatSync(masterConfig.target).isDirectory()
     ? lintAll(masterConfig)
     : lintOne(masterConfig);
 }
