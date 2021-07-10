@@ -1,5 +1,6 @@
 import ts from "typescript";
 import fs from "fs";
+import path from "path";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -62,3 +63,27 @@ export const deepMerge = (...objects: any) => {
 
   return result;
 };
+
+/**
+ * Traverse a dir recursively and collect file paths that pass a test.
+ */
+export const collect = (
+  dir: string,
+  test: (arg: string) => boolean,
+  collection: string[] = []
+): string[] => {
+  fs.readdirSync(dir).forEach((i) => {
+    const iPath = path.join(dir, i);
+
+    if (fs.lstatSync(iPath).isDirectory()) {
+      collect(iPath, test, collection);
+    }
+
+    if (test(i)) collection.push(iPath);
+  });
+
+  return collection;
+};
+
+export const isLintableFile = (fileName: string) =>
+  fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");

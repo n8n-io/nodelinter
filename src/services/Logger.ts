@@ -29,10 +29,6 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         if (lintAreaIsDisabled(lintArea, masterConfig)) return;
       }
 
-      if (!lintingIsEnabled(linting, masterConfig)) {
-        console.log(console.log(linting));
-      }
-
       lintingIsEnabled(linting, masterConfig) &&
         this.logs.push({
           message: linting.message,

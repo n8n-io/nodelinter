@@ -1,35 +1,11 @@
 import ts from "typescript";
 import fs from "fs";
-import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
-
-/**
- * Traverse a dir recursively and collect a file paths that pass a test.
- */
-export const collect = (
-  dir: string,
-  test: (arg: string) => boolean,
-  collection: string[] = []
-): string[] => {
-  fs.readdirSync(dir).forEach((i) => {
-    const iPath = path.join(dir, i);
-
-    if (fs.lstatSync(iPath).isDirectory()) {
-      collect(iPath, test, collection);
-    }
-
-    if (test(i)) collection.push(iPath);
-  });
-
-  return collection;
-};
-
-export const isTargetFile = (fileName: string) =>
-  fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
+import { collect, isLintableFile } from "../utils";
 
 export function lintAll(config: Config) {
   const executionStart = new Date().getTime();
-  const sourceFilePaths = collect(config.target, isTargetFile);
+  const sourceFilePaths = collect(config.target, isLintableFile);
   const allFilesLogs: Log[] = [];
   const presenter = new Presenter(config);
 

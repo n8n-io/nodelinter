@@ -6,11 +6,32 @@ import { defaultConfig } from "./defaultConfig";
 import { lintAll } from "./scripts/lintAll";
 import { lintOne } from "./scripts/lintOne";
 import { ERRORS, showError } from "./errors";
-import { deepMerge } from "./utils";
+import { collect, deepMerge } from "./utils";
+import chalk from "chalk";
 
-const { target, t, config, c } = minimist(process.argv.slice(2));
+const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
+let { target, t, config, c } = minimist(process.argv.slice(2));
 
 let masterConfig = defaultConfig;
+
+if (isNotTestRun && !target && !t && !config && !c) {
+  console.log(chalk.bold("No --path or --config option specified"));
+  console.log(chalk.bold("Attempting to locate config in working dir...\n"));
+
+  const found = collect(
+    process.cwd(),
+    (f) => f === "nodelinter.config.json"
+  ).pop();
+
+  if (!found) {
+    showError(ERRORS.UNSPECIFIED_TARGET_AND_NO_AUTODETECT);
+    process.exit(1);
+  }
+
+  console.log(chalk.bold(`Config located: ${found}\n`));
+
+  c = found;
+}
 
 if (c || config) {
   let customConfig;
@@ -46,7 +67,7 @@ if (c || config) {
 
 export { masterConfig };
 
-if (process.argv[1].split("/").pop() !== "jest") {
+if (isNotTestRun) {
   fs.lstatSync(t || target || masterConfig.target).isDirectory()
     ? lintAll(masterConfig)
     : lintOne(masterConfig);
