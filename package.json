@@ -12,6 +12,7 @@
   "scripts": {
     "prepare": "tsc",
     "lint": "tsc && node dist/index.js",
+    "ref": "tsc && node dist/scripts/lintRef.js",
     "clear": "rm -rf dist",
     "test": "jest"
   },
