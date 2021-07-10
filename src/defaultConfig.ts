@@ -9,7 +9,7 @@ export const defaultConfig: Config = {
   /**
    * Log sorting method, either `lineNumber` (ascending) or `importance` (error → warning → info).
    */
-  sortLogs: "lineNumber",
+  sortMethod: "lineNumber",
 
   /**
    * Whether to show details for lint messages, where available.

@@ -4,7 +4,7 @@
 
 type Config = {
   target: string;
-  sortLogs: "lineNumber" | "importance";
+  sortMethod: "lineNumber" | "importance";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color
   lineWrapChars: number;

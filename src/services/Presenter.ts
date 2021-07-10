@@ -33,6 +33,7 @@ export class Presenter {
   public showLogs(logs: Log[]) {
     this.showHeader(logs);
 
+    // keep separate from following line so that sorted logs are assigned to class field
     logs = this.sortLogs(logs);
 
     logs.forEach((log, index) => {
@@ -243,12 +244,13 @@ export class Presenter {
   }
 
   private sortLogs(logs: Log[]) {
-    if (this.config.sortLogs === "importance")
+    if (this.config.sortMethod === "importance")
       return this.sortByImportance(logs);
-    if (this.config.sortLogs === "lineNumber")
+
+    if (this.config.sortMethod === "lineNumber")
       return this.sortByLineNumber(logs);
 
-    throw new Error("Logs may only be sorted by importance or line number.");
+    throw new Error("Logs may only be sorted by line number or by importance.");
   }
 
   private sortByImportance(logs: Log[]) {
