@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
-import { TEXTS } from "../../texts";
+import { STANDARD_DESCRIPTIONS } from "../../constants";
 
 export class NodeDescriptionValidator implements SubValidator {
   static lintArea = "nodeDescription" as const;
@@ -60,7 +60,10 @@ export class NodeDescriptionValidator implements SubValidator {
         if (child.getChildAt(0).getText() === "subtitle") {
           hasSubtitle = true;
 
-          if (child.getChildAt(2).getText() !== `'${TEXTS.subtitle}'`) {
+          if (
+            child.getChildAt(2).getText() !==
+            `'${STANDARD_DESCRIPTIONS.subtitle}'`
+          ) {
             this.log(LINTINGS.NON_STANDARD_SUBTITLE)(child);
           }
         }

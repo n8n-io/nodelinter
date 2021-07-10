@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { Traverser } from "..";
 import { LINTINGS } from "../../lintings";
-import { TEXTS } from "../../texts";
+import { STANDARD_DESCRIPTIONS } from "../../constants";
 
 export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
@@ -18,7 +18,8 @@ export class MiscellaneousValidator implements SubValidator {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "description" &&
-          node.getChildAt(2).getText() !== `'${TEXTS.returnAllDescription}'`
+          node.getChildAt(2).getText() !==
+            `'${STANDARD_DESCRIPTIONS.returnAll}'`
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });

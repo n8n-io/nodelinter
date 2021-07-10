@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { areAlphabetized, isCamelCase, isTitleCase } from "../../utils";
 import { LINTINGS } from "../../lintings";
-import { TEXTS } from "../../texts";
+import { STANDARD_DESCRIPTIONS } from "../../constants";
 
 export class OptionsValidator implements SubValidator {
   static lintArea = "options" as const;
@@ -145,7 +145,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "name") {
                     if (
                       child.getChildAt(2).getText() !==
-                      `${TEXTS.upsertOptionName}`
+                      `${STANDARD_DESCRIPTIONS.upsertOptionName}`
                     ) {
                       this.log(LINTINGS.NON_STANDARD_NAME_FOR_UPSERT_OPTION)(
                         child
@@ -156,7 +156,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "description") {
                     if (
                       child.getChildAt(2).getText() !==
-                      `${TEXTS.upsertOptionDescription}`
+                      `${STANDARD_DESCRIPTIONS.upsertOptionDescription}`
                     ) {
                       this.log(
                         LINTINGS.NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION

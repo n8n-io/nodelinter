@@ -101,6 +101,16 @@ const properties = [
     default: '',
 		description: 'User ID'
   },
+
+  // TECHNICAL_TERM_IN_PARAM_DESCRIPTION
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+    description: 'A description containing the term string'
+  },
+
 ];
 
 // WEAK_PARAM_DESCRIPTION

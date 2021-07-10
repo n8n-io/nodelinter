@@ -12,6 +12,8 @@ export class DescriptionValidator implements SubValidator {
     "Method of authentication",
   ];
 
+  private technicalTerms = ["string", "field"];
+
   private hasExcessFinalPeriod(description: string) {
     const parts = description.split(". ");
 
@@ -53,6 +55,12 @@ export class DescriptionValidator implements SubValidator {
       if (node.getChildAt(2).getText().includes("<br />")) {
         this.log(LINTINGS.NON_STANDARD_HTML_LINE_BREAK)(node);
       }
+
+      this.technicalTerms.forEach((technicalTerm) => {
+        if (node.getChildAt(2).getText().includes(technicalTerm)) {
+          this.log(LINTINGS.TECHNICAL_TERM_IN_PARAM_DESCRIPTION)(node);
+        }
+      });
 
       this.weakDescriptions.forEach((weakDescription) => {
         if (node.getChildAt(2).getText().includes(weakDescription)) {

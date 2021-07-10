@@ -1,4 +1,4 @@
-import { TEXTS } from "./texts";
+import { STANDARD_DESCRIPTIONS } from "./constants";
 
 export const LINTINGS: {
   [LintingName: string]: Linting;
@@ -102,7 +102,7 @@ export const LINTINGS: {
     message: "Non-standard description for limit param",
     enabled: true,
     logLevel: "info",
-    details: `The standard description for \`limit\` is: ${TEXTS.limitDescription}`,
+    details: `The standard description for \`limit\` is: ${STANDARD_DESCRIPTIONS.limit}`,
   },
 
   REQUIRED_FALSE: {
@@ -125,7 +125,7 @@ export const LINTINGS: {
     message: "Non-standard description for `returnAll` param",
     enabled: true,
     logLevel: "info",
-    details: `The standard description for \`returnAll\` is: ${TEXTS.returnAllDescription}`,
+    details: `The standard description for \`returnAll\` is: ${STANDARD_DESCRIPTIONS.returnAll}`,
   },
   MISSING_CONTINUE_ON_FAIL: {
     lintAreas: ["miscellaneous"],
@@ -179,7 +179,7 @@ export const LINTINGS: {
     message: "Non-standard `subtitle` in node description",
     enabled: true,
     logLevel: "info",
-    details: `The standard node description subtitle is: ${TEXTS.subtitle}`,
+    details: `The standard node description subtitle is: ${STANDARD_DESCRIPTIONS.subtitle}`,
   },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "displayName"],
@@ -253,7 +253,7 @@ export const LINTINGS: {
     message: "Non-standard name of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option name is: ${TEXTS.upsertOptionName}`,
+    details: `The standard upsert option name is: ${STANDARD_DESCRIPTIONS.upsertOptionName}`,
   },
 
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
@@ -262,7 +262,7 @@ export const LINTINGS: {
     message: "Non-standard description of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option description is: ${TEXTS.upsertOptionDescription}`,
+    details: `The standard upsert option description is: ${STANDARD_DESCRIPTIONS.upsertOptionDescription}`,
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
@@ -352,5 +352,13 @@ export const LINTINGS: {
     message: "Non-standard HTML element syntax for line break",
     enabled: true,
     logLevel: "info",
+  },
+  TECHNICAL_TERM_IN_PARAM_DESCRIPTION: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "wording",
+    message: "Technical term in param description",
+    enabled: true,
+    logLevel: "info",
+    details: "Prefer 'text' over 'string' and 'field' over 'key'",
   },
 };
