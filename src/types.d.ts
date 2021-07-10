@@ -7,6 +7,7 @@ type Config = {
   sortLogs: "lineNumber" | "importance";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color
+  lineWrapChars: number;
   truncateExcerpts: {
     enabled: boolean;
     charLimit: number;

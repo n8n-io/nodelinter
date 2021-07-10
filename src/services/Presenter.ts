@@ -1,14 +1,12 @@
 import chalk from "chalk";
 
 export class Presenter {
-  lineWrapChars = 60;
-  absolutePathTarget = false;
+  config: Config;
+  targethasAbsolutePath = false;
 
   logs: Log[];
   log: Log;
   isLastLog: boolean;
-
-  config: Config;
 
   errorBaseColor: chalk.Chalk;
   warningBaseColor: chalk.Chalk;
@@ -17,7 +15,7 @@ export class Presenter {
   constructor(config: Config) {
     this.config = config;
 
-    this.absolutePathTarget = config.target[0] !== ".";
+    this.targethasAbsolutePath = config.target[0] !== ".";
 
     this.errorBaseColor = this.config.logLevelColors.error
       ? chalk.hex(this.config.logLevelColors.error)
@@ -60,7 +58,7 @@ export class Presenter {
   private showHeader(logs: Log[]) {
     if (!logs[0]) return; // file with no lint logs
 
-    const filePath = this.absolutePathTarget
+    const filePath = this.targethasAbsolutePath
       ? logs[0].sourceFilePath.split("/").slice(-3).join("/")
       : logs[0].sourceFilePath;
 
@@ -109,9 +107,31 @@ export class Presenter {
 
   private colorLogAndMessage(logLevel: LogLevel, message: string) {
     const color = this.getColor(logLevel);
-    const indentation = " ".repeat(1);
+    const indentationForFirst = " ".repeat(1);
+    const indentationForConnector = " ".repeat(2);
+    const indentationForRest = " ".repeat(8);
 
-    return indentation + color(`${logLevel.toUpperCase()}: ${message}`);
+    const logAndMessage = `${logLevel.toUpperCase()}: ${message}`;
+
+    if (message.length > this.config.lineWrapChars) {
+      const result: string[] = [];
+
+      const [first, ...rest] = this.wrapLines(logAndMessage);
+      result.push(indentationForFirst + color(first));
+
+      result.push(
+        ...rest.map(
+          (line) =>
+            indentationForConnector +
+            chalk.grey(this.isLastLog ? " " : "│") +
+            indentationForRest +
+            color(line)
+        )
+      );
+      return result.join("\n");
+    }
+
+    return indentationForFirst + color(`${logLevel.toUpperCase()}: ${message}`);
   }
 
   // ----------------------------------
@@ -133,19 +153,12 @@ export class Presenter {
           chalk.white(detailsLine)
       );
 
-    if (this.log.details.length > this.lineWrapChars) {
-      const detailsParts = this.splitDetails(this.log.details);
-      detailsParts.forEach(showDetailsLine);
+    if (this.log.details.length > this.config.lineWrapChars) {
+      const wrappedLines = this.wrapLines(this.log.details);
+      wrappedLines.forEach(showDetailsLine);
     } else {
       showDetailsLine(this.log.details);
     }
-  }
-
-  private splitDetails(details: string, result: string[] = []): string[] {
-    if (details.length === 0) return result;
-
-    result.push(details.substring(0, this.lineWrapChars)); // TODO: Wrap at whitespace
-    return this.splitDetails(details.substring(this.lineWrapChars), result);
   }
 
   // ----------------------------------
@@ -254,5 +267,26 @@ export class Presenter {
 
   private sortByLineNumber(logs: Log[]) {
     return logs.sort((a, b) => a.line - b.line);
+  }
+
+  /**
+   * Wrap text into n-chars-long lines, at whitespace chars.
+   */
+  private wrapLines(text: string, result: string[] = []): string[] {
+    if (text.length === 0) return result;
+
+    if (text.length < this.config.lineWrapChars) {
+      result.push(text);
+      return result;
+    }
+
+    const line = text.substring(0, this.config.lineWrapChars).split(" ");
+    const remainder = line.pop(); // prevent wrapping mid-word
+    result.push(line.join(" "));
+
+    return this.wrapLines(
+      (remainder + text).substring(this.config.lineWrapChars),
+      result
+    );
   }
 }

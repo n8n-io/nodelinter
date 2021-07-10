@@ -26,6 +26,11 @@ export const defaultConfig: Config = {
   },
 
   /**
+   * Number of characters allowed per line in the terminal screen.
+   */
+  lineWrapChars: 60,
+
+  /**
    * Whether to truncate source code excerpts and up to how many characters.
    */
   truncateExcerpts: {
