@@ -111,6 +111,8 @@ export const LINTINGS: {
     message: "Unneeded `required: false` in param property",
     enabled: true,
     logLevel: "warning",
+    details:
+      "The property assignment `required: false` is the default, so it does not need to be specified.",
   },
   PUSH_APPLY: {
     lintAreas: ["miscellaneous"],
@@ -118,6 +120,8 @@ export const LINTINGS: {
     message: "`arr.push.apply(arr, arg)` instead of `arr.push(...arg)`",
     enabled: true,
     logLevel: "warning",
+    details:
+      "Prefer the spread operator `...` to push the contents of an array into another. Reference: https://github.com/airbnb/javascript#functions--spread-vs-apply",
   },
   NON_STANDARD_RETURNALL_DESCRIPTION: {
     lintAreas: ["miscellaneous"],
@@ -141,7 +145,7 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
     details:
-      "Use n8n-specific `NodeApiError` to handle unsuccessful API calls and `NodeOperationError` to handle logic-related errors",
+      "Prefer the n8n-specific `NodeApiError` for unsuccessful API calls and `NodeOperationError` for functionality errors. Reference: n8n/packages/workflow/src/NodeErrors.ts",
   },
 
   NAME_WITH_MISCASED_ID: {
@@ -155,7 +159,7 @@ export const LINTINGS: {
     lintAreas: ["name"],
     lintIssue: "casing",
     message: "No camel case in `name` property",
-    enabled: true,
+    enabled: true, // usually disabled
     logLevel: "error",
   },
   AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS: {
@@ -301,7 +305,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
     message: "Param description is missing where it is optional",
-    enabled: true,
+    enabled: true, // usually disabled
     logLevel: "info",
     details:
       "The only optional descriptions are resource option, credentials option, and defaults option",

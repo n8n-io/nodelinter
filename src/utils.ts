@@ -1,6 +1,7 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -22,8 +23,8 @@ export const hasAnchorLink = (str: string) => /<a href=/.test(str);
 
 export const hasTargetBlank = (str: string) => /target="_blank"/.test(str);
 
-export const printJson = (fileName: string, logs: Log[]) =>
-  fs.writeFileSync(`${fileName}.json`, JSON.stringify(logs, null, 2));
+export const printJson = (fileName: string, content: object) =>
+  fs.writeFileSync(`${fileName}.json`, JSON.stringify(content, null, 2));
 
 export const lintAreaIsDisabled = (lintArea: LintArea, config: Config) =>
   !config.enable.lintAreas[lintArea];
@@ -87,3 +88,12 @@ export const collect = (
 
 export const isLintableFile = (fileName: string) =>
   fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
+
+export const showError = (errorMessage: string) =>
+  console.log(
+    [
+      chalk.red.inverse("error".padStart(7, " ").padEnd(9, " ").toUpperCase()),
+      chalk.bold(errorMessage),
+      "\n",
+    ].join(" ")
+  );

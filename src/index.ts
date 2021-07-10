@@ -5,13 +5,14 @@ import minimist from "minimist";
 import { defaultConfig } from "./defaultConfig";
 import { lintAll } from "./scripts/lintAll";
 import { lintOne } from "./scripts/lintOne";
-import { ERRORS, showError } from "./errors";
-import { collect, deepMerge } from "./utils";
+import { collect, deepMerge, showError } from "./utils";
 import chalk from "chalk";
+import { ERRORS } from "./constants";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
 let { target, config, print } = minimist(process.argv.slice(2), {
   boolean: ["print"],
+  string: ["target", "config"],
 });
 
 let masterConfig = defaultConfig;
@@ -27,11 +28,12 @@ if (isNotTestRun && !target && !config) {
   ).pop();
 
   if (!autoDetectedConfig) {
-    showError(ERRORS.UNSPECIFIED_TARGET_AND_NO_AUTODETECTED_CONFIG);
+    showError(ERRORS.CONFIG_AUTODETECTION_FAILED);
+    showError(ERRORS.UNSPECIFIED_TARGET);
     process.exit(1);
   }
 
-  console.log(chalk.bold(`Config located: ${autoDetectedConfig}`));
+  console.log(chalk.bold(`Config located: ${autoDetectedConfig}\n`));
 
   config = autoDetectedConfig;
 }
@@ -63,7 +65,7 @@ if (config) {
   // TODO: Validate nested keys in custom config
   for (const key in customConfig) {
     if (!Object.keys(defaultConfig).includes(key)) {
-      showError(`${ERRORS.INVALID_CUSTOM_CONFIG} ${key}`);
+      showError(`${ERRORS.UNKNOWN_KEY_IN_CUSTOM_CONFIG} ${key}`);
       console.log(customConfig);
       process.exit(1);
     }
