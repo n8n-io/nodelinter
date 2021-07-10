@@ -11,14 +11,18 @@ export class ActionNetwork implements INodeType {
 
 		let response;
 
+		const whoa = {
+			name: this.getNodeParameter('name', 0)
+		};
+
 		for (let i = 0; i < items.length; i++) {
 			try {
 				throw new Error();
 			} catch (error) {
-				if (this.continueOnFail()) {
-					returnData.push({ error: error.message });
-					continue;
-				}
+				// if (this.continueOnFail()) {
+				// 	returnData.push({ error: error.message });
+				// 	continue;
+				// }
 				throw error;
 			}
 		}

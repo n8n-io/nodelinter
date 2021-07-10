@@ -31,13 +31,22 @@ export class DescriptionValidator implements SubValidator {
   }
 
   public run(node: ts.Node) {
+    // skip object inside `execute()` that happens to have `name` property
+    const isNameWithVariableDeclarationParent =
+      ts.isPropertyAssignment(node) &&
+      ts.isIdentifier(node.getChildAt(0)) &&
+      node.getChildAt(0).getText() === "name" &&
+      node?.parent?.parent?.kind === ts.SyntaxKind.VariableDeclaration;
+
+    // skip object in `credentials` in node description
     const hasCredentialsParent = node?.parent?.parent?.parent
       ?.getText()
-      .startsWith("credentials"); // skip check for credentials
+      .startsWith("credentials");
 
+    // skip object in `defaults` in node description
     const hasDefaultsParent = node?.parent?.parent
       ?.getText()
-      .startsWith("defaults"); // skip check for defaults
+      .startsWith("defaults");
 
     if (!ts.isPropertyAssignment(node)) return;
 
@@ -152,7 +161,8 @@ export class DescriptionValidator implements SubValidator {
         !hasDescription &&
         !hasResourceParent &&
         !hasCredentialsParent &&
-        !hasDefaultsParent
+        !hasDefaultsParent &&
+        !isNameWithVariableDeclarationParent
       ) {
         this.log(LINTINGS.PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED)(node);
       }
