@@ -144,7 +144,7 @@ export class Presenter {
   private splitDetails(details: string, result: string[] = []): string[] {
     if (details.length === 0) return result;
 
-    result.push(details.substring(0, this.lineWrapChars));
+    result.push(details.substring(0, this.lineWrapChars)); // TODO: Wrap at whitespace
     return this.splitDetails(details.substring(this.lineWrapChars), result);
   }
 

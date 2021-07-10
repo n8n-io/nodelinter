@@ -2,7 +2,7 @@ import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { masterConfig } from "../";
 import {
   lintAreaIsDisabled,
-  lintingIsEnabled,
+  lintingIsDisabled,
   lintIssueIsDisabled,
   logLevelIsDisabled,
 } from "../utils";
@@ -29,19 +29,20 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         if (lintAreaIsDisabled(lintArea, masterConfig)) return;
       }
 
-      lintingIsEnabled(linting, masterConfig) &&
-        this.logs.push({
-          message: linting.message,
-          lintAreas: linting.lintAreas,
-          lintIssue: linting.lintIssue,
-          line: line + 1,
-          excerpt: masterConfig.truncateExcerpts.enabled
-            ? this.truncateExcerpt(node.getText())
-            : node.getText(),
-          sourceFilePath: Traverser.sourceFilePath,
-          logLevel: linting.logLevel,
-          ...(linting.details && { details: linting.details }),
-        });
+      if (lintingIsDisabled(linting, masterConfig)) return;
+
+      this.logs.push({
+        message: linting.message,
+        lintAreas: linting.lintAreas,
+        lintIssue: linting.lintIssue,
+        line: line + 1,
+        excerpt: masterConfig.truncateExcerpts.enabled
+          ? this.truncateExcerpt(node.getText())
+          : node.getText(),
+        sourceFilePath: Traverser.sourceFilePath,
+        logLevel: linting.logLevel,
+        ...(linting.details && { details: linting.details }),
+      });
     };
 
     truncateExcerpt(text: string) {

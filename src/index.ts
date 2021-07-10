@@ -15,8 +15,8 @@ let { target, config } = minimist(process.argv.slice(2));
 let masterConfig = defaultConfig;
 
 if (isNotTestRun && !target && !config) {
-  console.log(chalk.bold("No --path or --config option specified"));
-  console.log(chalk.bold("Attempting to locate config in working dir...\n"));
+  // console.log(chalk.bold("No --path or --config option specified"));
+  // console.log(chalk.bold("Attempting to locate config in working dir...\n"));
 
   const autoDetectedConfig = collect(
     process.cwd(),
@@ -28,7 +28,7 @@ if (isNotTestRun && !target && !config) {
     process.exit(1);
   }
 
-  console.log(chalk.bold(`Config located: ${autoDetectedConfig}\n`));
+  // console.log(chalk.bold(`Config located: ${autoDetectedConfig}\n`));
 
   config = autoDetectedConfig;
 }

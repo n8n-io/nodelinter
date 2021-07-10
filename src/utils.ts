@@ -35,7 +35,7 @@ export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
   !config.enable.logLevels[logLevel];
 
 // TODO: Inefficient retrieval of linting's enabled state in masterConfig
-export const lintingIsEnabled = (linting: Linting, config: Config) => {
+export const lintingIsDisabled = (linting: Linting, config: Config) => {
   const configLinting = Object.values(config.lintings).find((configLinting) => {
     return configLinting.message === linting.message;
   });
@@ -44,7 +44,7 @@ export const lintingIsEnabled = (linting: Linting, config: Config) => {
     throw new Error(`No config linting found for: ${linting.message}`);
   }
 
-  return configLinting.enabled;
+  return !configLinting.enabled;
 };
 
 // TODO: Type properly

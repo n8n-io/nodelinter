@@ -51,6 +51,10 @@ export class MiscellaneousValidator implements SubValidator {
       );
     }
 
+    if (ts.isIdentifier(node) && node.getText() === "Error") {
+      this.log(LINTINGS.WRONG_ERROR_THROWN)(node.parent);
+    }
+
     if (
       Traverser.sourceFilePath.endsWith(".node.ts") &&
       ts.isPropertyAccessExpression(node) &&

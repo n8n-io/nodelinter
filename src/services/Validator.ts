@@ -1,6 +1,8 @@
 import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
+import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
+import { lintingIsDisabled } from "../utils";
 import * as subValidators from "./subValidators";
 import { MiscellaneousValidator } from "./subValidators";
 
@@ -37,12 +39,16 @@ export class Validator {
 
   /**
    * Run validation checks _after_ the source file AST has been fully traversed.
+   *
+   * TODO: Refactor to remove duplication with `Logger.log()`
    */
   public runFinal(sourceFile: ts.SourceFile) {
     if (!MiscellaneousValidator.hasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
       const { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());
+
+      if (lintingIsDisabled(linting, masterConfig)) return;
 
       this.logs.push({
         message: linting.message,

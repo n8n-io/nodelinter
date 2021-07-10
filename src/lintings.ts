@@ -134,6 +134,15 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  WRONG_ERROR_THROWN: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "`Error` instead of `NodeApiError` or `NodeOperationError`",
+    enabled: true,
+    logLevel: "warning",
+    details:
+      "Use n8n-specific `NodeApiError` to handle unsuccessful API calls and `NodeOperationError` to handle logic-related errors",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],

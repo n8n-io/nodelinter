@@ -53,3 +53,6 @@ export const accountContactOperations = [
 		description: 'Whether all results should be returned',
 	},
 ]
+
+// WRONG_ERROR_THROWN
+throw Error();

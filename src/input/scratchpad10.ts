@@ -9,16 +9,19 @@ export class ActionNetwork implements INodeType {
 		const resource = this.getNodeParameter('resource', 0) as Resource;
 		const operation = this.getNodeParameter('operation', 0) as Operation;
 
+		[].push.apply([]);
+
 		let response;
 
 		for (let i = 0; i < items.length; i++) {
 			try {
-				throw new Error();
+				throw Error();
+
 			} catch (error) {
-				if (this.continueOnFail()) {
-					returnData.push({ error: error.message });
-					continue;
-				}
+				// if (this.continueOnFail()) {
+				// 	returnData.push({ error: error.message });
+				// 	continue;
+				// }
 				throw error;
 			}
 		}
