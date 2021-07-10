@@ -102,6 +102,7 @@ export const LINTINGS: {
     message: "Non-standard description for limit param",
     enabled: true,
     logLevel: "info",
+    details: `The standard description for \`limit\` is: ${TEXTS.limitDescription}`,
   },
 
   REQUIRED_FALSE: {
