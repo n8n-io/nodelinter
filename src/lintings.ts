@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { STANDARD_DESCRIPTIONS } from "./constants";
 
 export const LINTINGS: {
@@ -102,7 +103,9 @@ export const LINTINGS: {
     message: "Non-standard description for `limit` param",
     enabled: true,
     logLevel: "info",
-    details: `The standard description for \`limit\` is: ${STANDARD_DESCRIPTIONS.limit}`,
+    details: `The standard description for \`limit\` is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.limit
+    )}`,
   },
 
   REQUIRED_FALSE: {
@@ -129,7 +132,9 @@ export const LINTINGS: {
     message: "Non-standard description for `returnAll` param",
     enabled: true,
     logLevel: "info",
-    details: `The standard description for \`returnAll\` is: ${STANDARD_DESCRIPTIONS.returnAll}`,
+    details: `The standard description for \`returnAll\` is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.returnAll
+    )}`,
   },
   MISSING_CONTINUE_ON_FAIL: {
     lintAreas: ["miscellaneous"],
@@ -192,7 +197,9 @@ export const LINTINGS: {
     message: "Non-standard `subtitle` in node description",
     enabled: true,
     logLevel: "info",
-    details: `The standard node description subtitle is: ${STANDARD_DESCRIPTIONS.subtitle}`,
+    details: `The standard node description subtitle is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.subtitle
+    )}`,
   },
   DISPLAYNAME_NOT_ENDING_WITH_TRIGGER_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription", "displayName"],
@@ -266,7 +273,9 @@ export const LINTINGS: {
     message: "Non-standard name of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option name is: ${STANDARD_DESCRIPTIONS.upsertOptionName}`,
+    details: `The standard upsert option name is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.upsertOptionName
+    )}`,
   },
 
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
@@ -275,7 +284,9 @@ export const LINTINGS: {
     message: "Non-standard description of upsert option",
     enabled: true,
     logLevel: "error",
-    details: `The standard upsert option description is: ${STANDARD_DESCRIPTIONS.upsertOptionDescription}`,
+    details: `The standard upsert option description is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.upsertOptionDescription
+    )}`,
   },
 
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
