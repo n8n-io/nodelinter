@@ -5,6 +5,7 @@ import { Traverser, Validator } from "../services";
 import { LINTINGS } from "../lintings";
 import { defaultConfig } from "../defaultConfig";
 import { lintingIsDisabled, lintIssueIsDisabled } from "../utils";
+import { masterConfig } from "..";
 
 export const transpile = (validator: Validator, sourceFilePath: string) => {
   const source = fs.readFileSync(sourceFilePath, "utf8");
@@ -59,5 +60,5 @@ const partition =
 
 export const separateContinueOnFail = partition(
   (linting: Linting) =>
-    linting.message === "Missing implementation of `continueOnFail`"
+    linting.message === masterConfig.lintings.MISSING_CONTINUE_ON_FAIL.message
 );
