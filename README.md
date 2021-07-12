@@ -17,6 +17,8 @@
   <img src="https://img.shields.io/badge/license-MIT-brightgreen">
 </p>
 
+<br />
+
 <!-- <p align="center">
   <img src="screenshot.png" width="450" alt="Nodelinter screenshot" />
 </p> -->
@@ -78,6 +80,9 @@ To override the default config, create a `nodelinter.config.json`, specify the p
     },
     "NAME_WITH_NO_CAMELCASE": {
       "enabled": false
+    },
+    "OPTIONS_VALUE_WITH_NO_CAMELCASE": {
+      "enabled": false
     }
   }
 }
@@ -99,10 +104,10 @@ Lintings can be toggled on and off by lint area, by lint issue, or individually.
 - Create more lintings
   - `displayOptions` check for `resource` and `operation`
   - unused imports
+  - `name` in `credentials` in node description
   - missing `.node.json` codex file
   - `// tslint:disable-line: no-any`
   - `@ts-ignore`
-  - `name` in `credentials` in node description
 - Add GitHub link as lint target
 - Add PR diff as lint target
 - Add `GenericFunctions.ts` as lint target
