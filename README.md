@@ -43,11 +43,11 @@ Lintable n8n node files:
 npx nodelinter --option
 ```
 
-| Option     | Effect                                                          | Type    |
-| ---------- | --------------------------------------------------------------- | ------- |
-| `--target` | Lint the file or all files in the dir at this path              | String  |
-| `--config` | Use the config at this path - see [config file](###config-file) | String  |
-| `--print`  | Print lint logs to a JSON file                                  | Boolean |
+| Option     | Effect                                                        | Type    |
+| ---------- | ------------------------------------------------------------- | ------- |
+| `--target` | Lint the file or all files in the dir at this path            | String  |
+| `--config` | Use the config at this path - see [config file](#config-file) | String  |
+| `--print`  | Print lint logs to a JSON file                                | Boolean |
 
 <br />
 
@@ -85,13 +85,13 @@ To override the default config, create a `nodelinter.config.json`, specify the p
 
 **Note:** The file or dir to lint may be specified with the `--target` option or with the `target` key in the config file. If the target is specified in both, nodelinter will prompt the user to specify a single target.
 
-## Classification
+<!-- ## Classification
 
 Lintings are tagged with one or more **lint areas**, i.e. the section of code affected by the linting, such as `default` (default values), `displayName` (user-facing names for params and options), `limit` (limit params), etc.
 
 Every linting also flags a single **lint issue**, i.e. the type of problem flagged by the linting, such as `alphabetization` (alphabetical sorting of params or options), `casing` (proper casing for user-facing param names and options), `missing` (for missing context-dependent key-value pairs), etc.
 
-Lintings can be toggled on and off by lint area, by lint issue, or individually.
+Lintings can be toggled on and off by lint area, by lint issue, or individually. -->
 
 ## Pending
 
