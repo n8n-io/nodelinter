@@ -36,7 +36,9 @@ export class DescriptionValidator implements SubValidator {
       ts.isPropertyAssignment(node) &&
       ts.isIdentifier(node.getChildAt(0)) &&
       node.getChildAt(0).getText() === "name" &&
-      node?.parent?.parent?.kind === ts.SyntaxKind.VariableDeclaration;
+      (node?.parent?.parent?.kind === ts.SyntaxKind.VariableDeclaration ||
+        node?.parent?.parent?.parent?.kind ===
+          ts.SyntaxKind.VariableDeclaration);
 
     // skip object in `credentials` in node description
     const hasCredentialsParent = node?.parent?.parent?.parent
