@@ -10,6 +10,8 @@ export const LINTINGS: {
     message: "Non-string default for `string`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for a `string`-type param must be a string literal.",
   },
   WRONG_DEFAULT_FOR_NUMBER_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -17,6 +19,8 @@ export const LINTINGS: {
     message: "Non-numeric default for `number`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for a `number`-type param must be a numeric literal.",
   },
   WRONG_DEFAULT_FOR_BOOLEAN_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -24,6 +28,8 @@ export const LINTINGS: {
     message: "Non-boolean default for `boolean`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for a `boolean`-type param must be a boolean keyword.",
   },
   WRONG_DEFAULT_FOR_COLLECTION_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -31,6 +37,8 @@ export const LINTINGS: {
     message: "Non-object default for `collection`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for a `collection`-type param must be an object literal.",
   },
   WRONG_DEFAULT_FOR_MULTIOPTIONS_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -38,6 +46,8 @@ export const LINTINGS: {
     message: "Non-array default for `multiOptions`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for a `multiOptions`-type param must be an array literal.",
   },
   WRONG_DEFAULT_FOR_OPTIONS_TYPE_PARAM: {
     lintAreas: ["default"],
@@ -45,6 +55,8 @@ export const LINTINGS: {
     message: "Non-option default for `options`-type param",
     enabled: true,
     logLevel: "error",
+    details:
+      "The default value for an `options`-type param must be one of the options.",
   },
   DEFAULT_MISSING: {
     lintAreas: ["default"],
