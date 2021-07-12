@@ -6,7 +6,15 @@ import { collect, isLintableFile, printJson } from "../utils";
 import { Prompter } from "../services/Prompter";
 import chalk from "chalk";
 
-export function lintAll(config: Config, { print = false }: { print: boolean }) {
+export async function lintAll(
+  config: Config,
+  { print = false }: { print: boolean }
+) {
+  let userPrintName = "";
+  if (print) {
+    userPrintName = await new Prompter().askForPrintName();
+  }
+
   const executionStart = new Date().getTime();
   const sourceFilePaths = collect(config.target, isLintableFile);
   const allFilesLogs: Log[] = [];
@@ -31,13 +39,11 @@ export function lintAll(config: Config, { print = false }: { print: boolean }) {
   presenter.summarize(allFilesLogs, executionTimeMs);
 
   if (print) {
-    new Prompter().askForPrintName().then((printName) => {
-      printJson(printName, allFilesLogs);
-      console.log(
-        chalk.bold(
-          `Logs printed to ${path.join(process.cwd(), `${printName}.json`)}`
-        )
-      );
-    });
+    printJson(userPrintName, allFilesLogs);
+    console.log(
+      chalk.bold(
+        `Logs printed to ${path.join(process.cwd(), `${userPrintName}.json`)}`
+      )
+    );
   }
 }

@@ -5,8 +5,19 @@ import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
 import { Prompter } from "../services/Prompter";
 import { printJson } from "../utils";
+import { resolve } from "path/posix";
 
-export function lintOne(config: Config, { print = false }: { print: boolean }) {
+export async function lintOne(
+  config: Config,
+  { print = false }: { print: boolean }
+) {
+  let userPrintName = "";
+  if (print) {
+    userPrintName = await new Prompter().askForPrintName();
+  }
+
+  console.log(userPrintName);
+
   const executionStart = new Date().getTime();
   Traverser.sourceFilePath = config.target;
   const validator = new Validator();
@@ -23,13 +34,11 @@ export function lintOne(config: Config, { print = false }: { print: boolean }) {
   presenter.summarize(validator.logs, executionTimeMs);
 
   if (print) {
-    new Prompter().askForPrintName().then((printName) => {
-      printJson(printName, validator.logs);
-      console.log(
-        chalk.bold(
-          `Logs printed to ${path.join(process.cwd(), `${printName}.json`)}`
-        )
-      );
-    });
+    printJson(userPrintName, validator.logs);
+    console.log(
+      chalk.bold(
+        `Logs printed to ${path.join(process.cwd(), `${userPrintName}.json`)}`
+      )
+    );
   }
 }
