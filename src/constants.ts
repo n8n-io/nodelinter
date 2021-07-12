@@ -12,6 +12,11 @@ export const WEAK_DESCRIPTIONS = [
   "Method of authentication",
 ];
 
+export const SVG_ICON_SOURCES = [
+  "https://vecta.io/symbols",
+  "https://github.com/gilbarbara/logos",
+];
+
 export const TECHNICAL_TERMS = ["string", "field"];
 
 export const ERRORS = {

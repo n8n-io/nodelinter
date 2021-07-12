@@ -43,9 +43,12 @@ export class Validator {
    * TODO: Refactor to remove duplication with `Logger.log()`
    */
   public runFinal(sourceFile: ts.SourceFile, sourceFilePath: string) {
-    const isNodeFile = sourceFilePath.split("/").pop()?.endsWith(".node.ts");
+    const nodeName = sourceFilePath.split("/").pop();
 
-    if (isNodeFile && !MiscellaneousValidator.hasContinueOnFail) {
+    const isRegularNode =
+      nodeName?.endsWith(".node.ts") && !nodeName?.endsWith("Trigger.node.ts");
+
+    if (isRegularNode && !MiscellaneousValidator.hasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
       const { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());

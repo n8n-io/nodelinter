@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { STANDARD_DESCRIPTIONS } from "./constants";
+import { STANDARD_DESCRIPTIONS, SVG_ICON_SOURCES } from "./constants";
 
 export const LINTINGS: {
   [LintingName: string]: Linting;
@@ -181,8 +181,9 @@ export const LINTINGS: {
     message: "Icon is PNG instead of SVG in node description",
     enabled: true,
     logLevel: "warning",
-    details:
-      "Sources of SVG icons: https://vecta.io/symbols | https://github.com/gilbarbara/logos",
+    details: `Sources of SVG icons: ${chalk.bold(
+      SVG_ICON_SOURCES.join(" | ")
+    )}`,
   },
   SUBTITLE_MISSING_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription"],
