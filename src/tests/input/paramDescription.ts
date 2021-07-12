@@ -1,4 +1,12 @@
-const properties = [
+[
+  // PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+  },
+
   // PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL
   {
     displayName: 'User ID',
@@ -33,14 +41,6 @@ const properties = [
     type: 'string',
     default: '',
     description: 'Sentence. Another sentence.',
-  },
-
-  // PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED
-  {
-    displayName: 'User ID',
-    name: 'userId',
-    type: 'string',
-    default: '',
   },
 
   // PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL
