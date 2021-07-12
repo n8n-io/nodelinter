@@ -92,14 +92,14 @@ export const LINTINGS: {
   WRONG_DEFAULT_FOR_LIMIT_PARAM: {
     lintAreas: ["limit", "default"],
     lintIssue: "wrong",
-    message: "Non-50 default for limit param",
+    message: "Non-50 default for `limit` param",
     enabled: true,
     logLevel: "error",
   },
   NON_STANDARD_LIMIT_DESCRIPTION: {
     lintAreas: ["limit"],
     lintIssue: "wording",
-    message: "Non-standard description for limit param",
+    message: "Non-standard description for `limit` param",
     enabled: true,
     logLevel: "info",
     details: `The standard description for \`limit\` is: ${STANDARD_DESCRIPTIONS.limit}`,

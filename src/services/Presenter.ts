@@ -33,19 +33,16 @@ export class Presenter {
   public showLogs(logs: Log[]) {
     this.showHeader(logs);
 
-    // keep separate from following line so that sorted logs are assigned to class field
-    logs = this.sortLogs(logs);
+    logs = this.removeRedundantLogs(logs);
+    this.logs = this.sortLogs(logs);
 
     logs.forEach((log, index) => {
-      this.logs = logs;
       this.log = log;
       this.isLastLog = index === this.logs.length - 1;
 
       this.showMainLine();
 
-      if (this.config.showDetails) {
-        log.details && this.showDetailsLine();
-      }
+      if (this.config.showDetails && log.details) this.showDetailsLine();
 
       this.showExcerptLine();
       this.showFinalLine();
@@ -232,6 +229,31 @@ export class Presenter {
   }
 
   // ----------------------------------
+  //           line wrapping
+  // ----------------------------------
+
+  /**
+   * Wrap text into n-chars-long lines, at whitespace chars.
+   */
+  private wrapLines(text: string, result: string[] = []): string[] {
+    if (text.length === 0) return result;
+
+    if (text.length < this.config.lineWrapChars || !text.includes(" ")) {
+      result.push(text);
+      return result;
+    }
+
+    const line = text.substring(0, this.config.lineWrapChars).split(" ");
+    const remainder = line.pop(); // prevent wrapping mid-word
+    result.push(line.join(" "));
+
+    return this.wrapLines(
+      (remainder + text).substring(this.config.lineWrapChars),
+      result
+    );
+  }
+
+  // ----------------------------------
   //              utils
   // ----------------------------------
 
@@ -253,6 +275,63 @@ export class Presenter {
     throw new Error("Logs may only be sorted by line number or by importance.");
   }
 
+  /**
+   * Separate logs based on whether they pass a test.
+   */
+  private separate<T>(items: T[], test: (log: T) => boolean): [T[], T[]] {
+    const pass: T[] = [];
+    const fail: T[] = [];
+
+    items.forEach((item) => (test(item) ? pass : fail).push(item));
+
+    return [pass, fail];
+  }
+
+  // ----------------------------------
+  //         logs preprocessing
+  // ----------------------------------
+
+  /**
+   * Remove logs that are logically covered by other logs on the same line.
+   *
+   * For example: `BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER` is discarded
+   * when there is a log on same line for `NON_STANDARD_RETURNALL_DESCRIPTION`.
+   */
+  private removeRedundantLogs(logs: Log[]) {
+    const [possiblyRedundant, others] = this.separate(logs, (log) =>
+      this.isPossiblyRedundant(log)
+    );
+
+    if (
+      possiblyRedundant.length === 2 &&
+      possiblyRedundant[0].line === possiblyRedundant[1].line
+    ) {
+      return [
+        ...others,
+        ...possiblyRedundant.filter((log) => this.isReturnAll(log)),
+      ];
+    }
+
+    return logs;
+  }
+
+  public isPossiblyRedundant(log: Log) {
+    return (
+      log.message ===
+        this.config.lintings.BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
+          .message ||
+      log.message ===
+        this.config.lintings.NON_STANDARD_RETURNALL_DESCRIPTION.message
+    );
+  }
+
+  private isReturnAll(log: Log) {
+    return (
+      log.message ===
+      this.config.lintings.NON_STANDARD_RETURNALL_DESCRIPTION.message
+    );
+  }
+
   private sortByImportance(logs: Log[]) {
     const errors: Log[] = [];
     const warnings: Log[] = [];
@@ -269,26 +348,5 @@ export class Presenter {
 
   private sortByLineNumber(logs: Log[]) {
     return logs.sort((a, b) => a.line - b.line);
-  }
-
-  /**
-   * Wrap text into n-chars-long lines, at whitespace chars.
-   */
-  private wrapLines(text: string, result: string[] = []): string[] {
-    if (text.length === 0) return result;
-
-    if (text.length < this.config.lineWrapChars || !text.includes(" ")) {
-      result.push(text);
-      return result;
-    }
-
-    const line = text.substring(0, this.config.lineWrapChars).split(" ");
-    const remainder = line.pop(); // prevent wrapping mid-word
-    result.push(line.join(" "));
-
-    return this.wrapLines(
-      (remainder + text).substring(this.config.lineWrapChars),
-      result
-    );
   }
 }
