@@ -149,8 +149,16 @@ export class DefaultValidator implements SubValidator {
         }
       });
 
+      let hasOptionsInVariable = false;
+
       node.parent.forEachChild((node) => {
         if (node.getChildAt(0).getText() !== "options") return;
+
+        // value of options is variable instead of array literal
+        if (ts.isIdentifier(node.getChildAt(2))) {
+          hasOptionsInVariable = true;
+        }
+
         if (!ts.isArrayLiteralExpression(node.getChildAt(2))) return;
 
         node.getChildAt(2).forEachChild((node) => {
@@ -161,14 +169,14 @@ export class DefaultValidator implements SubValidator {
               node.getChildAt(0).getText() === "value"
             ) {
               optionValues.push(
-                node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
+                node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes
               );
             }
           });
         });
       });
 
-      if (!optionValues.includes(defaultOptionValue)) {
+      if (!optionValues.includes(defaultOptionValue) && !hasOptionsInVariable) {
         this.log(LINTINGS.WRONG_DEFAULT_FOR_OPTIONS_TYPE_PARAM)(
           defaultNodeToReport
         );

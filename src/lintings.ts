@@ -72,6 +72,7 @@ export const LINTINGS: {
     message: "Miscased `ID` in `displayName` property",
     enabled: true,
     logLevel: "error",
+    details: "`ID` must be all uppercase in any `displayName` property.",
   },
   DISPLAYNAME_WITH_NO_TITLECASE: {
     lintAreas: ["displayName"],
@@ -171,6 +172,7 @@ export const LINTINGS: {
     message: "Miscased `id` in `name` property",
     enabled: true,
     logLevel: "error",
+    details: "`id` must be lowercase in any `name` property.",
   },
   NAME_WITH_NO_CAMELCASE: {
     lintAreas: ["name"],
@@ -308,6 +310,7 @@ export const LINTINGS: {
     message: "Miscased `ID` in param description",
     enabled: true,
     logLevel: "error",
+    details: "`ID` must be all uppercase in any param description.",
   },
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
     lintAreas: ["paramDescription"],
