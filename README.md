@@ -108,6 +108,7 @@ Lintings can be toggled on and off by lint area, by lint issue, or individually.
 - Add `GenericFunctions.ts` as lint target
 - Add redesigned nodes as lint target
 - Add validation of custom config file
+- Create PoC to auto-fix lintings
 - Write Contribution guide
 
 ## Author
