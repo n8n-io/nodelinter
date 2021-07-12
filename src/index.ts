@@ -77,7 +77,16 @@ if (config) {
 export { masterConfig };
 
 if (isNotTestRun) {
-  fs.lstatSync(masterConfig.target).isDirectory()
+  let symlink;
+
+  try {
+    symlink = fs.lstatSync(masterConfig.target);
+  } catch (error) {
+    showError(`${ERRORS.FAILED_TO_FIND_TARGET}: ${error.path}`);
+    process.exit(1);
+  }
+
+  symlink.isDirectory()
     ? lintAll(masterConfig, { print })
     : lintOne(masterConfig, { print });
 }

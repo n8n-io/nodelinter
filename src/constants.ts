@@ -27,5 +27,7 @@ export const ERRORS = {
     "Overspecified target path: Specify the target path once - either as a CLI flag or in the config file",
   UNSPECIFIED_TARGET:
     "Unspecified target path: Specify the target path either as a CLI flag or in the config file",
-  CONFIG_AUTODETECTION_FAILED: `Autodetection of nodelinter.config.js failed`,
+  CONFIG_AUTODETECTION_FAILED:
+    "Autodetection of `nodelinter.config.json` failed",
+  FAILED_TO_FIND_TARGET: "No such file or directory",
 };
