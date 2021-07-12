@@ -36,7 +36,7 @@ export class OptionsValidator implements SubValidator {
                           )
                         ) {
                           this.log(
-                            LINTINGS.NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME
+                            LINTINGS.FIXED_COLLECTION_VALUE_DISPLAY_NAME_WITH_NO_TITLECASE
                           )(child);
                         }
                       }
@@ -126,7 +126,7 @@ export class OptionsValidator implements SubValidator {
               if (
                 !isTitleCase(node.getChildAt(2).getText().replace(/'/g, ""))
               ) {
-                this.log(LINTINGS.NO_TITLECASE_IN_OPTIONS_NAME)(node);
+                this.log(LINTINGS.OPTIONS_NAME_WITH_NO_TITLECASE)(node);
               }
             }
 
@@ -137,7 +137,7 @@ export class OptionsValidator implements SubValidator {
               if (
                 !isCamelCase(node.getChildAt(2).getText().replace(/'/g, ""))
               ) {
-                this.log(LINTINGS.NO_CAMELCASE_IN_OPTIONS_VALUE)(node);
+                this.log(LINTINGS.OPTIONS_VALUE_WITH_NO_CAMELCASE)(node);
               }
 
               if (node.getChildAt(2).getText() === "'upsert'") {

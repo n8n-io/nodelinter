@@ -44,7 +44,7 @@ export class BoxTrigger implements INodeType {
 	}
 }
 
-// NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME
+// FIXED_COLLECTION_VALUE_DISPLAY_NAME_WITH_NO_TITLECASE
 export const hello = [
 	{
 		displayName: 'Template Data',

@@ -246,21 +246,21 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
-  NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME: {
+  FIXED_COLLECTION_VALUE_DISPLAY_NAME_WITH_NO_TITLECASE: {
     lintAreas: ["options", "displayName"], // strictly `values`, but functionally same as `options`
     lintIssue: "casing",
     message: "No title case in `fixedCollection` value display name",
     enabled: true,
     logLevel: "error",
   },
-  NO_TITLECASE_IN_OPTIONS_NAME: {
+  OPTIONS_NAME_WITH_NO_TITLECASE: {
     lintAreas: ["options"],
     lintIssue: "casing",
     message: "No title case in `options` name",
     enabled: true,
     logLevel: "error",
   },
-  NO_CAMELCASE_IN_OPTIONS_VALUE: {
+  OPTIONS_VALUE_WITH_NO_CAMELCASE: {
     lintAreas: ["options"],
     lintIssue: "casing",
     message: "No camel case in `options` value",
@@ -360,7 +360,7 @@ export const LINTINGS: {
   WEAK_PARAM_DESCRIPTION: {
     lintAreas: ["paramDescription"],
     lintIssue: "wording",
-    message: "Weak param description to be improved or omitted",
+    message: "Weak param description to improve or omit",
     enabled: true,
     logLevel: "warning",
   },

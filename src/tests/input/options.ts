@@ -150,7 +150,7 @@ export const yetOtherProperties = [
 	}
 ];
 
-// NO_TITLECASE_IN_FIXED_COLLECTION_VALUE_DISPLAY_NAME
+// FIXED_COLLECTION_VALUE_DISPLAY_NAME_WITH_NO_TITLECASE
 export const hello = [
 	{
 		displayName: 'Template Data',
@@ -184,8 +184,8 @@ export const hello = [
 	}
 ];
 
-// NO_TITLECASE_IN_OPTIONS_NAME
-// NO_CAMELCASE_IN_OPTIONS_VALUE
+// OPTIONS_NAME_WITH_NO_TITLECASE
+// OPTIONS_VALUE_WITH_NO_CAMELCASE
 export const hello2 = [
 	{
 		displayName: 'Encoding',
