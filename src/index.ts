@@ -10,10 +10,7 @@ import chalk from "chalk";
 import { ERRORS } from "./constants";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
-let { target, config, print } = minimist(process.argv.slice(2), {
-  boolean: ["print"],
-  string: ["target", "config"],
-});
+let { target, config, print } = minimist<CliArgs>(process.argv.slice(2));
 
 let masterConfig = defaultConfig;
 

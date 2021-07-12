@@ -16,8 +16,6 @@ export async function lintOne(
     userPrintName = await new Prompter().askForPrintName();
   }
 
-  console.log(userPrintName);
-
   const executionStart = new Date().getTime();
   Traverser.sourceFilePath = config.target;
   const validator = new Validator();

@@ -103,6 +103,12 @@ interface SubValidatorConstructor {
   new (): SubValidator;
 }
 
+type CliArgs = {
+  print: boolean;
+  target: string; // file path
+  config: string; // file path
+};
+
 // ----------------------------------
 //             utils
 // ----------------------------------
