@@ -25,6 +25,15 @@
 		description: ' This is untrimmed'
   },
 
+  // PARAM_DESCRIPTION_WITH_MISCASED_ID
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+		description: 'This is a miscased id right here'
+  },
+
   // PARAM_DESCRIPTION_WITH_UNNEEDED_BACKTICKS
   {
     displayName: 'User ID',

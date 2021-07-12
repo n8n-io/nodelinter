@@ -290,6 +290,13 @@ export const LINTINGS: {
     )}`,
   },
 
+  PARAM_DESCRIPTION_WITH_MISCASED_ID: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "casing",
+    message: "Miscased `ID` in param description",
+    enabled: true,
+    logLevel: "error",
+  },
   PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL: {
     lintAreas: ["paramDescription"],
     lintIssue: "casing",
