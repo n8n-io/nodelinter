@@ -253,10 +253,6 @@ export class Presenter {
     );
   }
 
-  // ----------------------------------
-  //              utils
-  // ----------------------------------
-
   private getColor(logLevel: LogLevel, { thin } = { thin: false }) {
     return {
       error: thin ? this.errorBaseColor : this.errorBaseColor.bold,
@@ -264,6 +260,10 @@ export class Presenter {
       info: thin ? this.infoBaseColor : this.infoBaseColor.bold,
     }[logLevel];
   }
+
+  // ----------------------------------
+  //         logs preprocessing
+  // ----------------------------------
 
   private sortLogs(logs: Log[]) {
     if (this.config.sortMethod === "importance")
@@ -287,35 +287,77 @@ export class Presenter {
     return [pass, fail];
   }
 
-  // ----------------------------------
-  //         logs preprocessing
-  // ----------------------------------
+  /**
+   * Separate an AB group of lintings into those that affect
+   * the same line and those that do not.
+   *
+   * An "AB group of lintings" is an array of lintings that
+   * may be of _one of two types only_, i.e. pre-filtered.
+   *
+   * TODO: Merge with `this.separate()`
+   */
+  private separatePerSameLine(logs: Log[]) {
+    const sameLine: Log[] = [];
+    const differentLines: Log[] = [];
+
+    logs.forEach((log, index) => {
+      if (
+        logs.some(
+          (sameNameItem, sameNameItemIndex) =>
+            sameNameItem.line === log.line && sameNameItemIndex !== index
+        )
+      ) {
+        sameLine.push(log);
+      } else {
+        differentLines.push(log);
+      }
+    });
+
+    return [sameLine, differentLines];
+  }
 
   /**
    * Remove logs that are logically covered by other logs on the same line.
-   *
-   * For example: `BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER` is discarded
-   * when there is a log on same line for `NON_STANDARD_RETURNALL_DESCRIPTION`.
    */
   private removeRedundantLogs(logs: Log[]) {
-    const [possiblyRedundant, others] = this.separate(logs, (log) =>
-      this.isPossiblyRedundant(log)
+    // prefer NON_STANDARD_RETURNALL_DESCRIPTION over BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
+
+    const [returnAllOrWhether, others1] = this.separate(logs, (log) =>
+      this.isReturnAllOrWhether(log)
     );
 
-    if (
-      possiblyRedundant.length === 2 &&
-      possiblyRedundant[0].line === possiblyRedundant[1].line
-    ) {
-      return [
-        ...others,
-        ...possiblyRedundant.filter((log) => this.isReturnAll(log)),
+    const [returnAllOrWhetherSameLine, returnAllOrWhetherDifferentLines] =
+      this.separatePerSameLine(returnAllOrWhether);
+
+    if (returnAllOrWhetherSameLine.length === 2) {
+      logs = [
+        ...others1,
+        ...returnAllOrWhetherDifferentLines,
+        ...returnAllOrWhetherSameLine.filter((log) => this.isReturnAll(log)),
+      ];
+    }
+
+    // prefer WEAK_PARAM_DESCRIPTION over PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD
+
+    const [weakOrExcess, others2] = this.separate(logs, (log) =>
+      this.isWeakOrExcess(log)
+    );
+
+    const [weakOrExcessSameLine, weakOrExcessDifferentLines] =
+      this.separatePerSameLine(weakOrExcess);
+
+    if (weakOrExcessSameLine.length === 2) {
+      logs = [
+        ...others2,
+        ...weakOrExcessDifferentLines,
+        ...weakOrExcessSameLine.filter((log) => this.isWeak(log)),
       ];
     }
 
     return logs;
   }
 
-  public isPossiblyRedundant(log: Log) {
+  private isReturnAllOrWhether(log: Log) {
     return (
       log.message ===
         this.config.lintings.BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
@@ -330,6 +372,18 @@ export class Presenter {
       log.message ===
       this.config.lintings.NON_STANDARD_RETURNALL_DESCRIPTION.message
     );
+  }
+
+  public isWeakOrExcess(log: Log) {
+    return (
+      log.message === this.config.lintings.WEAK_PARAM_DESCRIPTION.message ||
+      log.message ===
+        this.config.lintings.PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD.message
+    );
+  }
+
+  private isWeak(log: Log) {
+    return log.message === this.config.lintings.WEAK_PARAM_DESCRIPTION.message;
   }
 
   private sortByImportance(logs: Log[]) {
