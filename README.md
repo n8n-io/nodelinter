@@ -12,11 +12,6 @@
 </p>
 
 <p align="center">
-  <a href="##operation">Operation</a> •
-  <a href="##config-file">Config</a> •
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/status-work%20in%20progress-blue">
   <a href="https://github.com/n8n-io"><img src="https://img.shields.io/badge/org-n8n-ff6d5a"></a>
   <img src="https://img.shields.io/badge/license-MIT-brightgreen">
@@ -26,8 +21,6 @@
   <img src="screenshot.png" width="450" alt="Nodelinter screenshot" />
 </p> -->
 
-<br/>
-
 **Nodelinter** is a static code analyzer for n8n node files, for linting:
 
 - default values based on param type,
@@ -35,8 +28,7 @@
 - alphabetization for params and options,
 - required and optional key-value pairs,
 - expected values for specific params,
-- established codebase conventions,
-- etc.
+- codebase conventions and modern JS
 
 See [full lintings list](./src/lintings.ts).
 
@@ -56,6 +48,8 @@ npx nodelinter --option
 | `--target` | Lint the file or all files in the dir at this path              | String  |
 | `--config` | Use the config at this path - see [config file](###config-file) | String  |
 | `--print`  | Print lint logs to a JSON file                                  | Boolean |
+
+<br />
 
 Examples:
 
@@ -91,7 +85,7 @@ To override the default config, create a `nodelinter.config.json`, specify the p
 
 **Note:** The file or dir to lint may be specified with the `--target` option or with the `target` key in the config file. If the target is specified in both, nodelinter will prompt the user to specify a single target.
 
-## Classification of lintings
+## Classification
 
 Lintings are tagged with one or more **lint areas**, i.e. the section of code affected by the linting, such as `default` (default values), `displayName` (user-facing names for params and options), `limit` (limit params), etc.
 
