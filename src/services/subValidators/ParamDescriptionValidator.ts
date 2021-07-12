@@ -12,7 +12,7 @@ export class DescriptionValidator implements SubValidator {
     "Method of authentication",
   ];
 
-  private technicalTerms = ["string", "field"];
+  private technicalTerms = ["string", "key"];
 
   private hasExcessFinalPeriod(description: string) {
     const parts = description.split(". ");
