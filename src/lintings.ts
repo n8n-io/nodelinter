@@ -1,5 +1,9 @@
 import chalk from "chalk";
-import { STANDARD_DESCRIPTIONS, SVG_ICON_SOURCES } from "./constants";
+import {
+  STANDARD_DESCRIPTIONS,
+  STANDARD_NAMES,
+  SVG_ICON_SOURCES,
+} from "./constants";
 
 export const LINTINGS: {
   [LintingName: string]: Linting;
@@ -289,10 +293,9 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
     details: `The standard upsert option name is: ${chalk.bold(
-      STANDARD_DESCRIPTIONS.upsertOptionName
+      STANDARD_NAMES.upsert
     )}`,
   },
-
   NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION: {
     lintAreas: ["options"],
     lintIssue: "wording",
@@ -300,7 +303,28 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
     details: `The standard upsert option description is: ${chalk.bold(
-      STANDARD_DESCRIPTIONS.upsertOptionDescription
+      STANDARD_DESCRIPTIONS.upsert
+    )}`,
+  },
+
+  NON_STANDARD_DISPLAY_NAME_FOR_SIMPLIFY_PARAM: {
+    lintAreas: ["name"],
+    lintIssue: "wording",
+    message: "Non-standard name of simplify param",
+    enabled: true,
+    logLevel: "error",
+    details: `The standard display name of the simplify param is: ${chalk.bold(
+      STANDARD_NAMES.simplifyResponse
+    )}`,
+  },
+  NON_STANDARD_DESCRIPTION_FOR_SIMPLIFY_PARAM: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "wording",
+    message: "Non-standard description of simplify param",
+    enabled: true,
+    logLevel: "error",
+    details: `The standard description of the simplify param is: ${chalk.bold(
+      STANDARD_DESCRIPTIONS.simplifyResponse
     )}`,
   },
 

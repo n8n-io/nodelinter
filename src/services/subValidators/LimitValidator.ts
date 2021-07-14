@@ -1,12 +1,11 @@
 import ts from "typescript";
+import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { LINTINGS } from "../../lintings";
 
 export class LimitValidator implements SubValidator {
   static lintArea = "limit" as const;
   logs: Log[];
   log: LogFunction;
-
-  standardLimitDescription = "'How many results to return'";
 
   public run(node: ts.Node) {
     if (
@@ -30,7 +29,7 @@ export class LimitValidator implements SubValidator {
           if (
             ts.isPropertyAssignment(node) &&
             node.getChildAt(0).getText() === "description" &&
-            node.getChildAt(2).getText() !== this.standardLimitDescription
+            node.getChildAt(2).getText() !== `'${STANDARD_DESCRIPTIONS.limit}'`
           ) {
             this.log(LINTINGS.NON_STANDARD_LIMIT_DESCRIPTION)(node);
           }

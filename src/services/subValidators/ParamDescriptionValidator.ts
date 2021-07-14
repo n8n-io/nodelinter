@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { LINTINGS } from "../../lintings";
 import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
 
@@ -61,6 +62,20 @@ export class DescriptionValidator implements SubValidator {
       .startsWith("defaults");
 
     if (!ts.isPropertyAssignment(node)) return;
+
+    if (
+      node.getChildAt(0).getText() === "name" &&
+      node.getChildAt(2).getText() === "'simple'"
+    ) {
+      node.parent.forEachChild((node) => {
+        if (
+          node.getChildAt(0).getText() === "description" &&
+          node.getChildAt(2).getText() !==
+            `'${STANDARD_DESCRIPTIONS.simplifyResponse}'`
+        )
+          this.log(LINTINGS.NON_STANDARD_DESCRIPTION_FOR_SIMPLIFY_PARAM)(node);
+      });
+    }
 
     if (node.getChildAt(0).getText() === "description") {
       node.parent.forEachChild((child) => {

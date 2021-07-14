@@ -182,3 +182,25 @@ export const accountContactOperations = [
 		description: 'Name of the binary property which contains<br />the data for the file(s) to be compress/decompress. Multiple can be used separated by ,',
 	},
 ]
+
+// NON_STANDARD_DESCRIPTION_FOR_SIMPLIFY_PARAM
+export const a = [
+  {
+    displayName: 'SimplifyResponse',
+    name: 'simple',
+    type: 'boolean',
+    displayOptions: {
+        show: {
+            operation: [
+                'get',
+                'getAll',
+            ],
+            resource: [
+                'contact',
+            ],
+        },
+    },
+    default: true,
+    description: 'Return a simplified version of the response instead of the raw data.',
+  },
+];

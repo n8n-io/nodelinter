@@ -2,9 +2,15 @@ export const STANDARD_DESCRIPTIONS = {
   limit: "How many results to return",
   returnAll: "Whether to return all results or only up to a given limit",
   subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-  upsertOptionName: "Create or Update",
-  upsertOptionDescription:
+  upsert:
     "Create a new record, or update the current one if it already exists (upsert)",
+  simplifyResponse:
+    "Whether to return a simplified version of the response instead of the raw data",
+};
+
+export const STANDARD_NAMES = {
+  simplifyResponse: "Simplify Response",
+  upsert: "Create or Update", // option
 };
 
 export const WEAK_DESCRIPTIONS = [

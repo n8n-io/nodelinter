@@ -160,7 +160,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "name") {
                     if (
                       child.getChildAt(2).getText() !==
-                      `'${STANDARD_DESCRIPTIONS.upsertOptionName}'`
+                      `'${STANDARD_DESCRIPTIONS.upsert}'`
                     ) {
                       this.log(LINTINGS.NON_STANDARD_NAME_FOR_UPSERT_OPTION)(
                         child
@@ -171,7 +171,7 @@ export class OptionsValidator implements SubValidator {
                   if (child.getChildAt(0).getText() === "description") {
                     if (
                       child.getChildAt(2).getText() !==
-                      `'${STANDARD_DESCRIPTIONS.upsertOptionDescription}'`
+                      `'${STANDARD_DESCRIPTIONS.upsert}'`
                     ) {
                       this.log(
                         LINTINGS.NON_STANDARD_DESCRIPTION_FOR_UPSERT_OPTION

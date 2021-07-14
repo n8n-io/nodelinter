@@ -72,3 +72,25 @@ export class BoxTrigger implements INodeType {
 		outputs: ['main'],
 	}
 }
+
+// NON_STANDARD_DISPLAY_NAME_FOR_SIMPLIFY_PARAM
+export const a = [
+  {
+    displayName: 'SimplifyResponse',
+    name: 'simple',
+    type: 'boolean',
+    displayOptions: {
+        show: {
+            operation: [
+                'get',
+                'getAll',
+            ],
+            resource: [
+                'contact',
+            ],
+        },
+    },
+    default: true,
+    description: 'Return a simplified version of the response instead of the raw data.',
+  },
+];
