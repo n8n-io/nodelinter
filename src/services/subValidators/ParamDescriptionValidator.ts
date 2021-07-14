@@ -173,7 +173,19 @@ export class DescriptionValidator implements SubValidator {
         !hasDefaultsParent &&
         !isNameWithVariableDeclarationParent
       ) {
-        this.log(LINTINGS.PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED)(node);
+        let isFixedCollection = false;
+        node.parent.parent.parent.parent.forEachChild((child) => {
+          // skip required param description for middle container of fixed collection
+          if (
+            child.getChildAt(0).getText() === "type" &&
+            child.getChildAt(2).getText() === "'fixedCollection'"
+          ) {
+            isFixedCollection = true;
+          }
+        });
+
+        !isFixedCollection &&
+          this.log(LINTINGS.PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED)(node);
       }
     }
 
