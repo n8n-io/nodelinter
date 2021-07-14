@@ -242,6 +242,7 @@ export const LINTINGS: {
     message: "Non-alphabetized `options` in `options`-type param",
     enabled: true,
     logLevel: "error",
+    details: "Listings of >5 items must be alphabetized",
   },
   NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM: {
     lintAreas: ["options"],
@@ -249,6 +250,7 @@ export const LINTINGS: {
     message: "Non-alphabetized `options` in `multiOptions`-type param",
     enabled: true,
     logLevel: "error",
+    details: "Listings of >5 items must be alphabetized",
   },
   NON_ALPHABETIZED_OPTIONS_IN_COLLECTION_TYPE_PARAM: {
     lintAreas: ["options"],
@@ -256,6 +258,7 @@ export const LINTINGS: {
     message: "Non-alphabetized `options` in `collection`-type param",
     enabled: true,
     logLevel: "error",
+    details: "Listings of >5 items must be alphabetized",
   },
   NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM: {
     lintAreas: ["options"], // strictly `values`, but functionally same as `options`
@@ -263,6 +266,7 @@ export const LINTINGS: {
     message: "Non-alphabetized `values` in `fixedCollection`-type param",
     enabled: true,
     logLevel: "error",
+    details: "Listings of >5 items must be alphabetized",
   },
   FIXED_COLLECTION_VALUE_DISPLAY_NAME_WITH_NO_TITLECASE: {
     lintAreas: ["options", "displayName"], // strictly `values`, but functionally same as `options`
