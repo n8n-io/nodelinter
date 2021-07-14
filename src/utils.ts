@@ -2,6 +2,7 @@ import ts from "typescript";
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
+import { titleCase } from "title-case";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -13,8 +14,7 @@ export const areAlphabetized = (items: string[]) =>
 export const startsWithCapital = (str: string) =>
   str[0] === str[0].toUpperCase();
 
-export const isTitleCase = (str: string) =>
-  /^([A-Z]\w*\s*)*$/.test(str) || /^[0-9]*$/.test(str);
+export const isTitleCase = (str: string) => str === titleCase(str);
 
 export const isCamelCase = (str: string) =>
   /^([a-z]+[A-Z0-9]*)*$/.test(str) || /^[0-9]*$/.test(str);
