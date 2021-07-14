@@ -1,5 +1,9 @@
 import ts from "typescript";
-import { STANDARD_DESCRIPTIONS } from "../../constants";
+import {
+  STANDARD_DESCRIPTIONS,
+  TECHNICAL_TERMS,
+  WEAK_DESCRIPTIONS,
+} from "../../constants";
 import { LINTINGS } from "../../lintings";
 import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
 
@@ -7,13 +11,6 @@ export class DescriptionValidator implements SubValidator {
   static lintArea = "paramDescription" as const;
   logs: Log[];
   log: LogFunction;
-
-  private weakDescriptions = [
-    "The operation to perform",
-    "Method of authentication",
-  ];
-
-  private technicalTerms = ["string", "key"];
 
   /**
    * Validate that a single-sentence description has no final period, and
@@ -101,13 +98,13 @@ export class DescriptionValidator implements SubValidator {
         this.log(LINTINGS.NON_STANDARD_HTML_LINE_BREAK)(node);
       }
 
-      this.technicalTerms.forEach((technicalTerm) => {
+      TECHNICAL_TERMS.forEach((technicalTerm) => {
         if (node.getChildAt(2).getText().includes(technicalTerm)) {
           this.log(LINTINGS.TECHNICAL_TERM_IN_PARAM_DESCRIPTION)(node);
         }
       });
 
-      this.weakDescriptions.forEach((weakDescription) => {
+      WEAK_DESCRIPTIONS.forEach((weakDescription) => {
         if (node.getChildAt(2).getText().includes(weakDescription)) {
           this.log(LINTINGS.WEAK_PARAM_DESCRIPTION)(node);
         }
