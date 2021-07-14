@@ -49,7 +49,16 @@
     name: 'userId',
     type: 'string',
     default: '',
-    description: 'Sentence. Another sentence.',
+    description: 'Sentence.',
+  },
+
+  // PARAM_DESCRIPTION_WITH_MISSING_FINAL_PERIOD
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+    description: 'Sentence. Another sentence',
   },
 
   // PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL

@@ -14,20 +14,30 @@ export class DescriptionValidator implements SubValidator {
 
   private technicalTerms = ["string", "key"];
 
-  private hasExcessFinalPeriod(description: string) {
-    const parts = description.split(". ");
+  /**
+   * Validate that a single-sentence description has no final period, and
+   * that a multiple-sentence description has final periods for all sentences.
+   */
+  private checkFinalPeriod(description: string, node: ts.Node) {
+    const sentences = description.split(". ");
 
-    if (parts.length === 1 && !parts[0].endsWith(".")) return true;
+    if (!sentences.length) return;
 
-    const [last, ...allButLast] = [parts.pop(), ...parts];
+    if (sentences.length === 1 && !sentences[0].endsWith(".")) return;
 
-    for (const sentence of allButLast) {
-      if (!description.includes(sentence + ".")) return false;
+    if (sentences.length === 1 && sentences[0].endsWith(".")) {
+      this.log(LINTINGS.PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD)(node);
+      return;
     }
 
-    if (last && last.endsWith(".")) return false;
+    const [last, ...allButLast] = [sentences.pop()!, ...sentences];
 
-    return true;
+    // restore periods removed by split() in all but last
+    const restored = [...allButLast.map((s) => (s += ".")), last];
+
+    if (!restored.every((sentence) => sentence.endsWith("."))) {
+      this.log(LINTINGS.PARAM_DESCRIPTION_WITH_MISSING_FINAL_PERIOD)(node);
+    }
   }
 
   public run(node: ts.Node) {
@@ -111,9 +121,7 @@ export class DescriptionValidator implements SubValidator {
         this.log(LINTINGS.PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL)(node);
       }
 
-      if (!this.hasExcessFinalPeriod(descriptionValue)) {
-        this.log(LINTINGS.PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD)(node);
-      }
+      this.checkFinalPeriod(descriptionValue, node);
 
       if (
         hasAnchorLink(descriptionValue) &&
@@ -177,8 +185,8 @@ export class DescriptionValidator implements SubValidator {
         node.parent.parent.parent.parent.forEachChild((child) => {
           // skip required param description for middle container of fixed collection
           if (
-            child.getChildAt(0).getText() === "type" &&
-            child.getChildAt(2).getText() === "'fixedCollection'"
+            child?.getChildAt(0)?.getText() === "type" &&
+            child?.getChildAt(2)?.getText() === "'fixedCollection'"
           ) {
             isFixedCollection = true;
           }

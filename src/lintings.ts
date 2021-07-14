@@ -319,12 +319,19 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  PARAM_DESCRIPTION_WITH_MISSING_FINAL_PERIOD: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "punctuation",
+    message: "Missing final period in multiple-sentence param description",
+    enabled: true,
+    logLevel: "warning",
+  },
   PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD: {
     lintAreas: ["paramDescription"],
     lintIssue: "punctuation",
-    message: "Excess final period in param description",
+    message: "Excess final period in single-sentence param description",
     enabled: true,
-    logLevel: "error",
+    logLevel: "warning",
   },
   PARAM_DESCRIPTION_MISSING_WHERE_REQUIRED: {
     lintAreas: ["paramDescription"],
