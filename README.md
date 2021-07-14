@@ -61,6 +61,17 @@ npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe
 npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
 ```
 
+Alternatively, install and operate locally:
+
+```sh
+git clone https://github.com/ivov/nodelinter
+cd nodelinter
+npm i
+npm run -- --option
+```
+
+When running locally, the `--` is needed before any options.
+
 ## Config file
 
 The `--config` option specifies the path to the config file.
