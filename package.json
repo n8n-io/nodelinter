@@ -1,6 +1,6 @@
 {
   "name": "nodelinter",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Linter for n8n nodes",
   "main": "dist/index.js",
   "files": [
