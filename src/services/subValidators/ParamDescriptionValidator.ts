@@ -87,8 +87,8 @@ export class DescriptionValidator implements SubValidator {
       }
 
       if (
-        node.getChildAt(2).getText().includes(" id") ||
-        node.getChildAt(2).getText().includes(" Id")
+        node.getChildAt(2).getText().split(" ").includes("id") ||
+        node.getChildAt(2).getText().split(" ").includes("Id")
       ) {
         this.log(LINTINGS.PARAM_DESCRIPTION_WITH_MISCASED_ID)(node);
       }

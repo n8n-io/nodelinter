@@ -5,7 +5,6 @@ export const ecomOrderOperations = [
 		name: 'currency',
 		type: 'options',
 		default: 'eur',
-		options: allCurrencies,
-		description: 'The currency of the order (3-digit ISO code, e.g., "USD").',
+		description: 'Text that identifies one or more attributes to retrieve from the table.<br>These attributes can include scalars, sets, or elements of a JSON document. The attributes<br>in the expression must be separated by commas',
 	},
 ]
