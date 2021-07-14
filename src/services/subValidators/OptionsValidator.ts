@@ -14,7 +14,7 @@ export class OptionsValidator implements SubValidator {
       node.getChildAt(0).getText() === "type" &&
       node.getChildAt(2).getText() === "'fixedCollection'"
     ) {
-      let fixedCollectionValuesValues: string[] = [];
+      let fixedCollectionValuesNames: string[] = [];
       let nodeToReport: ts.Node = node;
 
       node.parent.forEachChild((child) => {
@@ -41,8 +41,8 @@ export class OptionsValidator implements SubValidator {
                         }
                       }
 
-                      if (child.getChildAt(0).getText() === "name") {
-                        fixedCollectionValuesValues.push(
+                      if (child.getChildAt(0).getText() === "displayName") {
+                        fixedCollectionValuesNames.push(
                           child.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
                         );
                       }
@@ -54,7 +54,7 @@ export class OptionsValidator implements SubValidator {
         }
       });
 
-      if (!areAlphabetized(fixedCollectionValuesValues)) {
+      if (!areAlphabetized(fixedCollectionValuesNames)) {
         this.log(
           LINTINGS.NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM
         )(nodeToReport);
@@ -67,7 +67,7 @@ export class OptionsValidator implements SubValidator {
       node.getChildAt(2).getText() === "'collection'"
     ) {
       let nodeToReport: ts.Node = node;
-      let collectionOptionsValues: string[] = [];
+      let collectionOptionsNames: string[] = [];
 
       node.parent.forEachChild((node) => {
         if (node.getChildAt(0).getText() !== "options") return;
@@ -82,7 +82,7 @@ export class OptionsValidator implements SubValidator {
               ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "name"
             ) {
-              collectionOptionsValues.push(
+              collectionOptionsNames.push(
                 node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
               );
             }
@@ -90,7 +90,7 @@ export class OptionsValidator implements SubValidator {
         });
       });
 
-      if (!areAlphabetized(collectionOptionsValues)) {
+      if (!areAlphabetized(collectionOptionsNames)) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_COLLECTION_TYPE_PARAM)(
           nodeToReport
         );
@@ -108,7 +108,7 @@ export class OptionsValidator implements SubValidator {
         node.getChildAt(2).getText() === "'multiOptions'";
 
       let nodeToReport: ts.Node = node;
-      let optionsValues: string[] = [];
+      let optionsNames: string[] = [];
 
       node.parent.forEachChild((node) => {
         if (node.getChildAt(0).getText() !== "options") return;
@@ -123,6 +123,10 @@ export class OptionsValidator implements SubValidator {
               ts.isPropertyAssignment(node) &&
               node.getChildAt(0).getText() === "name"
             ) {
+              optionsNames.push(
+                node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
+              );
+
               if (
                 !isTitleCase(node.getChildAt(2).getText().replace(/'/g, ""))
               ) {
@@ -165,22 +169,18 @@ export class OptionsValidator implements SubValidator {
                   }
                 });
               }
-
-              optionsValues.push(
-                node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
-              );
             }
           });
         });
       });
 
-      if (isOptionsType && !areAlphabetized(optionsValues)) {
+      if (isOptionsType && !areAlphabetized(optionsNames)) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM)(
           nodeToReport
         );
       }
 
-      if (isMultiOptionsType && !areAlphabetized(optionsValues)) {
+      if (isMultiOptionsType && !areAlphabetized(optionsNames)) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM)(
           nodeToReport
         );
