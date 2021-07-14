@@ -42,6 +42,15 @@ export class DescriptionValidator implements SubValidator {
   }
 
   public run(node: ts.Node) {
+    // skip object inside arrow function that happens to have `name` property
+    const isNameInArrowFunction =
+      ts.isPropertyAssignment(node) &&
+      ts.isIdentifier(node.getChildAt(0)) &&
+      node.getChildAt(0).getText() === "name" &&
+      node?.parent?.parent?.parent?.kind === ts.SyntaxKind.ArrowFunction;
+
+    if (isNameInArrowFunction) console.log(node.getText());
+
     // skip object inside `execute()` that happens to have `name` property
     const isNameWithVariableDeclarationParent =
       ts.isPropertyAssignment(node) &&
@@ -194,6 +203,7 @@ export class DescriptionValidator implements SubValidator {
         !hasResourceParent &&
         !hasCredentialsParent &&
         !hasDefaultsParent &&
+        !isNameInArrowFunction &&
         !isNameWithVariableDeclarationParent
       ) {
         let isFixedCollection = false;
