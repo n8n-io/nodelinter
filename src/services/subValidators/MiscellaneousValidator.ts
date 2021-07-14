@@ -2,6 +2,7 @@ import ts from "typescript";
 import { Traverser } from "..";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
+import { isAnyKeyword } from "../../utils";
 
 export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
@@ -10,6 +11,10 @@ export class MiscellaneousValidator implements SubValidator {
   static hasContinueOnFail = false;
 
   public run(node: ts.Node) {
+    if (isAnyKeyword(node)) {
+      this.log(LINTINGS.ANY_TYPE)(node.parent);
+    }
+
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "name" &&

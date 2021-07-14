@@ -54,5 +54,8 @@ export const accountContactOperations = [
 	},
 ]
 
+// ANY_TYPE
+let response: any; // tslint:disable-line:no-any
+
 // WRONG_ERROR_THROWN
 throw Error();

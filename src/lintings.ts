@@ -169,6 +169,15 @@ export const LINTINGS: {
     details:
       "Prefer the n8n-specific `NodeApiError` for unsuccessful API calls and `NodeOperationError` for functionality errors. Reference: n8n/packages/workflow/src/NodeErrors.ts",
   },
+  ANY_TYPE: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Usage of explicit `any` type",
+    enabled: true,
+    logLevel: "warning",
+    details:
+      "Prefer a concrete type. The `any` type disables all compiler type checks on the value.",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],

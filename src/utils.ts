@@ -9,6 +9,9 @@ export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
   node.kind === ts.SyntaxKind.FalseKeyword;
 
+export const isAnyKeyword = (node: ts.Node) =>
+  node.kind === ts.SyntaxKind.AnyKeyword;
+
 export const areAlphabetized = (items: string[]) =>
   items.join() === items.sort().join();
 
