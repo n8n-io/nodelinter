@@ -1,6 +1,6 @@
 export const STANDARD_DESCRIPTIONS = {
-  returnAll: "Whether to return all results or only up to a given limit",
   limit: "How many results to return",
+  returnAll: "Whether to return all results or only up to a given limit",
   subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
   upsertOptionName: "Create or Update",
   upsertOptionDescription:
@@ -17,6 +17,9 @@ export const SVG_ICON_SOURCES = [
   "https://github.com/gilbarbara/logos",
 ];
 
+/**
+ * Technical terms that need to be replaced with user-friendly versions.
+ */
 export const TECHNICAL_TERMS = ["string", "field"];
 
 export const ERRORS = {
@@ -31,3 +34,8 @@ export const ERRORS = {
     "Autodetection of `nodelinter.config.json` failed",
   FAILED_TO_FIND_TARGET: "No such file or directory",
 };
+
+/**
+ * How many items (inclusive) constitute a long listing, which requires alphabetization.
+ */
+export const LONG_LISTING_LIMIT = 5;

@@ -1,5 +1,10 @@
 import ts from "typescript";
-import { areAlphabetized, isCamelCase, isTitleCase } from "../../utils";
+import {
+  areAlphabetized,
+  areLongListing,
+  isCamelCase,
+  isTitleCase,
+} from "../../utils";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
 
@@ -54,7 +59,10 @@ export class OptionsValidator implements SubValidator {
         }
       });
 
-      if (!areAlphabetized(fixedCollectionValuesNames)) {
+      if (
+        areLongListing(fixedCollectionValuesNames) &&
+        !areAlphabetized(fixedCollectionValuesNames)
+      ) {
         this.log(
           LINTINGS.NON_ALPHABETIZED_VALUES_IN_FIXED_COLLECTION_TYPE_PARAM
         )(nodeToReport);
@@ -90,7 +98,10 @@ export class OptionsValidator implements SubValidator {
         });
       });
 
-      if (!areAlphabetized(collectionOptionsNames)) {
+      if (
+        areLongListing(collectionOptionsNames) &&
+        !areAlphabetized(collectionOptionsNames)
+      ) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_COLLECTION_TYPE_PARAM)(
           nodeToReport
         );
@@ -174,13 +185,21 @@ export class OptionsValidator implements SubValidator {
         });
       });
 
-      if (isOptionsType && !areAlphabetized(optionsNames)) {
+      if (
+        isOptionsType &&
+        areLongListing(optionsNames) &&
+        !areAlphabetized(optionsNames)
+      ) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_OPTIONS_TYPE_PARAM)(
           nodeToReport
         );
       }
 
-      if (isMultiOptionsType && !areAlphabetized(optionsNames)) {
+      if (
+        isMultiOptionsType &&
+        areLongListing(optionsNames) &&
+        !areAlphabetized(optionsNames)
+      ) {
         this.log(LINTINGS.NON_ALPHABETIZED_OPTIONS_IN_MULTIOPTIONS_TYPE_PARAM)(
           nodeToReport
         );

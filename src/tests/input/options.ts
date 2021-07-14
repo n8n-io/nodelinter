@@ -5,16 +5,30 @@ export const properties = [
     name: 'choices',
     type: 'options',
     options: [
-      {
-        name: 'Public',
-        value: 'public',
-        description: 'Run the hooks when a contact triggers the action',
-      },
-      {
-        name: 'Admin',
-        value: 'admin',
-        description: 'Run the hooks when an admin user triggers the action',
-      },
+			{
+				name: 'b',
+				value: 'b',
+			},
+			{
+				name: 'a',
+				value: 'a',
+			},
+			{
+				name: 'ccc',
+				value: 'ccc',
+			},
+			{
+				name: 'd',
+				value: 'd',
+			},
+			{
+				name: 'e',
+				value: 'e',
+			},
+			{
+				name: 'f',
+				value: 'f',
+			},
     ],
     default: 'public',
   },
@@ -26,12 +40,28 @@ export const properties = [
 		type: 'multiOptions',
 		options: [
 			{
-				name: 'bbbb',
-				value: 'bbb',
+				name: 'b',
+				value: 'b',
 			},
 			{
-				name: 'approved',
-				value: 'approved',
+				name: 'a',
+				value: 'a',
+			},
+			{
+				name: 'ccc',
+				value: 'ccc',
+			},
+			{
+				name: 'd',
+				value: 'd',
+			},
+			{
+				name: 'e',
+				value: 'e',
+			},
+			{
+				name: 'f',
+				value: 'f',
 			},
 		],
 		default: [],
@@ -98,14 +128,38 @@ export const otherProperties = [
 				name: 'templateDataValues',
 				values: [
 					{
-						displayName: 'Bob',
-						name: 'bob',
+						displayName: 'b',
+						name: 'b',
 						type: 'string',
 						default: '',
 					},
 					{
-						displayName: 'Alice',
-						name: 'alice',
+						displayName: 'a',
+						name: 'a',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'c',
+						name: 'c',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'd',
+						name: 'd',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'e',
+						name: 'e',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'f',
+						name: 'f',
 						type: 'string',
 						default: '',
 					},
@@ -125,8 +179,8 @@ export const yetOtherProperties = [
 		default: {},
 		options: [
 			{
-				displayName: 'Bob',
-				name: 'bob',
+				displayName: 'b',
+				name: 'b',
 				type: 'string',
 				typeOptions: {
 					multipleValues: true,
@@ -136,8 +190,52 @@ export const yetOtherProperties = [
 				default: [],
 			},
 			{
-				displayName: 'Alice',
-				name: 'alice',
+				displayName: 'a',
+				name: 'a',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Cc Email',
+				},
+				description: 'Cc recipients of the email.',
+				default: [],
+			},
+			{
+				displayName: 'c',
+				name: 'c',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Cc Email',
+				},
+				description: 'Cc recipients of the email.',
+				default: [],
+			},
+			{
+				displayName: 'd',
+				name: 'd',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Cc Email',
+				},
+				description: 'Cc recipients of the email.',
+				default: [],
+			},
+			{
+				displayName: 'e',
+				name: 'e',
+				type: 'string',
+				typeOptions: {
+					multipleValues: true,
+					multipleValueButtonText: 'Add Cc Email',
+				},
+				description: 'Cc recipients of the email.',
+				default: [],
+			},
+			{
+				displayName: 'f',
+				name: 'f',
 				type: 'string',
 				typeOptions: {
 					multipleValues: true,

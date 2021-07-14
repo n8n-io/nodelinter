@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { titleCase } from "title-case";
+import { LONG_LISTING_LIMIT } from "./constants";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -10,6 +11,9 @@ export const isBooleanKeyword = (node: ts.Node) =>
 
 export const areAlphabetized = (items: string[]) =>
   items.join() === items.sort().join();
+
+export const areLongListing = (items: string[]) =>
+  items.length >= LONG_LISTING_LIMIT;
 
 export const startsWithCapital = (str: string) =>
   str[0] === str[0].toUpperCase();
