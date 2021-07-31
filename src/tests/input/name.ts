@@ -16,7 +16,7 @@ export const properties = [
   },
 ];
 
-// AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS
+// AUTHENTICATION_PARAM_NOT_IN_CREDENTIALS
 export class Harvest implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Harvest',
@@ -71,4 +71,29 @@ export class BoxTrigger implements INodeType {
 		inputs: [],
 		outputs: ['main'],
 	}
+}
+
+// NON_SUFFIXED_CREDENTIALS_NAME
+export class Stripe implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Stripe',
+		name: 'stripe',
+		icon: 'file:stripe.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the Stripe API',
+		defaults: {
+			name: 'Stripe',
+			color: '#6772e5',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'stripeA2pi',
+				required: true,
+			},
+		],
+  }
 }

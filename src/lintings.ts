@@ -209,15 +209,26 @@ export const LINTINGS: {
     lintAreas: ["name"],
     lintIssue: "casing",
     message: "No camel case in `name` property",
-    enabled: true, // usually disabled
+    enabled: true,
     logLevel: "error",
   },
-  AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS: {
+  NON_SUFFIXED_CREDENTIALS_NAME: {
+    lintAreas: ["name"],
+    lintIssue: "wording",
+    message: "`name` in `credentials` property not suffixed with `Api`",
+    enabled: true,
+    logLevel: "error",
+    details:
+      "The `name` property in a `credentials` property in a node description must be suffixed with `Api`, e.g. `stripeApi` or `twilioOAuth2Api`",
+  },
+  AUTHENTICATION_PARAM_NOT_IN_CREDENTIALS: {
     lintAreas: ["name"],
     lintIssue: "location",
     message: "Authentication param should be in credentials",
     enabled: true,
     logLevel: "info",
+    details:
+      "Having the authentication param (allowing the user to select API key, OAuth2, etc.) in a node description is legacy node design. Relocate it to the credentials file at `packages/nodes-base/credentials/*.credentials.ts`.",
   },
 
   PNG_ICON_IN_NODE_DESCRIPTION: {

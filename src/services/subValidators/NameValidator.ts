@@ -18,10 +18,20 @@ export class NameValidator implements SubValidator {
 
       if (hasDefaultsParent) return;
 
+      const hasCredentialsParent = node?.parent?.parent?.parent
+        ?.getText()
+        .startsWith("credentials");
+
       const nameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
+      if (hasCredentialsParent) {
+        if (!nameValue.endsWith("Api")) {
+          this.log(LINTINGS.NON_SUFFIXED_CREDENTIALS_NAME)(node);
+        }
+      }
+
       if (nameValue === "authentication") {
-        this.log(LINTINGS.AUTHENTICATION_PROPERTY_NOT_IN_CREDENTIALS)(node);
+        this.log(LINTINGS.AUTHENTICATION_PARAM_NOT_IN_CREDENTIALS)(node); // TODO: ???
       }
 
       let isOption = false;
