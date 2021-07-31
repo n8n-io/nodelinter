@@ -142,6 +142,10 @@ export class DescriptionValidator implements SubValidator {
         this.log(LINTINGS.PARAM_DESCRIPTION_WITH_UNCAPITALIZED_INITIAL)(node);
       }
 
+      if (/\s{2,}/.test(descriptionValue)) {
+        this.log(LINTINGS.PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE)(node);
+      }
+
       this.checkFinalPeriod(descriptionValue, node);
 
       if (

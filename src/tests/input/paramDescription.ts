@@ -204,3 +204,17 @@ export const a = [
     description: 'Return a simplified version of the response instead of the raw data.',
   },
 ];
+
+// PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
+export const x = [
+  {
+    displayName: 'Timezone',
+    name: 'timeZone',
+    type: 'string',
+    typeOptions: {
+      loadOptionsMethod: 'getTimezones',
+    },
+    default: '',
+    description: 'Time zone used in the response.  The default is the time zone of the calendar.',
+  },
+];

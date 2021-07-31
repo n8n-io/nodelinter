@@ -359,7 +359,6 @@ export const LINTINGS: {
       STANDARD_DESCRIPTIONS.simplifyResponse
     )}`,
   },
-
   PARAM_DESCRIPTION_WITH_MISCASED_ID: {
     lintAreas: ["paramDescription"],
     lintIssue: "casing",
@@ -386,6 +385,13 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "punctuation",
     message: "Excess final period in single-sentence param description",
+    enabled: true,
+    logLevel: "warning",
+  },
+  PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "punctuation",
+    message: "Excess whitespace in param description",
     enabled: true,
     logLevel: "warning",
   },
