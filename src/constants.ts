@@ -39,6 +39,8 @@ export const ERRORS = {
   CONFIG_AUTODETECTION_FAILED:
     "Autodetection of `nodelinter.config.json` failed",
   FAILED_TO_FIND_TARGET: "No such file or directory",
+  MULTIPLE_ONLY_ARGS:
+    "Multiple `--*-only` flags detected. Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
 };
 
 /**

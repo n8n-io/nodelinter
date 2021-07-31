@@ -8,7 +8,7 @@ import chalk from "chalk";
 
 export async function lintAll(
   config: Config,
-  { print = false }: { print: boolean }
+  { print = false }: { print: boolean | undefined }
 ) {
   let userPrintName = "";
   if (print) {

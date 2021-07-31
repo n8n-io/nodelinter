@@ -104,9 +104,12 @@ interface SubValidatorConstructor {
 }
 
 type CliArgs = {
-  print: boolean;
-  target: string; // file path
-  config: string; // file path
+  print?: boolean;
+  target?: string; // file path
+  config?: string; // file path
+  "error-only"?: boolean;
+  "warning-only"?: boolean;
+  "info-only"?: boolean;
 };
 
 // ----------------------------------
@@ -116,14 +119,14 @@ type CliArgs = {
 /**
  * Extend ObjectConstructor with a better type definition for `Object.keys()`
  */
-// interface ObjectConstructor {
-//   keys<T>(object: T): ObjectKeys<T>;
-// }
+interface ObjectConstructor {
+  keys<T>(object: T): ObjectKeys<T>;
+}
 
-// type ObjectKeys<T> = T extends object
-//   ? (keyof T)[]
-//   : T extends number
-//   ? []
-//   : T extends Array<any> | string
-//   ? string[]
-//   : never;
+type ObjectKeys<T> = T extends object
+  ? (keyof T)[]
+  : T extends number
+  ? []
+  : T extends Array<any> | string
+  ? string[]
+  : never;

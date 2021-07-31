@@ -41,65 +41,83 @@ Lintable n8n node files:
 
 ## Operation
 
+Run via npx:
+
 ```sh
-npx nodelinter --option
+npx nodelinter
 ```
 
-| Option     | Effect                                                        | Type    |
-| ---------- | ------------------------------------------------------------- | ------- |
-| `--target` | Lint the file or all files in the dir at this path            | String  |
-| `--config` | Use the config at this path - see [config file](#config-file) | String  |
-| `--print`  | Print lint logs to a JSON file                                | Boolean |
+Or locally:
 
-<br />
+```sh
+git clone https://github.com/ivov/nodelinter
+cd nodelinter; npm i
+npm run -- lint
+```
 
-Examples:
+**Options**
+
+```sh
+npx nodelinter --option
+# or
+npm run lint -- --option
+```
+
+Primary options:
+
+| Option     | Effect                                                                             | Type   |
+| ---------- | ---------------------------------------------------------------------------------- | ------ |
+| `--target` | Target the file or all the files in the dir at this path                           | String |
+| `--config` | Use the [custom config](##config-file) at this path to override the default config | String |
 
 ```sh
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe
-npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
+npx nodelinter --config=/Users/john/Documents/myConfig.json
 ```
 
-Alternatively, install and operate locally:
+Secondary options:
+
+| Option            | Effect                                             | Type    |
+| ----------------- | -------------------------------------------------- | ------- |
+| `--print`         | Print lint logs to a JSON file                     | Boolean |
+| `--errors-only`   | Enable error logs only - overrides custom config   | Boolean |
+| `--warnings-only` | Enable warning logs only - overrides custom config | Boolean |
+| `--infos-only`    | Enable info logs only - overrides custom config    | Boolean |
 
 ```sh
-git clone https://github.com/ivov/nodelinter
-cd nodelinter
-npm i
-npm run -- --option
+npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
+npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --errors-only
 ```
 
-When running locally, the `--` is needed before any options.
+### Custom config file
 
-## Config file
-
-The `--config` option specifies the path to the config file.
-
-If the `--config` option is omitted, nodelinter will attempt to find a `nodelinter.config.json` inside the nodelinter dir - if none is found, it will fall back to the [default config](./src/defaultConfig.ts).
-
-To override the default config, create a `nodelinter.config.json`, specify the path to it with the `--config` option (or place the config in the nodelinter dir) and populate it with the settings to override.
+Nodelinter settings are found in its [default config](./src/defaultConfig.ts), which can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
 
 ```json
 {
-  "target": "/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts",
+  "target": "/Users/john/n8n/packages/nodes-base/nodes/Notion/Notion.node.ts",
   "sortMethod": "lineNumber",
-  "showDetails": true,
   "lintings": {
     "PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL": {
       "enabled": false
     },
     "NAME_WITH_NO_CAMELCASE": {
       "enabled": false
-    },
-    "OPTIONS_VALUE_WITH_NO_CAMELCASE": {
-      "enabled": false
     }
   }
 }
 ```
 
-**Note:** The file or dir to lint may be specified with the `--target` option or with the `target` key in the config file. If the target is specified in both, nodelinter will prompt the user to specify a single target.
+And use the `--config` option to specify the path to it:
+
+```sh
+npx nodelinter --config=/Users/john/Documents/myConfig.json
+# or
+npm run lint -- --config=/Users/john/Documents/myConfig.json
+```
+
+For convenience, when running locally, if you name the custom config file `nodelinter.config.json` and place it in the nodelinter dir, the custom config file will be auto-detected.
 
 <!-- ## Classification
 
@@ -111,19 +129,12 @@ Lintings can be toggled on and off by lint area, by lint issue, or individually.
 
 ## Pending
 
-- Refine lintings with exceptions
-- Create more lintings
-  - `displayOptions` check for `resource` and `operation`
-  - unused imports
-  - `name` in `credentials` in node description
-  - missing `.node.json` codex file
-  - `// tslint:disable-line: no-any`
-  - `@ts-ignore`
+- More lintings
 - Add GitHub link as lint target
 - Add PR diff as lint target
 - Add `GenericFunctions.ts` as lint target
 - Add redesigned nodes as lint target
-- Add validation of custom config file
+- Validate custom config file in full
 - Create PoC to auto-fix lintings
 - Write Contribution guide
 

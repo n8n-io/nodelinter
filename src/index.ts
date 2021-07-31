@@ -10,7 +10,25 @@ import chalk from "chalk";
 import { ERRORS } from "./constants";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
-let { target, config, print } = minimist<CliArgs>(process.argv.slice(2));
+
+let { target, config, print, ...multiWordArgs } = minimist<CliArgs>(
+  process.argv.slice(2)
+);
+
+const only: { [key in LogLevel]: boolean } = {
+  error: multiWordArgs["error-only"] ?? false,
+  warning: multiWordArgs["warning-only"] ?? false,
+  info: multiWordArgs["info-only"] ?? false,
+};
+
+Object.keys(only).forEach((key) => {
+  if (!only[key]) delete only[key];
+});
+
+if (Object.keys(only).length > 1) {
+  showError(ERRORS.MULTIPLE_ONLY_ARGS);
+  process.exit(1);
+}
 
 let masterConfig = defaultConfig;
 
@@ -43,7 +61,7 @@ if (config) {
   let customConfig;
 
   try {
-    customConfig = require(config);
+    customConfig = require(config) as Config;
   } catch (error) {
     showError(ERRORS.FAILED_TO_IMPORT_CONFIG_FILE);
     process.exit(1);
@@ -61,6 +79,7 @@ if (config) {
 
   // TODO: Validate nested keys in custom config
   for (const key in customConfig) {
+    // @ts-ignore TODO
     if (!Object.keys(defaultConfig).includes(key)) {
       showError(`${ERRORS.UNKNOWN_KEY_IN_CUSTOM_CONFIG} ${key}`);
       console.log(customConfig);
@@ -69,6 +88,17 @@ if (config) {
   }
 
   masterConfig = deepMerge(defaultConfig, customConfig);
+}
+
+// if --*-only flag, override master log levels
+if (Object.keys(only).length === 1) {
+  const key = Object.keys(only)[0];
+  masterConfig.enable.logLevels = {
+    error: false,
+    warning: false,
+    info: false,
+  };
+  masterConfig.enable.logLevels[key] = true;
 }
 
 export { masterConfig };

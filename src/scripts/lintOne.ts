@@ -9,7 +9,7 @@ import { resolve } from "path/posix";
 
 export async function lintOne(
   config: Config,
-  { print = false }: { print: boolean }
+  { print = false }: { print: boolean | undefined }
 ) {
   let userPrintName = "";
   if (print) {
