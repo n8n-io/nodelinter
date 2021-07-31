@@ -13,7 +13,7 @@ import {
   fixPattern,
 } from "./utils";
 import chalk from "chalk";
-import { ERRORS } from "./constants";
+import { DEFAULT_PRINT_FILENAME, ERRORS } from "./constants";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
 
@@ -35,6 +35,11 @@ if (Object.keys(only).length > 1) {
   showError(ERRORS.MULTIPLE_ONLY_ARGS);
   process.exit(1);
 }
+
+const shouldPrint = print !== undefined;
+
+const printFileName =
+  typeof print === "string" && print !== "" ? print : DEFAULT_PRINT_FILENAME;
 
 if (patterns && typeof patterns === "string") {
   patterns = patterns.split(",").map((p) => p.trim());
@@ -138,6 +143,6 @@ if (isNotTestRun) {
   }
 
   symlink.isDirectory()
-    ? lintAll(masterConfig, { print })
-    : lintOne(masterConfig, { print });
+    ? lintAll(masterConfig, { shouldPrint, printFileName })
+    : lintOne(masterConfig, { shouldPrint, printFileName });
 }

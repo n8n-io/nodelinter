@@ -3,18 +3,15 @@ import fs from "fs";
 import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
 import { collect, printJson } from "../utils";
-import { Prompter } from "../services/Prompter";
 import chalk from "chalk";
 
 export async function lintAll(
   config: Config,
-  { print = false }: { print: boolean | undefined }
+  {
+    shouldPrint,
+    printFileName,
+  }: { shouldPrint: boolean; printFileName: string }
 ) {
-  let userPrintName = "";
-  if (print) {
-    userPrintName = await new Prompter().askForPrintName();
-  }
-
   const isFileToLint = (fileName: string) =>
     config.patterns.some((pattern) => fileName.endsWith(pattern));
 
@@ -41,11 +38,11 @@ export async function lintAll(
   const executionTimeMs = new Date().getTime() - executionStart;
   presenter.summarize(allFilesLogs, executionTimeMs);
 
-  if (print) {
-    printJson(userPrintName, allFilesLogs);
+  if (shouldPrint) {
+    printJson(printFileName, allFilesLogs);
     console.log(
       chalk.bold(
-        `Logs printed to ${path.join(process.cwd(), `${userPrintName}.json`)}`
+        `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`
       )
     );
   }

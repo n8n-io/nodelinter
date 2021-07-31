@@ -56,3 +56,8 @@ export const LONG_LISTING_LIMIT = 5;
  * Filename end patterns that the nodelinter is able to lint.
  */
 export const LINTABLE_FILE_PATTERNS = [".node.ts", "Description.ts"];
+
+/**
+ * Default filename for logs printed with the `--print` option but without specifying a filename.
+ */
+export const DEFAULT_PRINT_FILENAME = "lintOutput";

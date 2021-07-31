@@ -109,7 +109,7 @@ interface SubValidatorConstructor {
 type CliArgs = {
   target?: string; // file path
   config?: string; // file path
-  print?: boolean;
+  print?: boolean | string; // boolean for default output filename, string to name it
   patterns?: string | string[]; // comma-separated string from CLI, string[] after parsing
   "error-only"?: boolean;
   "warning-only"?: boolean;

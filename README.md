@@ -65,17 +65,18 @@ npm run lint -- --option
 
 Primary options:
 
-| Option     | Effect                                                                             | Type    |
-| ---------- | ---------------------------------------------------------------------------------- | ------- |
-| `--target` | Target the file at this path, or all the lintable files in the dir at this path    | String  |
-| `--config` | Use the [custom config](##config-file) at this path to override the default config | String  |
-| `--print`  | Print lint logs to a JSON file                                                     | Boolean |
+| Option     | Effect                                                                             | Type              |
+| ---------- | ---------------------------------------------------------------------------------- | ----------------- |
+| `--target` | Target the file at this path, or all the lintable files in the dir at this path    | String            |
+| `--config` | Use the [custom config](##config-file) at this path to override the default config | String            |
+| `--print`  | Print output to a JSON file - optionally, specify a name for the output file       | Boolean or String |
 
 ```sh
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe
 npx nodelinter --config=/Users/john/Documents/myConfig.json
 npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
+npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print=myLintOutput
 ```
 
 Secondary options:
@@ -94,9 +95,9 @@ npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --errors-
 
 All secondary options override the custom and default configs.
 
-### Custom config file
+### Custom config
 
-Nodelinter settings are found in its [default config](./src/defaultConfig.ts), which can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
+Nodelinter settings are found in its [default config](./src/defaultConfig.ts) and can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
 
 ```json
 {
@@ -122,7 +123,7 @@ npx nodelinter --config=/Users/john/Documents/myConfig.json
 npm run lint -- --config=/Users/john/Documents/myConfig.json
 ```
 
-For convenience, when running locally, if you name the custom config file `nodelinter.config.json` and place it in the nodelinter dir, the custom config file will be auto-detected.
+For convenience, when running locally, place the custom config file `nodelinter.config.json` in the nodelinter dir and it will be auto-detected.
 
 <!-- ## Classification
 

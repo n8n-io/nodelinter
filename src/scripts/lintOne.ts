@@ -3,22 +3,19 @@ import fs from "fs";
 import ts from "typescript";
 import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
-import { Prompter } from "../services/Prompter";
 import { isLintable, printJson, showError } from "../utils";
 import { ERRORS } from "../constants";
 
 export async function lintOne(
   config: Config,
-  { print = false }: { print: boolean | undefined }
+  {
+    shouldPrint,
+    printFileName,
+  }: { shouldPrint: boolean; printFileName: string }
 ) {
   if (!isLintable(config.target)) {
     showError(ERRORS.NOT_LINTABLE_TARGET);
     process.exit(1);
-  }
-
-  let userPrintName = "";
-  if (print) {
-    userPrintName = await new Prompter().askForPrintName();
   }
 
   const executionStart = new Date().getTime();
@@ -36,11 +33,11 @@ export async function lintOne(
   presenter.showLogs(validator.logs);
   presenter.summarize(validator.logs, executionTimeMs);
 
-  if (print) {
-    printJson(userPrintName, validator.logs);
+  if (shouldPrint) {
+    printJson(printFileName, validator.logs);
     console.log(
       chalk.bold(
-        `Logs printed to ${path.join(process.cwd(), `${userPrintName}.json`)}`
+        `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`
       )
     );
   }
