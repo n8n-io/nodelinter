@@ -2,7 +2,7 @@ import ts from "typescript";
 import fs from "fs";
 import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
-import { collect, isLintableFile, printJson } from "../utils";
+import { collect, printJson } from "../utils";
 import { Prompter } from "../services/Prompter";
 import chalk from "chalk";
 
@@ -15,8 +15,11 @@ export async function lintAll(
     userPrintName = await new Prompter().askForPrintName();
   }
 
+  const isFileToLint = (fileName: string) =>
+    config.patterns.some((pattern) => fileName.endsWith(pattern));
+
   const executionStart = new Date().getTime();
-  const sourceFilePaths = collect(config.target, isLintableFile);
+  const sourceFilePaths = collect(config.target, isFileToLint);
   const allFilesLogs: Log[] = [];
   const presenter = new Presenter(config);
 

@@ -5,13 +5,19 @@ import minimist from "minimist";
 import { defaultConfig } from "./defaultConfig";
 import { lintAll } from "./scripts/lintAll";
 import { lintOne } from "./scripts/lintOne";
-import { collect, deepMerge, showError } from "./utils";
+import {
+  collect,
+  deepMerge,
+  areValidPatterns,
+  showError,
+  fixPattern,
+} from "./utils";
 import chalk from "chalk";
 import { ERRORS } from "./constants";
 
 const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
 
-let { target, config, print, ...multiWordArgs } = minimist<CliArgs>(
+let { target, config, print, patterns, ...multiWordArgs } = minimist<CliArgs>(
   process.argv.slice(2)
 );
 
@@ -28,6 +34,19 @@ Object.keys(only).forEach((key) => {
 if (Object.keys(only).length > 1) {
   showError(ERRORS.MULTIPLE_ONLY_ARGS);
   process.exit(1);
+}
+
+if (patterns && typeof patterns === "string") {
+  patterns = patterns.split(",").map((p) => p.trim());
+
+  // tolerate mistyped periods
+  fixPattern(patterns, { from: "node.ts", to: ".node.ts" });
+  fixPattern(patterns, { from: ".Description.ts", to: "Description.ts" });
+
+  if (!areValidPatterns(patterns)) {
+    showError(ERRORS.INVALID_PATTERN);
+    process.exit(1);
+  }
 }
 
 let masterConfig = defaultConfig;
@@ -90,7 +109,7 @@ if (config) {
   masterConfig = deepMerge(defaultConfig, customConfig);
 }
 
-// if --*-only flag, override master log levels
+// --*-only flag overrides master config log levels
 if (Object.keys(only).length === 1) {
   const key = Object.keys(only)[0];
   masterConfig.enable.logLevels = {
@@ -99,6 +118,11 @@ if (Object.keys(only).length === 1) {
     info: false,
   };
   masterConfig.enable.logLevels[key] = true;
+}
+
+// --patterns overrides master config patterns
+if (patterns && areValidPatterns(patterns)) {
+  masterConfig.patterns = patterns;
 }
 
 export { masterConfig };

@@ -65,30 +65,34 @@ npm run lint -- --option
 
 Primary options:
 
-| Option     | Effect                                                                             | Type   |
-| ---------- | ---------------------------------------------------------------------------------- | ------ |
-| `--target` | Target the file or all the files in the dir at this path                           | String |
-| `--config` | Use the [custom config](##config-file) at this path to override the default config | String |
+| Option     | Effect                                                                             | Type    |
+| ---------- | ---------------------------------------------------------------------------------- | ------- |
+| `--target` | Target the file at this path, or all the lintable files in the dir at this path    | String  |
+| `--config` | Use the [custom config](##config-file) at this path to override the default config | String  |
+| `--print`  | Print lint logs to a JSON file                                                     | Boolean |
 
 ```sh
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe
 npx nodelinter --config=/Users/john/Documents/myConfig.json
+npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
 ```
 
 Secondary options:
 
-| Option            | Effect                                             | Type    |
-| ----------------- | -------------------------------------------------- | ------- |
-| `--print`         | Print lint logs to a JSON file                     | Boolean |
-| `--errors-only`   | Enable error logs only - overrides custom config   | Boolean |
-| `--warnings-only` | Enable warning logs only - overrides custom config | Boolean |
-| `--infos-only`    | Enable info logs only - overrides custom config    | Boolean |
+| Option            | Effect                    | Type                   |
+| ----------------- | ------------------------- | ---------------------- |
+| `--patterns`      | Patterns of files to lint | Comma-separated string |
+| `--errors-only`   | Enable error logs only    | Boolean                |
+| `--warnings-only` | Enable warning logs only  | Boolean                |
+| `--infos-only`    | Enable info logs only     | Boolean                |
 
 ```sh
-npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
+npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --patterns:.node.ts,Description.ts
 npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --errors-only
 ```
+
+All secondary options override the custom and default configs.
 
 ### Custom config file
 
@@ -97,6 +101,7 @@ Nodelinter settings are found in its [default config](./src/defaultConfig.ts), w
 ```json
 {
   "target": "/Users/john/n8n/packages/nodes-base/nodes/Notion/Notion.node.ts",
+  "patterns": [".node.ts"],
   "sortMethod": "lineNumber",
   "lintings": {
     "PARAM_DESCRIPTION_MISSING_WHERE_OPTIONAL": {

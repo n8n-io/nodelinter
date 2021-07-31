@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { titleCase } from "title-case";
-import { LONG_LISTING_LIMIT } from "./constants";
+import { LINTABLE_FILE_PATTERNS, LONG_LISTING_LIMIT } from "./constants";
 
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
@@ -61,6 +61,11 @@ export const deepMerge = (...objects: any) => {
 
   for (const o of objects) {
     for (let [key, value] of Object.entries(o)) {
+      if (value instanceof Array) {
+        result = { ...result, [key]: value };
+        continue;
+      }
+
       if (value instanceof Object && key in result) {
         value = deepMerge(result[key], value);
       }
@@ -93,9 +98,6 @@ export const collect = (
   return collection;
 };
 
-export const isLintableFile = (fileName: string) =>
-  fileName.endsWith("Description.ts") || fileName.endsWith(".node.ts");
-
 export const showError = (errorMessage: string) =>
   console.log(
     [
@@ -104,3 +106,32 @@ export const showError = (errorMessage: string) =>
       "\n",
     ].join(" ")
   );
+
+export function areValidPatterns(value: any): value is LintableFilePattern[] {
+  return (
+    Array.isArray(value) &&
+    value.every((item) => LINTABLE_FILE_PATTERNS.includes(item))
+  );
+}
+
+export const isLintable = (target: string) =>
+  LINTABLE_FILE_PATTERNS.some((pattern) => target.endsWith(pattern));
+
+export const fixPattern = (
+  patterns: string[],
+  {
+    from,
+    to,
+  }: {
+    from: string;
+    to: LintableFilePattern;
+  }
+) => {
+  const mistypedPatternIndex = patterns.findIndex((p) => p === from);
+
+  if (mistypedPatternIndex !== -1) {
+    patterns[mistypedPatternIndex] = to;
+  }
+
+  return patterns as LintableFilePattern[];
+};

@@ -4,6 +4,7 @@
 
 type Config = {
   target: string;
+  patterns: LintableFilePattern[];
   sortMethod: "lineNumber" | "importance";
   showDetails: boolean;
   logLevelColors: { [key in LogLevel]: string }; // hex color
@@ -21,6 +22,8 @@ type Config = {
     [LintingName: string]: Linting;
   };
 };
+
+type LintableFilePattern = ".node.ts" | "Description.ts";
 
 // ----------------------------------
 //             lint
@@ -104,9 +107,10 @@ interface SubValidatorConstructor {
 }
 
 type CliArgs = {
-  print?: boolean;
   target?: string; // file path
   config?: string; // file path
+  print?: boolean;
+  patterns?: string | string[]; // comma-separated string from CLI, string[] after parsing
   "error-only"?: boolean;
   "warning-only"?: boolean;
   "info-only"?: boolean;

@@ -2,9 +2,15 @@ import { LINTINGS } from "./lintings";
 
 export const defaultConfig: Config = {
   /**
-   * Path of file to lint, or of the dir whose `.node.ts` and `*Description.ts` files to lint.
+   * Path of file to lint or of the dir whose lintable files to lint.
    */
   target: "",
+
+  /**
+   * Filename end patterns to determine which files is lintable when targeting a dir.
+   * Only ".node.ts" and "Description.ts" allowed.
+   */
+  patterns: [".node.ts", "Description.ts"],
 
   /**
    * Log sorting method, either `lineNumber` (ascending) or `importance` (error → warning → info).

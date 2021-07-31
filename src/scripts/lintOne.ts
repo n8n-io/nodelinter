@@ -4,13 +4,18 @@ import ts from "typescript";
 import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
 import { Prompter } from "../services/Prompter";
-import { printJson } from "../utils";
-import { resolve } from "path/posix";
+import { isLintable, printJson, showError } from "../utils";
+import { ERRORS } from "../constants";
 
 export async function lintOne(
   config: Config,
   { print = false }: { print: boolean | undefined }
 ) {
+  if (!isLintable(config.target)) {
+    showError(ERRORS.NOT_LINTABLE_TARGET);
+    process.exit(1);
+  }
+
   let userPrintName = "";
   if (print) {
     userPrintName = await new Prompter().askForPrintName();

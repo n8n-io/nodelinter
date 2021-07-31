@@ -41,9 +41,18 @@ export const ERRORS = {
   FAILED_TO_FIND_TARGET: "No such file or directory",
   MULTIPLE_ONLY_ARGS:
     "Multiple `--*-only` flags detected. Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
+  INVALID_PATTERN:
+    "Invalid pattern. Specify: `.node.ts` or `Description.ts` or `.node.ts, Description.ts`",
+  NOT_LINTABLE_TARGET:
+    "Target is not lintable. Target a filepath that ends with `.node.ts` or `Description.ts`.",
 };
 
 /**
  * How many items (inclusive) constitute a long listing, which requires alphabetization.
  */
 export const LONG_LISTING_LIMIT = 5;
+
+/**
+ * Filename end patterns that the nodelinter is able to lint.
+ */
+export const LINTABLE_FILE_PATTERNS = [".node.ts", "Description.ts"];
