@@ -8,27 +8,22 @@ export class DefaultValidator implements SubValidator {
   logs: Log[];
   log: LogFunction;
 
-  /**
-   * Validate if every param has a default and if the value for the default conforms to the param type.
-   */
-  public run = (node: ts.Node) => {
-    [
-      this.validateDefaultExists,
-      this.validateStringDefault,
-      this.validateNumberDefault,
-      this.validateBooleanDefault,
-      this.validateCollectionDefault,
-      this.validateMultiOptionsDefault,
-      this.validateOptionsDefault,
-    ].forEach((f) => f(node));
+  public run(node: ts.Node) {
+    this.validateDefaultExists(node);
+
+    this.validateStringDefault(node);
+    this.validateNumberDefault(node);
+    this.validateBooleanDefault(node);
+    this.validateCollectionDefault(node);
+    this.validateMultiOptionsDefault(node);
+    this.validateOptionsDefault(node);
+
+    this.validateSimplifyDefault(node);
 
     return this.logs;
-  };
+  }
 
-  /**
-   * Validate if a param has a default.
-   */
-  private validateDefaultExists = (node: ts.Node) => {
+  private validateDefaultExists(node: ts.Node) {
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "type"
@@ -47,10 +42,31 @@ export class DefaultValidator implements SubValidator {
         this.log(LINTINGS.DEFAULT_MISSING)(node);
       }
     }
-  };
+  }
+
+  private validateSimplifyDefault(node: ts.Node) {
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.getChildAt(0).getText() === "displayName" &&
+      node.getChildAt(2).getText() === "'Simplify Response'"
+    ) {
+      node.parent.forEachChild((node) => {
+        if (
+          ts.isPropertyAssignment(node) &&
+          node.getChildAt(0).getText() === "default" &&
+          node.getChildAt(2).getText() === "false"
+        ) {
+          this.log(LINTINGS.WRONG_DEFAULT_FOR_SIMPLIFY_PARAM)(node);
+        }
+      });
+    }
+  }
 
   /**
-   * Generate a function that validates if the value for a `default` conforms to the param type.
+   * Generate a function that validates if the value for a `default` conforms to the param `type`.
+   *
+   * Not applicable for default values must conform to `displayName`, e.g. `default: true` for
+   * `displayName: 'Simplify Response'`.
    */
   private defaultValidatorGenerator =
     (
@@ -74,54 +90,36 @@ export class DefaultValidator implements SubValidator {
       }
     };
 
-  /**
-   * Validate if a param with `type: string` has a string default.
-   */
   private validateStringDefault = this.defaultValidatorGenerator(
     "string",
     ts.isStringLiteral,
     LINTINGS.WRONG_DEFAULT_FOR_STRING_TYPE_PARAM
   );
 
-  /**
-   * Validate if a param with `type: number` has a numeric default.
-   */
   private validateNumberDefault = this.defaultValidatorGenerator(
     "number",
     ts.isNumericLiteral,
     LINTINGS.WRONG_DEFAULT_FOR_NUMBER_TYPE_PARAM
   );
 
-  /**
-   * Validate if a param with `type: boolean` has a boolean default.
-   */
   private validateBooleanDefault = this.defaultValidatorGenerator(
     "boolean",
     isBooleanKeyword,
     LINTINGS.WRONG_DEFAULT_FOR_BOOLEAN_TYPE_PARAM
   );
 
-  /**
-   * Validate if a param with `type: collection` has an object literal expression default.
-   */
   private validateCollectionDefault = this.defaultValidatorGenerator(
     "collection",
     ts.isObjectLiteralExpression,
     LINTINGS.WRONG_DEFAULT_FOR_COLLECTION_TYPE_PARAM
   );
 
-  /**
-   * Validate if a param with `type: multiOptions` has an array literal expression default.
-   */
   private validateMultiOptionsDefault = this.defaultValidatorGenerator(
     "multiOptions",
     ts.isArrayLiteralExpression,
     LINTINGS.WRONG_DEFAULT_FOR_MULTIOPTIONS_TYPE_PARAM
   );
 
-  /**
-   * Validate if a param with `type: options` has an option value as default.
-   */
   private validateOptionsDefault = (node: ts.Node) => {
     if (
       ts.isPropertyAssignment(node) &&

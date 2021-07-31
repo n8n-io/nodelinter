@@ -62,6 +62,14 @@ export const LINTINGS: {
     details:
       "The default value for an `options`-type param must be one of the options.",
   },
+  WRONG_DEFAULT_FOR_SIMPLIFY_PARAM: {
+    lintAreas: ["default"],
+    lintIssue: "wrong",
+    message: "Non-`true` default for Simplify Response param",
+    enabled: true,
+    logLevel: "error",
+    details: "The default value for a Simplify Response param must be `true`.",
+  },
   DEFAULT_MISSING: {
     lintAreas: ["default"],
     lintIssue: "missing",
@@ -91,6 +99,16 @@ export const LINTINGS: {
     message: "Display name is untrimmed",
     enabled: true,
     logLevel: "error",
+  },
+  NON_STANDARD_DISPLAY_NAME_FOR_SIMPLIFY_PARAM: {
+    lintAreas: ["displayName"],
+    lintIssue: "wording",
+    message: "Non-standard name of Simplify Response param",
+    enabled: true,
+    logLevel: "error",
+    details: `The standard display name of the simplify param is: ${chalk.bold(
+      STANDARD_NAMES.simplifyResponse
+    )}`,
   },
 
   LIMIT_WITHOUT_TYPE_OPTIONS: {
@@ -320,16 +338,6 @@ export const LINTINGS: {
     )}`,
   },
 
-  NON_STANDARD_DISPLAY_NAME_FOR_SIMPLIFY_PARAM: {
-    lintAreas: ["name"],
-    lintIssue: "wording",
-    message: "Non-standard name of simplify param",
-    enabled: true,
-    logLevel: "error",
-    details: `The standard display name of the simplify param is: ${chalk.bold(
-      STANDARD_NAMES.simplifyResponse
-    )}`,
-  },
   NON_STANDARD_DESCRIPTION_FOR_SIMPLIFY_PARAM: {
     lintAreas: ["paramDescription"],
     lintIssue: "wording",

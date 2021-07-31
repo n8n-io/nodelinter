@@ -104,3 +104,25 @@ const whoa = [
 		description: 'Object of values to set as described <a href="https://github.com/agilecrm/rest-api#1-companys---companies-api" target="_blank">here</a>.',
 	},
 ]
+
+// NON_STANDARD_DISPLAY_NAME_FOR_SIMPLIFY_PARAM
+export const a = [
+  {
+    displayName: 'SimplifyResponse',
+    name: 'simple',
+    type: 'boolean',
+    displayOptions: {
+        show: {
+					operation: [
+						'get',
+						'getAll',
+					],
+					resource: [
+						'contact',
+					],
+        },
+    },
+    default: true,
+    description: 'Return a simplified version of the response instead of the raw data.',
+  },
+];
