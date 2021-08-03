@@ -5,12 +5,16 @@ import chalk from "chalk";
 import { titleCase } from "title-case";
 import { LINTABLE_FILE_PATTERNS, LONG_LISTING_LIMIT } from "./constants";
 
+// selector
+
 export const isBooleanKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.TrueKeyword ||
   node.kind === ts.SyntaxKind.FalseKeyword;
 
 export const isAnyKeyword = (node: ts.Node) =>
   node.kind === ts.SyntaxKind.AnyKeyword;
+
+// casting
 
 export const areAlphabetized = (items: string[]) =>
   items.join() === items.sort().join();
@@ -26,56 +30,16 @@ export const isTitleCase = (str: string) => str === titleCase(str);
 export const isCamelCase = (str: string) =>
   /^([a-z]+[A-Z0-9]*)*$/.test(str) || /^[0-9]*$/.test(str);
 
+// selector helpers
+
 export const hasAnchorLink = (str: string) => /<a href=/.test(str);
 
 export const hasTargetBlank = (str: string) => /target="_blank"/.test(str);
 
+// true utils
+
 export const printJson = (fileName: string, content: object) =>
   fs.writeFileSync(`${fileName}.json`, JSON.stringify(content, null, 2));
-
-export const lintAreaIsDisabled = (lintArea: LintArea, config: Config) =>
-  !config.enable.lintAreas[lintArea];
-
-export const lintIssueIsDisabled = (lintIssue: LintIssue, config: Config) =>
-  !config.enable.lintIssues[lintIssue];
-
-export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
-  !config.enable.logLevels[logLevel];
-
-// TODO: Inefficient retrieval of linting's enabled state in masterConfig
-export const lintingIsDisabled = (linting: Linting, config: Config) => {
-  const configLinting = Object.values(config.lintings).find((configLinting) => {
-    return configLinting.message === linting.message;
-  });
-
-  if (!configLinting) {
-    throw new Error(`No config linting found for: ${linting.message}`);
-  }
-
-  return !configLinting.enabled;
-};
-
-// TODO: Type properly
-export const deepMerge = (...objects: any) => {
-  let result: any = {};
-
-  for (const o of objects) {
-    for (let [key, value] of Object.entries(o)) {
-      if (value instanceof Array) {
-        result = { ...result, [key]: value };
-        continue;
-      }
-
-      if (value instanceof Object && key in result) {
-        value = deepMerge(result[key], value);
-      }
-
-      result = { ...result, [key]: value };
-    }
-  }
-
-  return result;
-};
 
 /**
  * Traverse a dir recursively and collect file paths that pass a test.
@@ -98,7 +62,8 @@ export const collect = (
   return collection;
 };
 
-export const showError = (errorMessage: string) =>
+// TODO: stderr instead of stdout
+export function terminate(errorMessage: string): never {
   console.log(
     [
       chalk.red.inverse("error".padStart(7, " ").padEnd(9, " ").toUpperCase()),
@@ -107,31 +72,32 @@ export const showError = (errorMessage: string) =>
     ].join(" ")
   );
 
-export function areValidPatterns(value: any): value is LintableFilePattern[] {
-  return (
-    Array.isArray(value) &&
-    value.every((item) => LINTABLE_FILE_PATTERNS.includes(item))
-  );
+  process.exit(1);
 }
 
 export const isLintable = (target: string) =>
   LINTABLE_FILE_PATTERNS.some((pattern) => target.endsWith(pattern));
 
-export const fixPattern = (
-  patterns: string[],
-  {
-    from,
-    to,
-  }: {
-    from: string;
-    to: LintableFilePattern;
-  }
-) => {
-  const mistypedPatternIndex = patterns.findIndex((p) => p === from);
+// disabled state
 
-  if (mistypedPatternIndex !== -1) {
-    patterns[mistypedPatternIndex] = to;
+export const lintAreaIsDisabled = (lintArea: LintArea, config: Config) =>
+  !config.enable.lintAreas[lintArea];
+
+export const lintIssueIsDisabled = (lintIssue: LintIssue, config: Config) =>
+  !config.enable.lintIssues[lintIssue];
+
+export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
+  !config.enable.logLevels[logLevel];
+
+// TODO: Inefficient retrieval of linting's enabled state in masterConfig
+export const lintingIsDisabled = (linting: Linting, config: Config) => {
+  const configLinting = Object.values(config.lintings).find((configLinting) => {
+    return configLinting.message === linting.message;
+  });
+
+  if (!configLinting) {
+    throw new Error(`No config linting found for: ${linting.message}`);
   }
 
-  return patterns as LintableFilePattern[];
+  return !configLinting.enabled;
 };

@@ -3,19 +3,15 @@ import fs from "fs";
 import ts from "typescript";
 import path from "path";
 import { Traverser, Validator, Presenter } from "../services";
-import { isLintable, printJson, showError } from "../utils";
+import { isLintable, printJson, terminate } from "../utils";
 import { ERRORS } from "../constants";
 
 export async function lintOne(
   config: Config,
-  {
-    shouldPrint,
-    printFileName,
-  }: { shouldPrint: boolean; printFileName: string }
+  { printLogs, printFileName }: { printLogs: boolean; printFileName: string }
 ) {
   if (!isLintable(config.target)) {
-    showError(ERRORS.NOT_LINTABLE_TARGET);
-    process.exit(1);
+    terminate(ERRORS.NOT_LINTABLE_TARGET);
   }
 
   const executionStart = new Date().getTime();
@@ -33,7 +29,7 @@ export async function lintOne(
   presenter.showLogs(validator.logs);
   presenter.summarize(validator.logs, executionTimeMs);
 
-  if (shouldPrint) {
+  if (printLogs) {
     printJson(printFileName, validator.logs);
     console.log(
       chalk.bold(

@@ -30,19 +30,19 @@ export const TECHNICAL_TERMS = ["string", "field"];
 
 export const ERRORS = {
   UNKNOWN_KEY_IN_CUSTOM_CONFIG: "Invalid custom config: Unknown key",
-  FAILED_TO_IMPORT_CONFIG_FILE:
+  FAILED_TO_IMPORT_CUSTOM_CONFIG:
     "Failed to import config file: Ensure the path specified with --config is a valid JSON config file",
   OVERSPECIFIED_TARGET:
-    "Overspecified target path: Specify the target path once - either as a CLI flag or in the config file",
+    "Overspecified target path: Specify the target path once, either as a CLI flag with --target or as a key in the config file",
   UNSPECIFIED_TARGET:
-    "Unspecified target path: Specify the target path either as a CLI flag or in the config file",
+    "Unspecified target path: Specify the target path either as a CLI flag with --target or as a key in the config file",
   CONFIG_AUTODETECTION_FAILED:
     "Autodetection of `nodelinter.config.json` failed",
   FAILED_TO_FIND_TARGET: "No such file or directory",
   MULTIPLE_ONLY_ARGS:
     "Multiple `--*-only` flags detected. Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
-  INVALID_PATTERN:
-    "Invalid pattern. Specify: `.node.ts` or `Description.ts` or `.node.ts, Description.ts`",
+  INVALID_PATTERNS:
+    "One or more invalid patterns detected. Specify: `.node.ts` or `Description.ts` or `.node.ts, Description.ts`",
   NOT_LINTABLE_TARGET:
     "Target is not lintable. Target a filepath that ends with `.node.ts` or `Description.ts`.",
 };
@@ -58,6 +58,11 @@ export const LONG_LISTING_LIMIT = 5;
 export const LINTABLE_FILE_PATTERNS = [".node.ts", "Description.ts"];
 
 /**
- * Default filename for logs printed with the `--print` option but without specifying a filename.
+ * Default filename for logs printed with the `--print` option when leaving the filename unspecified.
  */
 export const DEFAULT_PRINT_FILENAME = "lintOutput";
+
+/**
+ * Default filename for autodetected nodelinter config.
+ */
+export const DEFAULT_AUTODETECT_FILENAME = "nodelinter.config.json";

@@ -81,23 +81,24 @@ npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print=my
 
 Secondary options:
 
-| Option            | Effect                    | Type                   |
-| ----------------- | ------------------------- | ---------------------- |
-| `--patterns`      | Patterns of files to lint | Comma-separated string |
-| `--errors-only`   | Enable error logs only    | Boolean                |
-| `--warnings-only` | Enable warning logs only  | Boolean                |
-| `--infos-only`    | Enable info logs only     | Boolean                |
+| Option            | Effect                   | Type                   |
+| ----------------- | ------------------------ | ---------------------- |
+| `--patterns`      | Files pattern(s) to lint | Comma-separated string |
+| `--errors-only`   | Enable error logs only   | Boolean                |
+| `--warnings-only` | Enable warning logs only | Boolean                |
+| `--infos-only`    | Enable info logs only    | Boolean                |
 
 ```sh
-npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --patterns:.node.ts,Description.ts
-npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe --errors-only
+npx nodelinter --path=./src/input/MyNode --patterns:.node.ts,Description.ts
+npx nodelinter --path=./src/input/MyNode --patterns:.node.ts
+npx nodelinter --path=./src/input/MyNode --errors-only
 ```
 
 All secondary options override the custom and default configs.
 
 ### Custom config
 
-Nodelinter settings are found in its [default config](./src/defaultConfig.ts) and can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
+Nodelinter settings are found in the [default config](./src/defaultConfig.ts) and can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
 
 ```json
 {
@@ -123,7 +124,7 @@ npx nodelinter --config=/Users/john/Documents/myConfig.json
 npm run lint -- --config=/Users/john/Documents/myConfig.json
 ```
 
-For convenience, when running locally, place the custom config file `nodelinter.config.json` in the nodelinter dir and it will be auto-detected.
+For convenience, when running locally, place a custom config file named `nodelinter.config.json` inside the nodelinter dir and the custom config file will be auto-detected.
 
 <!-- ## Classification
 

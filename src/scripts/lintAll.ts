@@ -7,10 +7,7 @@ import chalk from "chalk";
 
 export async function lintAll(
   config: Config,
-  {
-    shouldPrint,
-    printFileName,
-  }: { shouldPrint: boolean; printFileName: string }
+  { printLogs, printFileName }: { printLogs: boolean; printFileName: string }
 ) {
   const isFileToLint = (fileName: string) =>
     config.patterns.some((pattern) => fileName.endsWith(pattern));
@@ -38,7 +35,7 @@ export async function lintAll(
   const executionTimeMs = new Date().getTime() - executionStart;
   presenter.summarize(allFilesLogs, executionTimeMs);
 
-  if (shouldPrint) {
+  if (printLogs) {
     printJson(printFileName, allFilesLogs);
     console.log(
       chalk.bold(

@@ -7,7 +7,9 @@ type Config = {
   patterns: LintableFilePattern[];
   sortMethod: "lineNumber" | "importance";
   showDetails: boolean;
-  logLevelColors: { [key in LogLevel]: string }; // hex color
+  logLevelColors: {
+    [key in LogLevel]: string; // hex color
+  };
   lineWrapChars: number;
   truncateExcerpts: {
     enabled: boolean;
@@ -106,14 +108,26 @@ interface SubValidatorConstructor {
   new (): SubValidator;
 }
 
+// ----------------------------------
+//           CLI args
+// ----------------------------------
+
 type CliArgs = {
-  target?: string; // file path
-  config?: string; // file path
-  print?: boolean | string; // boolean for default output filename, string to name it
-  patterns?: string | string[]; // comma-separated string from CLI, string[] after parsing
+  target?: string;
+  config?: string;
+  print?: boolean | string;
+  patterns?: string;
+} & MultiWordArgs;
+
+type MultiWordArgs = {
   "error-only"?: boolean;
   "warning-only"?: boolean;
   "info-only"?: boolean;
+};
+
+type AdjustPatternArg = {
+  from: string;
+  to: LintableFilePattern;
 };
 
 // ----------------------------------
@@ -121,7 +135,7 @@ type CliArgs = {
 // ----------------------------------
 
 /**
- * Extend ObjectConstructor with a better type definition for `Object.keys()`
+ * Extend ObjectConstructor with a stricter type definition for `Object.keys()`
  */
 interface ObjectConstructor {
   keys<T>(object: T): ObjectKeys<T>;
