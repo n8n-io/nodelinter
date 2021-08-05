@@ -44,7 +44,7 @@ Lintable n8n node files:
 Run via npx:
 
 ```sh
-npx nodelinter
+npx nodelinter --option
 ```
 
 Or locally:
@@ -52,53 +52,47 @@ Or locally:
 ```sh
 git clone https://github.com/ivov/nodelinter
 cd nodelinter; npm i
-npm run -- lint
-```
-
-**Options**
-
-```sh
-npx nodelinter --option
-# or
 npm run lint -- --option
 ```
 
 Primary options:
 
-| Option     | Effect                                                                             | Type              |
-| ---------- | ---------------------------------------------------------------------------------- | ----------------- |
-| `--target` | Target the file at this path, or all the lintable files in the dir at this path    | String            |
-| `--config` | Use the [custom config](##config-file) at this path to override the default config | String            |
-| `--print`  | Print output to a JSON file - optionally, specify a name for the output file       | Boolean or String |
+| Option     | Effect                                                        | Type              |
+| ---------- | ------------------------------------------------------------- | ----------------- |
+| `--target` | Lint this file or all files in this dir (recursive)           | String            |
+| `--config` | Use a [custom config](#custom-config) to override the default | String            |
+| `--print`  | Print output to JSON - if with arg, name the output file      | Boolean or String |
 
 ```sh
-npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
-npx nodelinter --path=/Users/john/n8n/packages/nodes-base/nodes/Stripe
-npx nodelinter --config=/Users/john/Documents/myConfig.json
-npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print
-npx nodelinter --config=/Users/john/nodelinter/nodelinter.config.json --print=myLintOutput
+npx nodelinter --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
+npx nodelinter --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe
+npx nodelinter --config=/Users/john/Documents/myCustomConfig.json
+npx nodelinter --print
+npx nodelinter --print=myLintOutput
 ```
 
 Secondary options:
 
-| Option            | Effect                   | Type                   |
-| ----------------- | ------------------------ | ---------------------- |
-| `--patterns`      | Files pattern(s) to lint | Comma-separated string |
-| `--errors-only`   | Enable error logs only   | Boolean                |
-| `--warnings-only` | Enable warning logs only | Boolean                |
-| `--infos-only`    | Enable info logs only    | Boolean                |
+| Option            | Effect                                                                                                                                 | Type                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `--patterns`      | [Lintable file patterns](https://github.com/ivov/nodelinter/blob/0236d5d767a3a2c1ef51163bd5052e8e87059b82/src/defaultConfig.ts#L9-L13) | Comma-separated string |
+| `--errors-only`   | Enable error logs only                                                                                                                 | Boolean                |
+| `--warnings-only` | Enable warning logs only                                                                                                               | Boolean                |
+| `--infos-only`    | Enable info logs only                                                                                                                  | Boolean                |
 
 ```sh
-npx nodelinter --path=./src/input/MyNode --patterns:.node.ts,Description.ts
-npx nodelinter --path=./src/input/MyNode --patterns:.node.ts
-npx nodelinter --path=./src/input/MyNode --errors-only
+npx nodelinter --target=./src/input/MyNode --patterns:.node.ts,Description.ts
+npx nodelinter --target=./src/input/MyNode --patterns:.node.ts
+npx nodelinter --target=./src/input/MyNode --errors-only
 ```
 
-All secondary options override the custom and default configs.
+Secondary options are applied last, overriding custom and default configs.
 
 ### Custom config
 
-Nodelinter settings are found in the [default config](./src/defaultConfig.ts) and can be overridden by a custom config. To override the default config, create a JSON file containing any settings to override:
+The Nodelinter [default config](./src/defaultConfig.ts) can be overridden by a custom config.
+
+To override it, create a JSON file containing any keys to overwrite:
 
 ```json
 {
@@ -116,15 +110,13 @@ Nodelinter settings are found in the [default config](./src/defaultConfig.ts) an
 }
 ```
 
-And use the `--config` option to specify the path to it:
+And set the `--config` option to specify the path to it:
 
 ```sh
-npx nodelinter --config=/Users/john/Documents/myConfig.json
-# or
-npm run lint -- --config=/Users/john/Documents/myConfig.json
+--config=/Users/john/Documents/myCustomConfig.json
 ```
 
-For convenience, when running locally, place a custom config file named `nodelinter.config.json` inside the nodelinter dir and the custom config file will be auto-detected.
+For convenience, when running locally, if you place a custom config file named `nodelinter.config.json` anywhere inside the nodelinter dir, the custom config file will be auto-detected.
 
 <!-- ## Classification
 
