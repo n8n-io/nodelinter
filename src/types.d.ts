@@ -148,3 +148,5 @@ type ObjectKeys<T> = T extends object
   : T extends Array<any> | string
   ? string[]
   : never;
+
+type Constructor = new (...args: any[]) => {};

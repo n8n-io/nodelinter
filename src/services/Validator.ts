@@ -2,7 +2,7 @@ import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
-import { lintingIsDisabled } from "../utils";
+import { lintAreaIsDisabled, lintingIsDisabled } from "../utils";
 import * as subValidators from "./subValidators";
 import { MiscellaneousValidator } from "./subValidators";
 
@@ -26,6 +26,8 @@ export class Validator {
 
   public run() {
     Object.values(subValidators).forEach((subValidator) => {
+      if (lintAreaIsDisabled(subValidator.lintArea, masterConfig)) return;
+
       this.runSubValidator(subValidator);
     });
   }

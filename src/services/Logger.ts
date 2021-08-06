@@ -10,8 +10,6 @@ import { Traverser } from "../services";
 
 // type SubValidatorConstructor<T = {}> = new (...args: any[]) => T;
 
-type Constructor = new (...args: any[]) => {};
-
 export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
   return class extends Base {
     logs: Log[] = [];
@@ -22,14 +20,13 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         node.getChildAt(2).getEnd()
       );
 
-      if (lintIssueIsDisabled(linting.lintIssue, masterConfig)) return;
-      if (logLevelIsDisabled(linting.logLevel, masterConfig)) return;
-
-      for (const lintArea of linting.lintAreas) {
-        if (lintAreaIsDisabled(lintArea, masterConfig)) return;
-      }
-
-      if (lintingIsDisabled(linting, masterConfig)) return;
+      // lintArea check at Validator.run()
+      if (
+        lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
+        logLevelIsDisabled(linting.logLevel, masterConfig) ||
+        lintingIsDisabled(linting, masterConfig)
+      )
+        return;
 
       this.logs.push({
         message: linting.message,
