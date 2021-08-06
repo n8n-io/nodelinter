@@ -51,19 +51,23 @@ export class ConfigManager {
   // ----------------------------------
 
   private parseArgs(args: string[]) {
-    const { target, config, patterns, print, ...multiWordArgs } =
-      minimist<CliArgs>(args);
+    const cliArgs = minimist<CliArgs>(args);
 
-    this.parseMultiWordArgs(multiWordArgs);
-    this.parsePrintArgs(print);
-    this.parsePatternsArgs(patterns);
+    this.parseOnlyArgs({
+      "error-only": cliArgs["error-only"],
+      "warning-only": cliArgs["warning-only"],
+      "info-only": cliArgs["info-only"],
+    });
 
-    if (config) this.configPath = config;
-    if (target) this.targetPath = target;
+    this.parsePrintArgs(cliArgs.print);
+    this.parsePatternsArgs(cliArgs.patterns);
+
+    if (cliArgs.config) this.configPath = cliArgs.config;
+    if (cliArgs.target) this.targetPath = cliArgs.target;
   }
 
-  private parseMultiWordArgs(multiWordArgs: MultiWordArgs) {
-    const quantity = Object.keys(multiWordArgs).length;
+  private parseOnlyArgs(multiWordArgs: MultiWordArgs) {
+    const quantity = Object.values(multiWordArgs).filter(Boolean).length;
 
     if (quantity === 0) return;
 

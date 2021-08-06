@@ -33,9 +33,9 @@ export const ERRORS = {
   FAILED_TO_IMPORT_CUSTOM_CONFIG:
     "Failed to import config file: Ensure the path specified with --config is a valid JSON config file",
   OVERSPECIFIED_TARGET:
-    "Overspecified target path: Specify the target path once, either as a CLI flag with --target or as a key in the config file",
+    "Overspecified target: Specify one target, either as a CLI flag with --target or as a key in the config file, not both",
   UNSPECIFIED_TARGET:
-    "Unspecified target path: Specify the target path either as a CLI flag with --target or as a key in the config file",
+    "Unspecified target: Specify the target path (file or dir to lint) either as a CLI flag with --target or as a key in the config file",
   CONFIG_AUTODETECTION_FAILED:
     "Autodetection of `nodelinter.config.json` failed",
   FAILED_TO_FIND_TARGET_AT_PATH:
