@@ -1,5 +1,4 @@
 import ts from "typescript";
-import { Traverser } from "..";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { isAnyKeyword } from "../../utils";
@@ -8,7 +7,6 @@ export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
   logs: Log[];
   log: LogFunction;
-  static hasContinueOnFail = false;
 
   public run(node: ts.Node) {
     if (isAnyKeyword(node)) {
@@ -58,14 +56,6 @@ export class MiscellaneousValidator implements SubValidator {
 
     if (ts.isIdentifier(node) && node.getText() === "Error") {
       this.log(LINTINGS.WRONG_ERROR_THROWN)(node.parent);
-    }
-
-    if (
-      Traverser.sourceFilePath.endsWith(".node.ts") &&
-      ts.isPropertyAccessExpression(node) &&
-      node.getChildAt(2).getText() === "continueOnFail"
-    ) {
-      MiscellaneousValidator.hasContinueOnFail = true;
     }
 
     return this.logs;

@@ -1,4 +1,4 @@
-import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
+import ts from "typescript";
 import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
@@ -6,7 +6,6 @@ import { lintAreaIsDisabled, lintingIsDisabled, isRegularNode } from "../utils";
 import { Collector } from "./Collector";
 import { Selector } from "./Selector";
 import * as subValidators from "./subValidators";
-import { MiscellaneousValidator } from "./subValidators";
 
 export class Validator {
   public logs: Log[] = [];
@@ -31,7 +30,6 @@ export class Validator {
 
     Object.values(subValidators).forEach((subValidator) => {
       if (lintAreaIsDisabled(subValidator.lintArea, masterConfig)) return;
-
       this.runSubValidator(subValidator);
     });
   }
@@ -50,8 +48,9 @@ export class Validator {
    */
   public runFinal(sourceFile: ts.SourceFile, sourceFilePath: string) {
     const nodeName = sourceFilePath.split("/").pop();
+    const { sourceFileHasContinueOnFail } = Collector;
 
-    if (isRegularNode(nodeName) && !MiscellaneousValidator.hasContinueOnFail) {
+    if (isRegularNode(nodeName) && !sourceFileHasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
       let line = Selector.lineNumber(sourceFile.getChildAt(0));

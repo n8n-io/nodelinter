@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { Traverser } from ".";
 import { Selector } from "./Selector";
 
 /**
@@ -7,6 +8,7 @@ import { Selector } from "./Selector";
  */
 export class Collector {
   private static lintExceptionsMap = new Map();
+  public static sourceFileHasContinueOnFail = false;
 
   static get lintExceptions(): LintException[] {
     return Object.values(Object.fromEntries(Collector.lintExceptionsMap));
@@ -20,6 +22,14 @@ export class Collector {
         const key = `${exception.line}-${exception.lintingName}`;
         Collector.lintExceptionsMap.set(key, exception);
       });
+    }
+
+    if (
+      Traverser.sourceFilePath.endsWith(".node.ts") &&
+      ts.isPropertyAccessExpression(node) &&
+      node.getChildAt(2).getText() === "continueOnFail"
+    ) {
+      Collector.sourceFileHasContinueOnFail = true;
     }
   }
 }
