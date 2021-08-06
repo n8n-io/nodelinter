@@ -4,6 +4,7 @@ import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
 import { lintAreaIsDisabled, lintingIsDisabled, isRegularNode } from "../utils";
 import { Collector } from "./Collector";
+import { Selector } from "./Selector";
 import * as subValidators from "./subValidators";
 import { MiscellaneousValidator } from "./subValidators";
 
@@ -53,9 +54,9 @@ export class Validator {
     if (isRegularNode(nodeName) && !MiscellaneousValidator.hasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
-      let { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());
+      let line = Selector.lineNumber(sourceFile.getChildAt(0));
 
-      line += 1; // TS compiler API starts line count at 0
+      line += 1; // TODO: Find out why this offset is needed
 
       if (lintingIsDisabled(linting, masterConfig)) return;
 

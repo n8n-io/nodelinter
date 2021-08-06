@@ -8,6 +8,7 @@ import {
 } from "../utils";
 import { Traverser } from "../services";
 import { Collector } from "./Collector";
+import { Selector } from "./Selector";
 
 // type SubValidatorConstructor<T = {}> = new (...args: any[]) => T;
 
@@ -16,9 +17,9 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
     logs: Log[] = [];
 
     public log = (linting: Linting) => (node: ts.Node) => {
-      let { line } = getLine(Traverser.sourceFile, node.getChildAt(2).getEnd());
+      let line = Selector.lineNumber(node.getChildAt(2));
 
-      line += 1; // TS compiler API starts line count at 0
+      line += 1; // TODO: Find out why this offset is needed
 
       if (
         lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
