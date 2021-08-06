@@ -143,6 +143,14 @@ export const LINTINGS: {
     )}`,
   },
 
+  TS_IGNORE: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "@ts-ignore detected",
+    enabled: true,
+    logLevel: "warning",
+    details: "@ts-ignore comments suppress compilation errors.",
+  },
   REQUIRED_FALSE: {
     lintAreas: ["miscellaneous"],
     lintIssue: "unneeded",
@@ -177,6 +185,8 @@ export const LINTINGS: {
     message: "Missing implementation of `continueOnFail`",
     enabled: true,
     logLevel: "error",
+    details:
+      "Without `continueOnFail`, the node will have to stop processing items on any error.",
   },
   WRONG_ERROR_THROWN: {
     lintAreas: ["miscellaneous"],

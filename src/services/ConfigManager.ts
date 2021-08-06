@@ -30,7 +30,7 @@ export class ConfigManager {
     if (!this.configPath && isNotTestRun) this.autoDetectConfigPath();
     if (this.configPath) this.loadCustomConfig();
 
-    this.validateTargetKeyExists();
+    isNotTestRun && this.validateTargetKeyExists();
 
     if (this.customConfig) {
       this.validateNoUnknownKeys();

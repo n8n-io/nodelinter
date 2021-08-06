@@ -40,4 +40,15 @@ export class Selector {
         };
       });
   }
+
+  static tsIgnores(node: ts.Node) {
+    return Selector.comments(node)
+      .filter((comment) => comment.text.startsWith("// @ts-ignore"))
+      .map(({ line, text }) => {
+        return {
+          line,
+          text,
+        };
+      });
+  }
 }

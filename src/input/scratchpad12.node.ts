@@ -2,7 +2,7 @@ export const webinarOperations = [
   {
     displayName: 'Timezone',
     name: 'timeZone',
-    // hello
+    // @ts-ignore
     type: 'string',
     typeOptions: {
       loadOptionsMethod: 'getTimezones',

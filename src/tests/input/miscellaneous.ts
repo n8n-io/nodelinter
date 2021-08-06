@@ -57,5 +57,20 @@ export const accountContactOperations = [
 // ANY_TYPE
 let response: any; // tslint:disable-line:no-any
 
+// TS_IGNORE
+export const webinarOperations = [
+  {
+    displayName: 'Timezone',
+    name: 'timeZone',
+    // @ts-ignore
+    type: 'string',
+    typeOptions: {
+      loadOptionsMethod: 'getTimezones',
+    },
+    default: '',
+    description: 'Time zone used in the response.  The default is the time zone of the calendar.',
+  },
+];
+
 // WRONG_ERROR_THROWN
 throw Error();

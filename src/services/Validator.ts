@@ -50,6 +50,23 @@ export class Validator {
     const nodeName = sourceFilePath.split("/").pop();
     const { sourceFileHasContinueOnFail } = Collector;
 
+    if (Collector.tsIgnores.length) {
+      const linting = LINTINGS.TS_IGNORE;
+
+      Collector.tsIgnores.forEach((tsIgnore) => {
+        this.logs.push({
+          message: linting.message,
+          lintAreas: linting.lintAreas,
+          lintIssue: linting.lintIssue,
+          line: tsIgnore.line,
+          excerpt: "// @ts-ignore",
+          sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
+          logLevel: linting.logLevel,
+          ...(linting.details && { details: linting.details }),
+        });
+      });
+    }
+
     if (isRegularNode(nodeName) && !sourceFileHasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
