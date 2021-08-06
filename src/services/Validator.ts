@@ -2,7 +2,8 @@ import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
-import { lintAreaIsDisabled, lintingIsDisabled } from "../utils";
+import { lintAreaIsDisabled, lintingIsDisabled, isRegularNode } from "../utils";
+import { Collector } from "./Collector";
 import * as subValidators from "./subValidators";
 import { MiscellaneousValidator } from "./subValidators";
 
@@ -25,6 +26,8 @@ export class Validator {
   }
 
   public run() {
+    Collector.run(this.currentNode);
+
     Object.values(subValidators).forEach((subValidator) => {
       if (lintAreaIsDisabled(subValidator.lintArea, masterConfig)) return;
 
@@ -47,13 +50,12 @@ export class Validator {
   public runFinal(sourceFile: ts.SourceFile, sourceFilePath: string) {
     const nodeName = sourceFilePath.split("/").pop();
 
-    const isRegularNode =
-      nodeName?.endsWith(".node.ts") && !nodeName?.endsWith("Trigger.node.ts");
-
-    if (isRegularNode && !MiscellaneousValidator.hasContinueOnFail) {
+    if (isRegularNode(nodeName) && !MiscellaneousValidator.hasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 
-      const { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());
+      let { line } = getLine(sourceFile, sourceFile.getChildAt(0).getEnd());
+
+      line += 1; // TS compiler API starts line count at 0
 
       if (lintingIsDisabled(linting, masterConfig)) return;
 
@@ -61,7 +63,7 @@ export class Validator {
         message: linting.message,
         lintAreas: linting.lintAreas,
         lintIssue: linting.lintIssue,
-        line: line + 1,
+        line,
         excerpt: "<large excerpt omitted>",
         sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
         logLevel: linting.logLevel,

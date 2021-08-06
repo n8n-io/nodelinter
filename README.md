@@ -118,6 +118,26 @@ And set the `--config` option to specify the path to it:
 
 For convenience, when running locally, if you place a custom config file named `nodelinter.config.json` anywhere inside the nodelinter dir, the custom config file will be auto-detected.
 
+### Lint exceptions
+
+Add `// nodelinter-ignore-next-line LINTING_NAME` to except the next line from the specified linting:
+
+```
+{
+  displayName: 'Timezone',
+  name: 'timeZone',
+  type: 'string',
+  typeOptions: {
+    loadOptionsMethod: 'getTimezones',
+  },
+  default: '',
+  // nodelinter-ignore-next-line PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
+  description: 'Time zone used in the response.    The default is the time zone of the calendar.',
+},
+```
+
+Currently only one linting may be excepted per line.
+
 <!-- ## Classification
 
 Lintings are tagged with one or more **lint areas**, i.e. the section of code affected by the linting, such as `default` (default values), `displayName` (user-facing names for params and options), `limit` (limit params), etc.

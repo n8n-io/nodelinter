@@ -1,12 +1,13 @@
 import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
 import { masterConfig } from "../";
 import {
-  lintAreaIsDisabled,
   lintingIsDisabled,
+  lintingIsExcepted,
   lintIssueIsDisabled,
   logLevelIsDisabled,
 } from "../utils";
 import { Traverser } from "../services";
+import { Collector } from "./Collector";
 
 // type SubValidatorConstructor<T = {}> = new (...args: any[]) => T;
 
@@ -15,16 +16,15 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
     logs: Log[] = [];
 
     public log = (linting: Linting) => (node: ts.Node) => {
-      const { line } = getLine(
-        Traverser.sourceFile,
-        node.getChildAt(2).getEnd()
-      );
+      let { line } = getLine(Traverser.sourceFile, node.getChildAt(2).getEnd());
 
-      // lintArea check at Validator.run()
+      line += 1; // TS compiler API starts line count at 0
+
       if (
         lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
         logLevelIsDisabled(linting.logLevel, masterConfig) ||
-        lintingIsDisabled(linting, masterConfig)
+        lintingIsDisabled(linting, masterConfig) ||
+        lintingIsExcepted(linting, line, Collector.lintExceptions)
       )
         return;
 
@@ -32,7 +32,7 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         message: linting.message,
         lintAreas: linting.lintAreas,
         lintIssue: linting.lintIssue,
-        line: line + 1,
+        line,
         excerpt: masterConfig.truncateExcerpts.enabled
           ? this.truncateExcerpt(node.getText())
           : node.getText(),

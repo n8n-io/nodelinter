@@ -71,6 +71,12 @@ type LintIssue =
   | "naming"
   | "location";
 
+type LintException = {
+  line: number; // one line before affected line
+  lintingName: string;
+  type: "nextLine";
+};
+
 // ----------------------------------
 //             log
 // ----------------------------------

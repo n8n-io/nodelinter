@@ -4,6 +4,7 @@ import path from "path";
 import chalk from "chalk";
 import { titleCase } from "title-case";
 import { LINTABLE_FILE_PATTERNS, LONG_LISTING_LIMIT } from "./constants";
+import { masterConfig } from ".";
 
 // selector
 
@@ -89,11 +90,8 @@ export const lintIssueIsDisabled = (lintIssue: LintIssue, config: Config) =>
 export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
   !config.enable.logLevels[logLevel];
 
-// TODO: Inefficient retrieval of linting's enabled state in masterConfig
 export const lintingIsDisabled = (linting: Linting, config: Config) => {
-  const configLinting = Object.values(config.lintings).find((configLinting) => {
-    return configLinting.message === linting.message;
-  });
+  const configLinting = getLinting(linting, config.lintings);
 
   if (!configLinting) {
     throw new Error(`No config linting found for: ${linting.message}`);
@@ -101,3 +99,38 @@ export const lintingIsDisabled = (linting: Linting, config: Config) => {
 
   return !configLinting.enabled;
 };
+
+export const lintingIsExcepted = (
+  linting: Linting,
+  lintingLine: number,
+  lintExceptions: LintException[]
+) => {
+  return (
+    lintExceptions.find((exception) => {
+      return (
+        exception.lintingName === getLintingName(linting, masterConfig) &&
+        exception.line + 1 === lintingLine
+      );
+    }) !== undefined
+  );
+};
+
+// TODO: Refactor
+export const getLintingName = (targetLinting: Linting, config: Config) => {
+  return Object.entries(config.lintings).find(
+    (configLinting) => targetLinting.message === configLinting[1].message
+  )![0];
+};
+
+// TODO: Inefficient retrieval of linting name from linting message
+export const getLinting = (
+  targetLinting: Linting | Log,
+  configLintings: Config["lintings"]
+) => {
+  return Object.values(configLintings).find((configLinting) => {
+    return configLinting.message === targetLinting.message;
+  });
+};
+
+export const isRegularNode = (nodeName: string | undefined) =>
+  nodeName?.endsWith(".node.ts") && !nodeName?.endsWith("Trigger.node.ts");
