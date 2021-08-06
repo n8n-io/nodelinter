@@ -104,7 +104,7 @@ type LogSummary = {
 // ----------------------------------
 
 interface SubValidator {
-  lintArea?: LintArea; // TODO: Make static instead of optional
+  lintArea?: LintArea; // TODO: Cannot type as static, so optional for now
   logs: Log[];
   log: LogFunction;
   run: (node: ts.Node) => Log[] | undefined;
