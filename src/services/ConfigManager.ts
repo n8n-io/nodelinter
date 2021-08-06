@@ -30,9 +30,11 @@ export class ConfigManager {
     if (!this.configPath && isNotTestRun) this.autoDetectConfigPath();
     if (this.configPath) this.loadCustomConfig();
 
+    this.validateTargetKeyExists();
+
     if (this.customConfig) {
       this.validateNoUnknownKeys();
-      this.validateSingleTarget();
+      this.validateNoTargetKeyConflict();
       this.masterConfig = this.deepMerge(this.defaultConfig, this.customConfig);
       if (this.targetPath) this.masterConfig.target = this.targetPath;
     } else {
@@ -145,7 +147,7 @@ export class ConfigManager {
 
   private autoDetectConfigPath() {
     console.log(
-      chalk.bold("No --config option specified, attempting to autodetect...")
+      chalk.dim("No --config option specified, attempting to autodetect...\n")
     );
 
     const autodetected = collect(
@@ -173,16 +175,18 @@ export class ConfigManager {
     }
   }
 
+  private validateTargetKeyExists() {
+    if (!this.targetPath && !this.customConfig?.target) {
+      terminate(ERRORS.UNSPECIFIED_TARGET);
+    }
+  }
+
   /**
    * Validate that a single target exists, either
    * - the `--target` CLI arg, i.e. `this.targetPath` or
    * - the `target` key in the custom config, i.e. `this.customConfig.target`.
    */
-  private validateSingleTarget() {
-    if (!this.customConfig.target && !this.targetPath) {
-      terminate(ERRORS.UNSPECIFIED_TARGET);
-    }
-
+  private validateNoTargetKeyConflict() {
     if (this.customConfig.target && this.targetPath) {
       terminate(ERRORS.OVERSPECIFIED_TARGET);
     }

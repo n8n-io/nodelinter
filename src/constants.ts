@@ -38,7 +38,8 @@ export const ERRORS = {
     "Unspecified target path: Specify the target path either as a CLI flag with --target or as a key in the config file",
   CONFIG_AUTODETECTION_FAILED:
     "Autodetection of `nodelinter.config.json` failed",
-  FAILED_TO_FIND_TARGET: "No such file or directory",
+  FAILED_TO_FIND_TARGET_AT_PATH:
+    "There is no file or dir at the path specified by the target key",
   MULTIPLE_ONLY_ARGS:
     "Multiple `--*-only` flags detected. Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
   INVALID_PATTERNS:
