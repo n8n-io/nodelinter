@@ -193,7 +193,7 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
     details:
-      "Prefer the n8n-specific `NodeApiError` for unsuccessful API calls and `NodeOperationError` for functionality errors. Reference: n8n/packages/workflow/src/NodeErrors.ts",
+      "Use `NodeApiError` for unsuccessful API calls and `NodeOperationError` for functionality errors. Reference: n8n/packages/workflow/src/NodeErrors.ts",
   },
 
   NAME_WITH_MISCASED_ID: {

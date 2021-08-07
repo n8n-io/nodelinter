@@ -1,4 +1,4 @@
-import ts, { getLineAndCharacterOfPosition as getLine } from "typescript";
+import ts from "typescript";
 import { masterConfig } from "../";
 import {
   lintingIsDisabled,

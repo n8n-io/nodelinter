@@ -33,8 +33,7 @@ export class Selector {
           end: range.end,
         })) ?? [];
 
-    // dedup because comments may be attached to more than one node
-    // and so have different lines despite being on a single line
+    // dedup because API may report multiple comment ranges for a single comment
 
     if (comments?.length) {
       comments.forEach((comment) => {
@@ -47,7 +46,7 @@ export class Selector {
   }
 
   /**
-   * Select all `// nodelinter-ignore-next-line` lint exceptions in the source.
+   * Select all next line lint exceptions in the source.
    */
   static lintExceptions(node: ts.Node): LintException[] {
     return Selector.comments(node)
@@ -64,7 +63,7 @@ export class Selector {
   }
 
   /**
-   * Select all `// TODO` comments in the source.
+   * Select all TODO comments in the source.
    */
   static toDos(node: ts.Node) {
     // const comments = Selector.comments(node);
@@ -75,7 +74,7 @@ export class Selector {
   }
 
   /**
-   * Select all `// @ts-ignore` comments in the source.
+   * Select all `@ts-ignore` comments in the source.
    */
   static tsIgnores(node: ts.Node) {
     return Selector.comments(node)

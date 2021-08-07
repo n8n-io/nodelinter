@@ -33,7 +33,7 @@ export class Presenter {
   public showLogs(logs: Log[]) {
     this.showHeader(logs);
 
-    logs = this.removeRedundantLogs(logs);
+    // logs = this.removeRedundantLogs(logs);
     this.logs = this.sortLogs(logs);
 
     logs.forEach((log, index) => {
@@ -318,44 +318,46 @@ export class Presenter {
 
   /**
    * Remove logs that are logically covered by other logs on the same line.
+   *
+   * TODO: Systematize preferences and refactor this logic
    */
-  private removeRedundantLogs(logs: Log[]) {
-    // prefer NON_STANDARD_RETURNALL_DESCRIPTION over BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
+  // private removeRedundantLogs(logs: Log[]) {
+  //   // prefer NON_STANDARD_RETURNALL_DESCRIPTION over BOOLEAN_DESCRIPTION_NOT_STARTING_WITH_WHETHER
 
-    const [returnAllOrWhether, others1] = this.separate(logs, (log) =>
-      this.isReturnAllOrWhether(log)
-    );
+  //   const [returnAllOrWhether, others1] = this.separate(logs, (log) =>
+  //     this.isReturnAllOrWhether(log)
+  //   );
 
-    const [returnAllOrWhetherSameLine, returnAllOrWhetherDifferentLines] =
-      this.separatePerSameLine(returnAllOrWhether);
+  //   const [returnAllOrWhetherSameLine, returnAllOrWhetherDifferentLines] =
+  //     this.separatePerSameLine(returnAllOrWhether);
 
-    if (returnAllOrWhetherSameLine.length === 2) {
-      logs = [
-        ...others1,
-        ...returnAllOrWhetherDifferentLines,
-        ...returnAllOrWhetherSameLine.filter((log) => this.isReturnAll(log)),
-      ];
-    }
+  //   if (returnAllOrWhetherSameLine.length === 2) {
+  //     logs = [
+  //       ...others1,
+  //       ...returnAllOrWhetherDifferentLines,
+  //       ...returnAllOrWhetherSameLine.filter((log) => this.isReturnAll(log)),
+  //     ];
+  //   }
 
-    // prefer WEAK_PARAM_DESCRIPTION over PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD
+  //   // prefer WEAK_PARAM_DESCRIPTION over PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD
 
-    const [weakOrExcess, others2] = this.separate(logs, (log) =>
-      this.isWeakOrExcess(log)
-    );
+  //   const [weakOrExcess, others2] = this.separate(logs, (log) =>
+  //     this.isWeakOrExcess(log)
+  //   );
 
-    const [weakOrExcessSameLine, weakOrExcessDifferentLines] =
-      this.separatePerSameLine(weakOrExcess);
+  //   const [weakOrExcessSameLine, weakOrExcessDifferentLines] =
+  //     this.separatePerSameLine(weakOrExcess);
 
-    if (weakOrExcessSameLine.length === 2) {
-      logs = [
-        ...others2,
-        ...weakOrExcessDifferentLines,
-        ...weakOrExcessSameLine.filter((log) => this.isWeak(log)),
-      ];
-    }
+  //   if (weakOrExcessSameLine.length === 2) {
+  //     logs = [
+  //       ...others2,
+  //       ...weakOrExcessDifferentLines,
+  //       ...weakOrExcessSameLine.filter((log) => this.isWeak(log)),
+  //     ];
+  //   }
 
-    return logs;
-  }
+  //   return logs;
+  // }
 
   private isReturnAllOrWhether(log: Log) {
     return (

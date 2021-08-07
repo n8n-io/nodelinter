@@ -64,7 +64,7 @@ export const LINTABLE_FILE_PATTERNS = [".node.ts", "Description.ts"];
 export const DEFAULT_PRINT_FILENAME = "lintOutput";
 
 /**
- * Default filename for autodetected nodelinter config.
+ * Default filename for autodetectable nodelinter config.
  */
 export const DEFAULT_AUTODETECT_FILENAME = "nodelinter.config.json";
 

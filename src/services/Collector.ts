@@ -14,9 +14,9 @@ export class Collector {
   public static toDos: Array<{ line: number; text: string }>;
 
   static run(node: ts.Node) {
-    this.lintExceptions = Selector.lintExceptions(node);
-    this.tsIgnores = Selector.tsIgnores(node);
-    this.toDos = Selector.toDos(node);
+    Collector.lintExceptions = Selector.lintExceptions(node);
+    Collector.tsIgnores = Selector.tsIgnores(node);
+    Collector.toDos = Selector.toDos(node);
 
     if (
       Traverser.sourceFilePath.endsWith(".node.ts") &&

@@ -1,21 +1,12 @@
-export const accountContactOperations = [
-	{
-		displayName: 'Return All',
-		name: 'returnAll',
-		// @ts-ignore
-		type: 'boolean',
-		// TODO: Whoa
-		displayOptions: {
-			show: {
-				operation: [
-					'getAll',
-				],
-				resource: [
-					'project',
-				],
-			},
-		},
-		default: false,
-		description: 'Whether all results should be returned',
-	},
-]
+export const webinarOperations = [
+  {
+    displayName: 'Timezone',
+    name: 'timeZone',
+    type: 'string',
+    typeOptions: {
+      loadOptionsMethod: 'getTimezones',
+    },
+    default: '',
+    description: 'Time zone used in the response. The default is the time zone of the calendar.  ',
+  },
+];
