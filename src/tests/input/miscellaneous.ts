@@ -10,29 +10,6 @@ export const properties = [
   },
 ] as INodeProperties[]; // Removing casing causes test to fail, for unknown reason.
 
-
-export class AwsRekognition implements INodeType {
-
-  // PUSH_APPLY
-	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const items = this.getInputData();
-		const returnData: IDataObject[] = [];
-		const qs: IDataObject = {};
-		let responseData;
-		const resource = this.getNodeParameter('resource', 0) as string;
-		const operation = this.getNodeParameter('operation', 0) as string;
-		for (let i = 0; i < items.length; i++) {
-
-			if (Array.isArray(responseData)) {
-				returnData.push.apply(returnData, responseData as IDataObject[]);
-			} else {
-				returnData.push(responseData);
-			}
-		}
-		return [this.helpers.returnJsonArray(returnData)];
-	}
-}
-
 // NON_STANDARD_RETURNALL_DESCRIPTION
 export const accountContactOperations = [
 	{
@@ -53,9 +30,6 @@ export const accountContactOperations = [
 		description: 'Whether all results should be returned',
 	},
 ]
-
-// ANY_TYPE
-let response: any; // tslint:disable-line:no-any
 
 // TS_IGNORE
 export const webinarOperations = [

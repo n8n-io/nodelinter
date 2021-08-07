@@ -9,10 +9,6 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if (isAnyKeyword(node)) {
-      this.log(LINTINGS.ANY_TYPE)(node.parent);
-    }
-
     if (
       ts.isPropertyAssignment(node) &&
       node.getChildAt(0).getText() === "name" &&
@@ -26,15 +22,6 @@ export class MiscellaneousValidator implements SubValidator {
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });
-    }
-
-    if (
-      ts.isPropertyAccessExpression(node) &&
-      node.getChildAt(2).getText() === "apply" &&
-      node.getChildAt(0).getText().includes(".") &&
-      node.getChildAt(0).getText().split(".")[1] === "push"
-    ) {
-      this.log(LINTINGS.PUSH_APPLY)(node);
     }
 
     if (
