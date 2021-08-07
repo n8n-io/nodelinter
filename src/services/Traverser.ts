@@ -1,5 +1,6 @@
 import ts from "typescript";
 import { Validator } from "../services";
+import { Collector } from "./Collector";
 
 export class Traverser {
   static sourceFile: ts.SourceFile;
@@ -10,13 +11,19 @@ export class Traverser {
       return (sourceFile) => {
         this.sourceFile = sourceFile;
 
-        const visitor: ts.Visitor = (node) => {
-          validator.setNode(node).run();
-          return ts.visitEachChild(node, visitor, context);
+        const collectorVisitor: ts.Visitor = (node) => {
+          Collector.setNode(node).run();
+          return ts.visitEachChild(node, collectorVisitor, context);
         };
 
-        ts.visitNode(sourceFile, visitor); // full traversal, using subValidators
-        validator.postTraversalChecks(sourceFile); // post traversal, using Collector
+        const validatorVisitor: ts.Visitor = (node) => {
+          validator.setNode(node).run();
+          return ts.visitEachChild(node, validatorVisitor, context);
+        };
+
+        ts.visitNode(sourceFile, collectorVisitor);
+        ts.visitNode(sourceFile, validatorVisitor); // main traversal
+        validator.postTraversalChecks(sourceFile);
 
         return sourceFile;
       };

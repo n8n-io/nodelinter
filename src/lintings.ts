@@ -143,6 +143,15 @@ export const LINTINGS: {
     )}`,
   },
 
+  NON_EXISTENT_LOAD_OPTIONS_METHOD: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Param with non-existent `loadOptionsMethod`",
+    enabled: true,
+    logLevel: "error",
+    details:
+      "The method to load options specified for this param has not been defined in `methods.loadOptions` in the node.",
+  },
   TS_IGNORE: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wrong",

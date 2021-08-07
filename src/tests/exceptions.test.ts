@@ -47,6 +47,8 @@ describe("Exceptions should disable lintings", () => {
 
     transpile(validator, sourceFilePath);
 
-    expect(validator.logs.length).toBe(0);
+    const found = validator.logs.find((log) => log.line === 11);
+
+    expect(found).toBeUndefined();
   });
 });

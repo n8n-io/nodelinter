@@ -27,8 +27,6 @@ export class Validator {
   }
 
   public run() {
-    Collector.run(this.currentNode);
-
     Object.values(subValidators).forEach((subValidator) => {
       if (ConfigManager.lintAreaIsDisabled(subValidator.lintArea, masterConfig))
         return;

@@ -2,6 +2,7 @@ import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { Selector as $ } from "../Selector";
+import { Collector } from "../Collector";
 
 export class MiscellaneousValidator implements SubValidator {
   static lintArea = "miscellaneous" as const;
@@ -35,6 +36,17 @@ export class MiscellaneousValidator implements SubValidator {
 
     if (ts.isIdentifier(node) && node.getText() === "Error") {
       this.log(LINTINGS.WRONG_ERROR_THROWN)(node.parent);
+    }
+
+    if (ts.isIdentifier(node) && node.getText() === "loadOptionsMethod") {
+      const loadOptionsMethod = node.parent
+        .getChildAt(2)
+        .getText()
+        .replace(/'/g, "");
+
+      if (!Collector.loadOptionsMethods.includes(loadOptionsMethod)) {
+        this.log(LINTINGS.NON_EXISTENT_LOAD_OPTIONS_METHOD)(node.parent);
+      }
     }
 
     return this.logs;
