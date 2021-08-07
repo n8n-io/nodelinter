@@ -1,7 +1,6 @@
-import path from "path";
 import { defaultConfig } from "../defaultConfig";
 import { Traverser, Validator } from "../services";
-import { lintAreaIsDisabled } from "../utils";
+import { ConfigManager } from "../services/ConfigManager";
 import {
   validatorMockFilePath,
   runTest,
@@ -13,7 +12,7 @@ import { lintingsByGroup } from "./helpers/testHelpers";
 describe("Validator should validate miscellaneous rules", () => {
   const lintArea = "miscellaneous";
 
-  if (lintAreaIsDisabled(lintArea, defaultConfig)) return;
+  if (ConfigManager.lintAreaIsDisabled(lintArea, defaultConfig)) return;
 
   const sourceFilePath = validatorMockFilePath(`${lintArea}.ts`);
   const sourceFilePathNodeTs = validatorMockFilePath("miscellaneous.node.ts");

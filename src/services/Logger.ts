@@ -1,13 +1,8 @@
 import ts from "typescript";
 import { masterConfig } from "../";
-import {
-  lintingIsDisabled,
-  lintingIsExcepted,
-  lintIssueIsDisabled,
-  logLevelIsDisabled,
-} from "../utils";
 import { Traverser } from "../services";
 import { Collector } from "./Collector";
+import { ConfigManager } from "./ConfigManager";
 import { Selector } from "./Selector";
 
 // type SubValidatorConstructor<T = {}> = new (...args: any[]) => T;
@@ -22,10 +17,15 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
       line += 1; // TODO: Find out why this offset is needed
 
       if (
-        lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
-        logLevelIsDisabled(linting.logLevel, masterConfig) ||
-        lintingIsDisabled(linting, masterConfig) ||
-        lintingIsExcepted(linting, line, Collector.exceptions)
+        ConfigManager.lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
+        ConfigManager.logLevelIsDisabled(linting.logLevel, masterConfig) ||
+        ConfigManager.lintingIsDisabled(linting, masterConfig) ||
+        ConfigManager.lintingIsExcepted(
+          linting,
+          line,
+          Collector.exceptions,
+          masterConfig
+        )
       )
         return;
 

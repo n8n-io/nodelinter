@@ -81,43 +81,6 @@ export const isLintable = (target: string) =>
 
 // disabled state
 
-export const lintAreaIsDisabled = (lintArea: LintArea, config: Config) =>
-  !config.enable.lintAreas[lintArea];
-
-export const lintIssueIsDisabled = (lintIssue: LintIssue, config: Config) =>
-  !config.enable.lintIssues[lintIssue];
-
-export const logLevelIsDisabled = (logLevel: LogLevel, config: Config) =>
-  !config.enable.logLevels[logLevel];
-
-export const lintingIsDisabled = (linting: Linting, config: Config) => {
-  const configLinting = getLinting(linting, config.lintings);
-
-  if (!configLinting) {
-    throw new Error(`No config linting found for: ${linting.message}`);
-  }
-
-  return !configLinting.enabled;
-};
-
-export const lintingIsExcepted = (
-  linting: Linting,
-  lintingLine: number,
-  exceptions: Exception[]
-) => {
-  return (
-    exceptions.find((exception) => {
-      return (
-        (exception.lintingsToExcept.includes(
-          getLintingName(linting, masterConfig)
-        ) ||
-          exception.lintingsToExcept.includes("*")) &&
-        exception.line + 1 === lintingLine
-      );
-    }) !== undefined
-  );
-};
-
 // TODO: Refactor
 export const getLintingName = (targetLinting: Linting, config: Config) => {
   return Object.entries(config.lintings).find(

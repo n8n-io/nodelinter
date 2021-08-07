@@ -77,8 +77,6 @@ export class Selector {
    * Select all TODO comments in the source.
    */
   static toDos(node: ts.Node) {
-    // const comments = Selector.comments(node);
-    // console.log(comments);
     return Selector.comments(node)
       .filter((comment) => comment.text.startsWith("// TODO"))
       .map(({ text, line }) => ({ text, line }));

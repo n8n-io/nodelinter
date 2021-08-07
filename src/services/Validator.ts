@@ -2,15 +2,9 @@ import ts from "typescript";
 import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
-import {
-  lintAreaIsDisabled,
-  lintingIsDisabled,
-  isRegularNode,
-  lintIssueIsDisabled,
-  logLevelIsDisabled,
-  lintingIsExcepted,
-} from "../utils";
+import { isRegularNode } from "../utils";
 import { Collector } from "./Collector";
+import { ConfigManager } from "./ConfigManager";
 import { Selector } from "./Selector";
 import * as subValidators from "./subValidators";
 
@@ -36,7 +30,8 @@ export class Validator {
     Collector.run(this.currentNode);
 
     Object.values(subValidators).forEach((subValidator) => {
-      if (lintAreaIsDisabled(subValidator.lintArea, masterConfig)) return;
+      if (ConfigManager.lintAreaIsDisabled(subValidator.lintArea, masterConfig))
+        return;
       this.runSubValidator(subValidator);
     });
   }
@@ -90,10 +85,15 @@ export class Validator {
     { line, text }: { line: number; text: string }
   ) {
     if (
-      lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
-      logLevelIsDisabled(linting.logLevel, masterConfig) ||
-      lintingIsDisabled(linting, masterConfig) ||
-      lintingIsExcepted(linting, line, Collector.exceptions)
+      ConfigManager.lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
+      ConfigManager.logLevelIsDisabled(linting.logLevel, masterConfig) ||
+      ConfigManager.lintingIsDisabled(linting, masterConfig) ||
+      ConfigManager.lintingIsExcepted(
+        linting,
+        line,
+        Collector.exceptions,
+        masterConfig
+      )
     )
       return;
 

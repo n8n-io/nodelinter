@@ -6,7 +6,7 @@ import {
   ERRORS,
   LINTABLE_FILE_PATTERNS,
 } from "../constants";
-import { collect, terminate } from "../utils";
+import { collect, getLinting, getLintingName, terminate } from "../utils";
 import { defaultConfig } from "../defaultConfig";
 import { isNotTestRun } from "..";
 
@@ -23,10 +23,12 @@ export class ConfigManager {
   customConfig: Config;
   masterConfig: Config;
 
+  /**
+   * `isNotTestRun` is needed so that tests use `defaultConfig` instead of `customConfig`.
+   */
   constructor(args: string[]) {
     this.parseArgs(args);
 
-    // `isNotTestRun` is needed so that tests use `defaultConfig`
     if (!this.configPath && isNotTestRun) this.autoDetectConfigPath();
     if (this.configPath) this.loadCustomConfig();
 
@@ -94,17 +96,18 @@ export class ConfigManager {
   private parsePatternsArgs(patterns?: string) {
     if (!patterns) return;
 
-    const parsed = patterns.split(",").map((p) => p.trim());
+    const parsedPatterns = patterns.split(",").map((p) => p.trim());
 
-    this.adjustPattern(parsed, { from: "node.ts", to: ".node.ts" });
-    this.adjustPattern(parsed, {
+    this.adjustPattern(parsedPatterns, { from: "node.ts", to: ".node.ts" });
+    this.adjustPattern(parsedPatterns, {
       from: ".Description.ts",
       to: "Description.ts",
     });
 
-    if (!this.areValid(parsed)) terminate(ERRORS.INVALID_PATTERNS);
+    if (!this.areValidPatterns(parsedPatterns))
+      terminate(ERRORS.INVALID_PATTERNS);
 
-    this.patterns = parsed;
+    this.patterns = parsedPatterns;
   }
 
   overrideLogLevels() {
@@ -130,7 +133,7 @@ export class ConfigManager {
     return patterns;
   }
 
-  private areValid(value: any): value is LintableFilePattern[] {
+  private areValidPatterns(value: unknown): value is LintableFilePattern[] {
     return (
       Array.isArray(value) &&
       value.every((item) => LINTABLE_FILE_PATTERNS.includes(item))
@@ -216,5 +219,52 @@ export class ConfigManager {
     }
 
     return result;
+  }
+
+  // ----------------------------------
+  //         state reporting
+  // ----------------------------------
+
+  static lintAreaIsDisabled(lintArea: LintArea, config: Config) {
+    return !config.enable.lintAreas[lintArea];
+  }
+
+  static lintIssueIsDisabled(lintIssue: LintIssue, config: Config) {
+    return !config.enable.lintIssues[lintIssue];
+  }
+
+  static logLevelIsDisabled(logLevel: LogLevel, config: Config) {
+    return !config.enable.logLevels[logLevel];
+  }
+
+  static lintingIsDisabled(linting: Linting, config: Config) {
+    const configLinting = getLinting(linting, config.lintings);
+
+    if (!configLinting) {
+      throw new Error(`No config linting found for: ${linting.message}`);
+    }
+
+    return !configLinting.enabled;
+  }
+
+  /**
+   * Report whether a linting at a line is disabled by an exception comment.
+   */
+  static lintingIsExcepted(
+    linting: Linting,
+    lintingLine: number,
+    exceptions: Exception[],
+    masterConfig: Config
+  ) {
+    const found = exceptions.find(({ lintingsToExcept, line }) => {
+      const lintingName = getLintingName(linting, masterConfig);
+      const lintingsMatch =
+        lintingsToExcept.includes(lintingName) ||
+        lintingsToExcept.includes("*");
+
+      return lintingsMatch && line + 1 === lintingLine;
+    });
+
+    return found !== undefined;
   }
 }

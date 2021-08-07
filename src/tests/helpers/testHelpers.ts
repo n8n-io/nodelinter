@@ -4,8 +4,8 @@ import path from "path";
 import { Traverser, Validator } from "../../services";
 import { LINTINGS } from "../../lintings";
 import { defaultConfig } from "../../defaultConfig";
-import { lintingIsDisabled, lintIssueIsDisabled } from "../../utils";
 import { masterConfig } from "../..";
+import { ConfigManager } from "../../services/ConfigManager";
 
 export const transpile = (validator: Validator, sourceFilePath: string) => {
   const source = fs.readFileSync(sourceFilePath, "utf8");
@@ -19,9 +19,10 @@ export const runTest = (validator: Validator) => (linting: Linting) => {
   test(linting.message, () => {
     const found = validator.logs.find((log) => log.message === linting.message);
 
-    if (lintIssueIsDisabled(linting.lintIssue, defaultConfig)) return;
+    if (ConfigManager.lintIssueIsDisabled(linting.lintIssue, defaultConfig))
+      return;
 
-    if (lintingIsDisabled(linting, defaultConfig)) return;
+    if (ConfigManager.lintingIsDisabled(linting, defaultConfig)) return;
 
     expect(found).toBeDefined();
   });
