@@ -1,8 +1,8 @@
-// NON_STANDARD_RETURNALL_DESCRIPTION
 export const accountContactOperations = [
 	{
 		displayName: 'Return All',
 		name: 'returnAll',
+		// TODO
 		type: 'boolean',
 		displayOptions: {
 			show: {

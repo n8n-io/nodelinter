@@ -46,5 +46,27 @@ export const webinarOperations = [
   },
 ];
 
+// TODO
+export const abc = [
+	{
+		displayName: 'Return All',
+		name: 'returnAll',
+		// TODO
+		type: 'boolean',
+		displayOptions: {
+			show: {
+				operation: [
+					'getAll',
+				],
+				resource: [
+					'project',
+				],
+			},
+		},
+		default: false,
+		description: 'Whether all results should be returned',
+	},
+]
+
 // WRONG_ERROR_THROWN
 throw Error();

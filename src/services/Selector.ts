@@ -45,9 +45,18 @@ export class Selector {
         return {
           line,
           lintingName: text.split(" ").pop()!,
-          type: "nextLine",
+          exceptionType: "nextLine",
         };
       });
+  }
+
+  /**
+   * Select all `// TODO` comments in the source.
+   */
+  static toDos(node: ts.Node) {
+    return Selector.comments(node)
+      .filter((comment) => comment.text.startsWith("// TODO"))
+      .map(({ text, line }) => ({ text, line }));
   }
 
   /**

@@ -9,6 +9,7 @@ import { Selector } from "./Selector";
 export class Collector {
   private static lintExceptionsMap = new Map();
   private static tsIgnoresMap = new Map();
+  private static toDosMap = new Map();
   public static sourceFileHasContinueOnFail = false;
 
   static get lintExceptions(): LintException[] {
@@ -19,9 +20,21 @@ export class Collector {
     return Object.values(Object.fromEntries(Collector.tsIgnoresMap));
   }
 
+  static get toDos(): Array<{ line: number; text: string }> {
+    return Object.values(Object.fromEntries(Collector.toDosMap));
+  }
+
   static run(node: ts.Node) {
     const lintExceptions = Selector.lintExceptions(node);
     const tsIgnores = Selector.tsIgnores(node);
+    const toDos = Selector.toDos(node);
+
+    if (lintExceptions?.length) {
+      lintExceptions.forEach((exception) => {
+        const key = `${exception.line}-${exception.lintingName}`;
+        Collector.lintExceptionsMap.set(key, exception);
+      });
+    }
 
     if (tsIgnores?.length) {
       tsIgnores.forEach((tsIgnore) => {
@@ -30,11 +43,12 @@ export class Collector {
       });
     }
 
-    if (lintExceptions?.length) {
-      lintExceptions.forEach((exception) => {
-        const key = `${exception.line}-${exception.lintingName}`;
-        Collector.lintExceptionsMap.set(key, exception);
+    if (toDos?.length) {
+      toDos.forEach((toDo) => {
+        const key = `${toDo.line}-${toDo.text}`;
+        Collector.toDosMap.set(key, toDo);
       });
+      console.log(Collector.toDosMap);
     }
 
     if (

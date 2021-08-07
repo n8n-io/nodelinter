@@ -67,6 +67,23 @@ export class Validator {
       });
     }
 
+    if (Collector.toDos.length) {
+      const linting = LINTINGS.TODO;
+
+      Collector.toDos.forEach((toDo) => {
+        this.logs.push({
+          message: linting.message,
+          lintAreas: linting.lintAreas,
+          lintIssue: linting.lintIssue,
+          line: toDo.line,
+          excerpt: "// @ts-ignore",
+          sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
+          logLevel: linting.logLevel,
+          ...(linting.details && { details: linting.details }),
+        });
+      });
+    }
+
     if (isRegularNode(nodeName) && !sourceFileHasContinueOnFail) {
       const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
 

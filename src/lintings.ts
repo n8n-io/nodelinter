@@ -146,10 +146,17 @@ export const LINTINGS: {
   TS_IGNORE: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wrong",
-    message: "@ts-ignore detected",
+    message: "@ts-ignore comment detected",
     enabled: true,
     logLevel: "warning",
     details: "@ts-ignore comments suppress compilation errors.",
+  },
+  TODO: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "TODO comment detected",
+    enabled: true,
+    logLevel: "warning",
   },
   REQUIRED_FALSE: {
     lintAreas: ["miscellaneous"],

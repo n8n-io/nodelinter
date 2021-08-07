@@ -74,7 +74,7 @@ type LintIssue =
 type LintException = {
   line: number; // one line before affected line
   lintingName: string;
-  type: "nextLine";
+  exceptionType: "nextLine"; // TODO: Add more
 };
 
 // ----------------------------------
