@@ -86,6 +86,13 @@ export const LINTINGS: {
     logLevel: "error",
     details: "`ID` must be all uppercase in every `displayName` property.",
   },
+  DISPLAYNAME_NOT_UPDATE_FIELDS: {
+    lintAreas: ["displayName"],
+    lintIssue: "wrong",
+    message: "Collection param for update operation not named 'Update Fields'",
+    enabled: true,
+    logLevel: "error",
+  },
   DISPLAYNAME_WITH_NO_TITLECASE: {
     lintAreas: ["displayName"],
     lintIssue: "casing",

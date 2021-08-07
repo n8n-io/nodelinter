@@ -22,6 +22,34 @@ export class DisplayNameValidator implements SubValidator {
       });
     }
 
+    if ($.isAssignment(node, { key: "type", value: "collection" })) {
+      node.parent.forEachChild((child) => {
+        if ($.isAssignment(child, { key: "displayOptions" })) {
+          const objectLiteralAtShow = child
+            .getChildAt(2)
+            .getChildAt(1)
+            .getChildAt(0)
+            .getChildAt(2);
+
+          objectLiteralAtShow.forEachChild((child) => {
+            if (
+              child.getChildAt(0).getText() === "operation" &&
+              child.getChildAt(2).getChildAt(1).getChildAt(0).getText() ===
+                "'update'"
+            ) {
+              node.parent.forEachChild((child) => {
+                if ($.isAssignment(child, { key: "displayName" })) {
+                  if (child.getChildAt(2).getText() !== "'Update Fields'") {
+                    this.log(LINTINGS.DISPLAYNAME_NOT_UPDATE_FIELDS)(child);
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
     if ($.isAssignment(node, { key: "displayName" })) {
       const displayNameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
