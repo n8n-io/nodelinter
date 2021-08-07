@@ -1,14 +1,12 @@
 import path from "path";
 import { LINTINGS } from "../lintings";
 import { Validator } from "../services";
-import { transpile } from "./testHelpers";
+import { exceptionMockFilePath, transpile } from "./helpers/testHelpers";
 
 describe("Exceptions should disable lintings", () => {
-  const baseSourceFilePath = path.join("src", "tests", "input", "exceptions");
-
   it("Single-linting exception for next line", () => {
     // PARAM_DESCRIPTION_UNTRIMMED
-    const sourceFilePath = path.join(baseSourceFilePath, "single.ts");
+    const sourceFilePath = exceptionMockFilePath("single.ts");
     const validator = new Validator(sourceFilePath);
 
     transpile(validator, sourceFilePath);
@@ -24,7 +22,7 @@ describe("Exceptions should disable lintings", () => {
     // PARAM_DESCRIPTION_UNTRIMMED
     // PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
 
-    const sourceFilePath = path.join(baseSourceFilePath, "multiple.ts");
+    const sourceFilePath = exceptionMockFilePath("multiple.ts");
     const validator = new Validator(sourceFilePath);
 
     transpile(validator, sourceFilePath);
@@ -44,7 +42,7 @@ describe("Exceptions should disable lintings", () => {
   });
 
   it("All-lintings exception for next line", () => {
-    const sourceFilePath = path.join(baseSourceFilePath, "all.ts");
+    const sourceFilePath = exceptionMockFilePath("all.ts");
     const validator = new Validator(sourceFilePath);
 
     transpile(validator, sourceFilePath);

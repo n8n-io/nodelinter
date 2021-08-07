@@ -14,5 +14,5 @@
     "declaration": true
   },
 
-  "exclude": ["src/input/*", "src/tests/input/*", "./dist/**/*"]
+  "exclude": ["src/input/*", "src/tests/mocks/*", "./dist/**/*"]
 }

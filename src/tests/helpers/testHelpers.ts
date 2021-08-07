@@ -1,11 +1,11 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
-import { Traverser, Validator } from "../services";
-import { LINTINGS } from "../lintings";
-import { defaultConfig } from "../defaultConfig";
-import { lintingIsDisabled, lintIssueIsDisabled } from "../utils";
-import { masterConfig } from "..";
+import { Traverser, Validator } from "../../services";
+import { LINTINGS } from "../../lintings";
+import { defaultConfig } from "../../defaultConfig";
+import { lintingIsDisabled, lintIssueIsDisabled } from "../../utils";
+import { masterConfig } from "../..";
 
 export const transpile = (validator: Validator, sourceFilePath: string) => {
   const source = fs.readFileSync(sourceFilePath, "utf8");
@@ -27,8 +27,11 @@ export const runTest = (validator: Validator) => (linting: Linting) => {
   });
 };
 
-export const buildSourceFilePath = (lintArea: LintArea) =>
-  path.join("src", "tests", "input", `${lintArea}.ts`);
+export const validatorMockFilePath = (fileName: string) =>
+  path.join("src", "tests", "mocks", "validators", fileName);
+
+export const exceptionMockFilePath = (fileName: string) =>
+  path.join("src", "tests", "mocks", "exceptions", fileName);
 
 const groupByLintArea = (list: Linting[]) =>
   list.reduce<{ [key: string]: Linting[] }>((acc, linting) => {
