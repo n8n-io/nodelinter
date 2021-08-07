@@ -77,6 +77,13 @@ type LintException = {
   exceptionType: "nextLine"; // TODO: Add more
 };
 
+type Comment = {
+  text: string;
+  line: number;
+  pos: number;
+  end: number;
+};
+
 // ----------------------------------
 //             log
 // ----------------------------------

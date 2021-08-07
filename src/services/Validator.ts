@@ -2,7 +2,14 @@ import ts from "typescript";
 import { masterConfig } from "..";
 import { LINTINGS } from "../lintings";
 import { Logger, Traverser } from "../services";
-import { lintAreaIsDisabled, lintingIsDisabled, isRegularNode } from "../utils";
+import {
+  lintAreaIsDisabled,
+  lintingIsDisabled,
+  isRegularNode,
+  lintIssueIsDisabled,
+  logLevelIsDisabled,
+  lintingIsExcepted,
+} from "../utils";
 import { Collector } from "./Collector";
 import { Selector } from "./Selector";
 import * as subValidators from "./subValidators";
@@ -42,67 +49,63 @@ export class Validator {
   }
 
   /**
-   * Run validation checks _after_ the source file AST has been fully traversed.
-   *
-   * TODO: Refactor to remove duplication with `Logger.log()`
+   * Run checks _after_ the source file AST has been traversed.
    */
-  public runFinal(sourceFile: ts.SourceFile, sourceFilePath: string) {
-    const nodeName = sourceFilePath.split("/").pop();
+  public postTraversalChecks(sourceFile: ts.SourceFile) {
+    const { tsIgnores, toDos } = Collector;
+
+    if (tsIgnores.length) {
+      tsIgnores.forEach(({ line, text }) => {
+        this.addToLogs(LINTINGS.TS_IGNORE, { line, text });
+      });
+    }
+
+    if (toDos.length) {
+      toDos.forEach(({ line, text }) => {
+        this.addToLogs(LINTINGS.TODO, { line, text });
+      });
+    }
+
     const { sourceFileHasContinueOnFail } = Collector;
 
-    if (Collector.tsIgnores.length) {
-      const linting = LINTINGS.TS_IGNORE;
-
-      Collector.tsIgnores.forEach((tsIgnore) => {
-        this.logs.push({
-          message: linting.message,
-          lintAreas: linting.lintAreas,
-          lintIssue: linting.lintIssue,
-          line: tsIgnore.line,
-          excerpt: "// @ts-ignore",
-          sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
-          logLevel: linting.logLevel,
-          ...(linting.details && { details: linting.details }),
-        });
-      });
-    }
-
-    if (Collector.toDos.length) {
-      const linting = LINTINGS.TODO;
-
-      Collector.toDos.forEach((toDo) => {
-        this.logs.push({
-          message: linting.message,
-          lintAreas: linting.lintAreas,
-          lintIssue: linting.lintIssue,
-          line: toDo.line,
-          excerpt: "// @ts-ignore",
-          sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
-          logLevel: linting.logLevel,
-          ...(linting.details && { details: linting.details }),
-        });
-      });
-    }
+    const nodeName = Traverser.sourceFilePath.split("/").pop();
 
     if (isRegularNode(nodeName) && !sourceFileHasContinueOnFail) {
-      const linting = LINTINGS.MISSING_CONTINUE_ON_FAIL;
-
       let line = Selector.lineNumber(sourceFile.getChildAt(0));
 
       line += 1; // TODO: Find out why this offset is needed
 
-      if (lintingIsDisabled(linting, masterConfig)) return;
-
-      this.logs.push({
-        message: linting.message,
-        lintAreas: linting.lintAreas,
-        lintIssue: linting.lintIssue,
+      this.addToLogs(LINTINGS.MISSING_CONTINUE_ON_FAIL, {
         line,
-        excerpt: "<large excerpt omitted>",
-        sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
-        logLevel: linting.logLevel,
-        ...(linting.details && { details: linting.details }),
+        text: "<large excerpt omitted>",
       });
     }
+  }
+
+  /**
+   * Add logs during the final run, i.e. during the post-traversal checks.
+   */
+  private addToLogs(
+    linting: Linting,
+    { line, text }: { line: number; text: string }
+  ) {
+    if (
+      lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
+      logLevelIsDisabled(linting.logLevel, masterConfig) ||
+      lintingIsDisabled(linting, masterConfig) ||
+      lintingIsExcepted(linting, line, Collector.lintExceptions)
+    )
+      return;
+
+    this.logs.push({
+      message: linting.message,
+      lintAreas: linting.lintAreas,
+      lintIssue: linting.lintIssue,
+      line: line,
+      excerpt: text,
+      sourceFilePath: this.testSourceFilePath ?? Traverser.sourceFilePath,
+      logLevel: linting.logLevel,
+      ...(linting.details && { details: linting.details }),
+    });
   }
 }

@@ -2,8 +2,9 @@ export const accountContactOperations = [
 	{
 		displayName: 'Return All',
 		name: 'returnAll',
-		// TODO
+		// @ts-ignore
 		type: 'boolean',
+		// TODO: Whoa
 		displayOptions: {
 			show: {
 				operation: [

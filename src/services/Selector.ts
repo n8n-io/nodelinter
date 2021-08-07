@@ -3,6 +3,8 @@ import { Traverser } from ".";
 import { NEXT_LINE_LINT_EXCEPTION_TEXT } from "../constants";
 
 export class Selector {
+  static commentsMap = new Map();
+
   /**
    * Retrieve the (ending) line number for the node.
    */
@@ -17,20 +19,31 @@ export class Selector {
   /**
    * Select all comments in the source.
    */
-  static comments(node: ts.Node) {
-    return (
+  static comments(node: ts.Node): Comment[] {
+    const comments =
       ts
         .getLeadingCommentRanges(
           Traverser.sourceFile.getFullText(),
           node.getFullStart()
         )
         ?.map((range) => ({
-          ...range,
           text: Traverser.sourceFile.getFullText().slice(range.pos, range.end),
           line: Selector.lineNumber(node),
-          node,
-        })) ?? []
-    );
+          pos: range.pos,
+          end: range.end,
+        })) ?? [];
+
+    // dedup because comments may be attached to more than one node
+    // and so have different lines despite being on a single line
+
+    if (comments?.length) {
+      comments.forEach((comment) => {
+        const key = `${comment.pos}-${comment.end}`;
+        Selector.commentsMap.set(key, comment);
+      });
+    }
+
+    return Object.values(Object.fromEntries(Selector.commentsMap));
   }
 
   /**
@@ -54,6 +67,8 @@ export class Selector {
    * Select all `// TODO` comments in the source.
    */
   static toDos(node: ts.Node) {
+    // const comments = Selector.comments(node);
+    // console.log(comments);
     return Selector.comments(node)
       .filter((comment) => comment.text.startsWith("// TODO"))
       .map(({ text, line }) => ({ text, line }));

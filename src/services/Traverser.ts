@@ -15,8 +15,8 @@ export class Traverser {
           return ts.visitEachChild(node, visitor, context);
         };
 
-        ts.visitNode(sourceFile, visitor); // full AST traversal
-        validator.runFinal(sourceFile, Traverser.sourceFilePath); // post-traversal checks
+        ts.visitNode(sourceFile, visitor); // full traversal, using subValidators
+        validator.postTraversalChecks(sourceFile); // post traversal, using Collector
 
         return sourceFile;
       };
