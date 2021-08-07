@@ -105,7 +105,7 @@ export const LINTINGS: {
     lintIssue: "wording",
     message: "Non-standard name of Simplify Response param",
     enabled: true,
-    logLevel: "error",
+    logLevel: "info",
     details: `The standard display name of the simplify param is: ${chalk.bold(
       STANDARD_NAMES.simplifyResponse
     )}`,
@@ -325,7 +325,7 @@ export const LINTINGS: {
     lintIssue: "wording",
     message: "Non-standard name of upsert option",
     enabled: true,
-    logLevel: "error",
+    logLevel: "info",
     details: `The standard upsert option name is: ${chalk.bold(
       STANDARD_NAMES.upsert
     )}`,
@@ -335,7 +335,7 @@ export const LINTINGS: {
     lintIssue: "wording",
     message: "Non-standard description of upsert option",
     enabled: true,
-    logLevel: "error",
+    logLevel: "info",
     details: `The standard upsert option description is: ${chalk.bold(
       STANDARD_DESCRIPTIONS.upsert
     )}`,
@@ -346,7 +346,7 @@ export const LINTINGS: {
     lintIssue: "wording",
     message: "Non-standard description of simplify param",
     enabled: true,
-    logLevel: "error",
+    logLevel: "info",
     details: `The standard description of the simplify param is: ${chalk.bold(
       STANDARD_DESCRIPTIONS.simplifyResponse
     )}`,

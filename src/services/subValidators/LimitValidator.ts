@@ -1,6 +1,7 @@
 import ts from "typescript";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { LINTINGS } from "../../lintings";
+import { Selector as $ } from "../Selector";
 
 export class LimitValidator implements SubValidator {
   static lintArea = "limit" as const;
@@ -8,10 +9,7 @@ export class LimitValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if (
-      ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "name"
-    ) {
+    if ($.isAssignment(node, { key: "name" })) {
       const nameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
       if (nameValue === "limit") {
@@ -34,10 +32,7 @@ export class LimitValidator implements SubValidator {
             this.log(LINTINGS.NON_STANDARD_LIMIT_DESCRIPTION)(node);
           }
 
-          if (
-            ts.isPropertyAssignment(node) &&
-            node.getChildAt(0).getText() === "typeOptions"
-          ) {
+          if ($.isAssignment(node, { key: "typeOptions" })) {
             node.getChildAt(2).forEachChild((node) => {
               if (node.getChildAt(0).getText() === "minValue") {
                 hasTypeOptions = true;

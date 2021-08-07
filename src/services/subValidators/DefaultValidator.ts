@@ -1,6 +1,7 @@
 import ts from "typescript";
 import { isBooleanKeyword } from "../../utils";
 import { LINTINGS } from "../../lintings";
+import { Selector as $ } from "../Selector";
 
 export class DefaultValidator implements SubValidator {
   static lintArea = "default" as const;
@@ -24,16 +25,10 @@ export class DefaultValidator implements SubValidator {
   }
 
   private validateDefaultExists(node: ts.Node) {
-    if (
-      ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "type"
-    ) {
+    if ($.isAssignment(node, { key: "type" })) {
       let hasDefault = false;
       node.parent.forEachChild((node) => {
-        if (
-          ts.isPropertyAssignment(node) &&
-          node.getChildAt(0).getText() === "default"
-        ) {
+        if ($.isAssignment(node, { key: "default" })) {
           hasDefault = true;
         }
       });
@@ -46,17 +41,11 @@ export class DefaultValidator implements SubValidator {
 
   private validateSimplifyDefault(node: ts.Node) {
     if (
-      ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "displayName" &&
-      node.getChildAt(2).getText() === "'Simplify Response'"
+      $.isAssignment(node, { key: "displayName", value: "Simplify Response" })
     ) {
-      node.parent.forEachChild((node) => {
-        if (
-          ts.isPropertyAssignment(node) &&
-          node.getChildAt(0).getText() === "default" &&
-          node.getChildAt(2).getText() === "false"
-        ) {
-          this.log(LINTINGS.WRONG_DEFAULT_FOR_SIMPLIFY_PARAM)(node);
+      node.parent.forEachChild((child) => {
+        if ($.isAssignment(child, { key: "default", value: false })) {
+          this.log(LINTINGS.WRONG_DEFAULT_FOR_SIMPLIFY_PARAM)(child);
         }
       });
     }
@@ -65,7 +54,7 @@ export class DefaultValidator implements SubValidator {
   /**
    * Generate a function that validates if the value for a `default` conforms to the param `type`.
    *
-   * Not applicable for default values must conform to `displayName`, e.g. `default: true` for
+   * Not applicable for default values that must conform to `displayName`, e.g. `default: true` for
    * `displayName: 'Simplify Response'`.
    */
   private defaultValidatorGenerator =
@@ -75,11 +64,7 @@ export class DefaultValidator implements SubValidator {
       linting: Linting
     ) =>
     (node: ts.Node) => {
-      if (
-        ts.isPropertyAssignment(node) &&
-        node.getChildAt(0).getText() === "type" &&
-        node.getChildAt(2).getText() === `'${typeName}'`
-      ) {
+      if ($.isAssignment(node, { key: "type", value: typeName })) {
         node.parent.forEachChild((node) => {
           if (
             node.getChildAt(0).getText() === "default" &&
@@ -121,15 +106,11 @@ export class DefaultValidator implements SubValidator {
   );
 
   private validateOptionsDefault = (node: ts.Node) => {
-    if (
-      ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "type" &&
-      node.getChildAt(2).getText() === "'options'"
-    ) {
+    if ($.isAssignment(node, { key: "type", value: "options" })) {
       let hasTypeOptionsSibling = false;
 
       node?.parent?.forEachChild((child) => {
-        if (child.getChildAt(0).getText() === "typeOptions") {
+        if ($.isAssignment(node, { key: "typeOptions" })) {
           hasTypeOptionsSibling = true;
         }
       });
@@ -141,7 +122,7 @@ export class DefaultValidator implements SubValidator {
       let optionValues: string[] = [];
 
       node.parent.forEachChild((node) => {
-        if (node.getChildAt(0).getText() === "default") {
+        if ($.isAssignment(node, { key: "default" })) {
           defaultOptionValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
           defaultNodeToReport = node;
         }
@@ -162,10 +143,7 @@ export class DefaultValidator implements SubValidator {
         node.getChildAt(2).forEachChild((node) => {
           if (!ts.isObjectLiteralExpression(node)) return;
           node.forEachChild((node) => {
-            if (
-              ts.isPropertyAssignment(node) &&
-              node.getChildAt(0).getText() === "value"
-            ) {
+            if ($.isAssignment(node, { key: "value" })) {
               optionValues.push(
                 node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes
               );

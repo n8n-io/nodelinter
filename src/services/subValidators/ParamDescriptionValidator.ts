@@ -7,6 +7,8 @@ import {
 import { LINTINGS } from "../../lintings";
 import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
 
+// TODO: Refactor for readability
+
 export class DescriptionValidator implements SubValidator {
   static lintArea = "paramDescription" as const;
   logs: Log[];

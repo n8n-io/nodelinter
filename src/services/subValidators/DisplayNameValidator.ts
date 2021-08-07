@@ -2,6 +2,7 @@ import ts from "typescript";
 import { STANDARD_NAMES } from "../../constants";
 import { LINTINGS } from "../../lintings";
 import { isTitleCase } from "../../utils";
+import { Selector as $ } from "../Selector";
 
 export class DisplayNameValidator implements SubValidator {
   static lintArea = "displayName" as const;
@@ -9,10 +10,7 @@ export class DisplayNameValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if (
-      node?.getChildAt(0)?.getText() === "name" &&
-      node?.getChildAt(2)?.getText() === "'simple'"
-    ) {
+    if ($.isAssignment(node, { key: "name", value: "simple" })) {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "displayName" &&
@@ -24,10 +22,7 @@ export class DisplayNameValidator implements SubValidator {
       });
     }
 
-    if (
-      ts.isPropertyAssignment(node) &&
-      node.getChildAt(0).getText() === "displayName"
-    ) {
+    if ($.isAssignment(node, { key: "displayName" })) {
       const displayNameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
       if (displayNameValue.includes("id") || displayNameValue.includes("Id")) {
