@@ -25,7 +25,7 @@ export function Logger<BaseClass extends Constructor>(Base: BaseClass) {
         lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
         logLevelIsDisabled(linting.logLevel, masterConfig) ||
         lintingIsDisabled(linting, masterConfig) ||
-        lintingIsExcepted(linting, line, Collector.lintExceptions)
+        lintingIsExcepted(linting, line, Collector.exceptions)
       )
         return;
 

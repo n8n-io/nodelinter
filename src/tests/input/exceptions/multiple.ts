@@ -1,4 +1,4 @@
-export const webinarOperations = [
+export const webinarOperations2 = [
   {
     displayName: 'Timezone',
     name: 'timeZone',

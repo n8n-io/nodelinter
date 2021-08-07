@@ -120,23 +120,22 @@ For convenience, when running locally, if you place a custom config file named `
 
 ### Lint exceptions
 
-Add `// nodelinter-ignore-next-line LINTING_NAME` to except the next line from the specified linting:
+Add `// nodelinter-ignore-next-line LINTING_NAME` to except the next line from one or more specific lintings:
 
 ```
-{
-  displayName: 'Timezone',
-  name: 'timeZone',
-  type: 'string',
-  typeOptions: {
-    loadOptionsMethod: 'getTimezones',
-  },
-  default: '',
-  // nodelinter-ignore-next-line PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
-  description: 'Time zone used in the response.    The default is the time zone of the calendar.',
-},
+// nodelinter-ignore-next-line PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
+description: 'Time zone used in the response.    The default is the time zone of the calendar.',
+
+// nodelinter-ignore-next-line PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE PARAM_DESCRIPTION_UNTRIMMED
+description: 'Time zone used in the response.    The default is the time zone of the calendar.   ',
 ```
 
-Currently only one linting may be excepted per line.
+Or add `// nodelinter-ignore-next-line` to except the next line from all lintings:
+
+```
+// nodelinter-ignore-next-line
+description: 'Time zone used in the response.    The default is the time zone of the calendar.',
+```
 
 <!-- ## Classification
 

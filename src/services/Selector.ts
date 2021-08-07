@@ -46,17 +46,28 @@ export class Selector {
   }
 
   /**
-   * Select all next line lint exceptions in the source.
+   * Select all next line exceptions in the source.
    */
-  static lintExceptions(node: ts.Node): LintException[] {
+  static exceptions(node: ts.Node): Exception[] {
     return Selector.comments(node)
       .filter((comment) =>
         comment.text.startsWith(NEXT_LINE_LINT_EXCEPTION_TEXT)
       )
       .map(({ line, text }) => {
+        const parts = text.split(" ");
+        let lintingsToExcept: string[] = [];
+
+        if (parts.length === 2) {
+          lintingsToExcept = ["*"];
+        } else if (parts.length === 3) {
+          lintingsToExcept = [parts.pop()!];
+        } else if (parts.length > 3) {
+          lintingsToExcept = parts.slice(2);
+        }
+
         return {
           line,
-          lintingName: text.split(" ").pop()!,
+          lintingsToExcept,
           exceptionType: "nextLine",
         };
       });

@@ -71,9 +71,9 @@ type LintIssue =
   | "naming"
   | "location";
 
-type LintException = {
+type Exception = {
   line: number; // one line before affected line
-  lintingName: string;
+  lintingsToExcept: string[];
   exceptionType: "nextLine"; // TODO: Add more
 };
 

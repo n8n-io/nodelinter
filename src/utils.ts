@@ -103,12 +103,15 @@ export const lintingIsDisabled = (linting: Linting, config: Config) => {
 export const lintingIsExcepted = (
   linting: Linting,
   lintingLine: number,
-  lintExceptions: LintException[]
+  exceptions: Exception[]
 ) => {
   return (
-    lintExceptions.find((exception) => {
+    exceptions.find((exception) => {
       return (
-        exception.lintingName === getLintingName(linting, masterConfig) &&
+        (exception.lintingsToExcept.includes(
+          getLintingName(linting, masterConfig)
+        ) ||
+          exception.lintingsToExcept.includes("*")) &&
         exception.line + 1 === lintingLine
       );
     }) !== undefined

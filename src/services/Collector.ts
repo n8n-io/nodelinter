@@ -9,12 +9,12 @@ import { Selector } from "./Selector";
 export class Collector {
   public static sourceFileHasContinueOnFail = false;
 
-  public static lintExceptions: LintException[];
+  public static exceptions: Exception[];
   public static tsIgnores: Array<{ line: number; text: string }>;
   public static toDos: Array<{ line: number; text: string }>;
 
   static run(node: ts.Node) {
-    Collector.lintExceptions = Selector.lintExceptions(node);
+    Collector.exceptions = Selector.exceptions(node);
     Collector.tsIgnores = Selector.tsIgnores(node);
     Collector.toDos = Selector.toDos(node);
 

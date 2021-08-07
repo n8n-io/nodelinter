@@ -93,7 +93,7 @@ export class Validator {
       lintIssueIsDisabled(linting.lintIssue, masterConfig) ||
       logLevelIsDisabled(linting.logLevel, masterConfig) ||
       lintingIsDisabled(linting, masterConfig) ||
-      lintingIsExcepted(linting, line, Collector.lintExceptions)
+      lintingIsExcepted(linting, line, Collector.exceptions)
     )
       return;
 

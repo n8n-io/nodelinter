@@ -1,4 +1,4 @@
-export const webinarOperations = [
+export const webinarOperations3 = [
   {
     displayName: 'Timezone',
     name: 'timeZone',
@@ -7,7 +7,7 @@ export const webinarOperations = [
       loadOptionsMethod: 'getTimezones',
     },
     default: '',
-    // nodelinter-ignore-next-line PARAM_DESCRIPTION_UNTRIMMED PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE
+    // nodelinter-ignore-next-line
     description: 'Time zone used in the response. The default is the time zone of the calendar.  ',
   },
 ];
