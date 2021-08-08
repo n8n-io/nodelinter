@@ -5,7 +5,6 @@ import { Logger, Traverser } from "../services";
 import { isRegularNode } from "../utils";
 import { Collector } from "./Collector";
 import { ConfigManager } from "./ConfigManager";
-import { Selector } from "./Selector";
 import * as subValidators from "./subValidators";
 
 export class Validator {
@@ -45,16 +44,14 @@ export class Validator {
    * Run checks _after_ the source file AST has been traversed.
    */
   public postTraversalChecks(sourceFile: ts.SourceFile) {
-    const { tsIgnores, toDos } = Collector;
-
-    if (tsIgnores.length) {
-      tsIgnores.forEach(({ line, text }) => {
+    if (Collector.tsIgnores.length) {
+      Collector.tsIgnores.forEach(({ line, text }) => {
         this.addToLogs(LINTINGS.TS_IGNORE, { line, text });
       });
     }
 
-    if (toDos.length) {
-      toDos.forEach(({ line, text }) => {
+    if (Collector.toDos.length) {
+      Collector.toDos.forEach(({ line, text }) => {
         this.addToLogs(LINTINGS.TODO, { line, text });
       });
     }
@@ -64,7 +61,7 @@ export class Validator {
     const nodeName = Traverser.sourceFilePath.split("/").pop();
 
     if (isRegularNode(nodeName) && !sourceFileHasContinueOnFail) {
-      let line = Selector.lineNumber(sourceFile.getChildAt(0));
+      let line = Collector.getLineNumber(sourceFile.getChildAt(0));
 
       line += 1; // TODO: Find out why this offset is needed
 

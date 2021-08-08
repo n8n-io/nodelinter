@@ -84,6 +84,15 @@ type Comment = {
   end: number;
 };
 
+type CommentBasedItem = {
+  line: number;
+  text: string;
+};
+
+type TsIgnoreComment = CommentBasedItem;
+
+type ToDoComment = CommentBasedItem;
+
 // ----------------------------------
 //             log
 // ----------------------------------

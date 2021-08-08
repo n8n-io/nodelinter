@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 
 export class NodeDescriptionValidator implements SubValidator {
   static lintArea = "nodeDescription" as const;
@@ -39,7 +39,7 @@ export class NodeDescriptionValidator implements SubValidator {
       });
     }
 
-    if ($.isAssignment(node, { key: "icon" })) {
+    if (Navigator.isAssignment(node, { key: "icon" })) {
       const iconValue = node.getChildAt(2).getText();
 
       if (iconValue.endsWith(".png'")) {

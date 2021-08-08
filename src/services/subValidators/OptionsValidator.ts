@@ -7,7 +7,7 @@ import {
 } from "../../utils";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 
 export class OptionsValidator implements SubValidator {
   static lintArea = "options" as const;
@@ -15,7 +15,9 @@ export class OptionsValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if ($.isAssignment(node, { key: "type", value: "fixedCollection" })) {
+    if (
+      Navigator.isAssignment(node, { key: "type", value: "fixedCollection" })
+    ) {
       let fixedCollectionValuesNames: string[] = [];
       let nodeToReport: ts.Node = node;
 
@@ -66,7 +68,7 @@ export class OptionsValidator implements SubValidator {
       }
     }
 
-    if ($.isAssignment(node, { key: "type", value: "collection" })) {
+    if (Navigator.isAssignment(node, { key: "type", value: "collection" })) {
       let nodeToReport: ts.Node = node;
       let collectionOptionsNames: string[] = [];
 
@@ -123,7 +125,7 @@ export class OptionsValidator implements SubValidator {
           if (!ts.isObjectLiteralExpression(node)) return;
 
           node.forEachChild((node) => {
-            if ($.isAssignment(node, { key: "name" })) {
+            if (Navigator.isAssignment(node, { key: "name" })) {
               optionsNames.push(
                 node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes from string
               );
@@ -135,7 +137,7 @@ export class OptionsValidator implements SubValidator {
               }
             }
 
-            if ($.isAssignment(node, { key: "value" })) {
+            if (Navigator.isAssignment(node, { key: "value" })) {
               if (
                 !isCamelCase(node.getChildAt(2).getText().replace(/'/g, ""))
               ) {

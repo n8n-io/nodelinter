@@ -4,18 +4,8 @@ import path from "path";
 import chalk from "chalk";
 import { titleCase } from "title-case";
 import { LINTABLE_FILE_PATTERNS, LONG_LISTING_LIMIT } from "./constants";
-import { masterConfig } from ".";
 
-// selector
-
-export const isBooleanKeyword = (node: ts.Node) =>
-  node.kind === ts.SyntaxKind.TrueKeyword ||
-  node.kind === ts.SyntaxKind.FalseKeyword;
-
-export const isAnyKeyword = (node: ts.Node) =>
-  node.kind === ts.SyntaxKind.AnyKeyword;
-
-// casting
+// casing
 
 export const areAlphabetized = (items: string[]) =>
   items.join() === items.sort().join();

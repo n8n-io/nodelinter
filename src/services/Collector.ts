@@ -1,31 +1,35 @@
-import ts from "typescript";
+import ts, { getLineAndCharacterOfPosition } from "typescript";
 import { Traverser } from ".";
-import { Selector } from "./Selector";
+import { NEXT_LINE_EXCEPTION_TEXT } from "../constants";
 
-/**
- * Collects tokens that require full AST traversal before validation,
- * e.g., lint exceptions and `continueOnFail` identifiers.
- */
 export class Collector {
-  public static exceptions: Exception[];
-  public static tsIgnores: Array<{ line: number; text: string }>;
-  public static toDos: Array<{ line: number; text: string }>;
+  private static commentsMap = new Map();
+
   public static loadOptionsMethods: string[] = [];
   public static sourceFileHasContinueOnFail = false;
   public static currentNode: ts.Node;
 
-  public static setNode(node: ts.Node) {
-    Collector.currentNode = node;
-    return Collector;
+  public static run(node: ts.Node) {
+    Collector.collectComments(node);
+    Collector.collectContinueOnFail(node);
+    Collector.collectLoadOptionsMethods(node);
   }
 
-  public static run() {
-    const node = Collector.currentNode;
+  static get comments(): Comment[] {
+    return Object.values(Object.fromEntries(Collector.commentsMap));
+  }
 
-    Collector.exceptions = Selector.exceptions(node);
-    Collector.tsIgnores = Selector.tsIgnores(node);
-    Collector.toDos = Selector.toDos(node);
+  static collectContinueOnFail(node: ts.Node) {
+    if (
+      Traverser.sourceFilePath.endsWith(".node.ts") &&
+      ts.isPropertyAccessExpression(node) &&
+      node.getChildAt(2).getText() === "continueOnFail"
+    ) {
+      Collector.sourceFileHasContinueOnFail = true;
+    }
+  }
 
+  static collectLoadOptionsMethods(node: ts.Node) {
     if (
       Traverser.sourceFilePath.endsWith(".node.ts") &&
       ts.isIdentifier(node) &&
@@ -37,13 +41,78 @@ export class Collector {
         Collector.loadOptionsMethods.push(identifier.getText());
       });
     }
+  }
 
-    if (
-      Traverser.sourceFilePath.endsWith(".node.ts") &&
-      ts.isPropertyAccessExpression(node) &&
-      node.getChildAt(2).getText() === "continueOnFail"
-    ) {
-      Collector.sourceFileHasContinueOnFail = true;
-    }
+  /**
+   * Retrieve the ending line number for the node.
+   */
+  static getLineNumber(node: ts.Node) {
+    const { line } = getLineAndCharacterOfPosition(
+      Traverser.sourceFile,
+      node.getEnd()
+    );
+    return line;
+  }
+
+  static collectComments(node: ts.Node) {
+    const commentRanges =
+      ts.getLeadingCommentRanges(
+        Traverser.sourceFile.getFullText(),
+        node.getFullStart()
+      ) ?? [];
+
+    const comments = commentRanges.map((range) => ({
+      text: Traverser.sourceFile.getFullText().slice(range.pos, range.end),
+      line: Collector.getLineNumber(node),
+      pos: range.pos,
+      end: range.end,
+    }));
+
+    // dedup with map because API may report
+    // multiple comment ranges for a single comment
+
+    comments.forEach((comment) => {
+      const key = `${comment.pos}-${comment.end}`;
+      Collector.commentsMap.set(key, comment);
+    });
+  }
+
+  // ----------------------------------
+  //           getters
+  // ----------------------------------
+
+  static get exceptions(): Exception[] {
+    return Collector.comments
+      .filter((comment) => comment.text.startsWith(NEXT_LINE_EXCEPTION_TEXT))
+      .map(({ line, text }) => {
+        const parts = text.split(" ");
+        let lintingsToExcept: string[] = [];
+
+        if (parts.length === 2) {
+          lintingsToExcept = ["*"];
+        } else if (parts.length === 3) {
+          lintingsToExcept = [parts.pop()!];
+        } else if (parts.length > 3) {
+          lintingsToExcept = parts.slice(2);
+        }
+
+        return {
+          line,
+          lintingsToExcept,
+          exceptionType: "nextLine",
+        };
+      });
+  }
+
+  static get toDos(): ToDoComment[] {
+    return Collector.comments
+      .filter((comment) => comment.text.startsWith("// TODO"))
+      .map(({ line, text }) => ({ line, text }));
+  }
+
+  static get tsIgnores() {
+    return Collector.comments
+      .filter((comment) => comment.text.startsWith("// @ts-ignore"))
+      .map(({ line, text }) => ({ line, text }));
   }
 }

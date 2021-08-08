@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 import { Collector } from "../Collector";
 
 export class MiscellaneousValidator implements SubValidator {
@@ -10,7 +10,7 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if ($.isAssignment(node, { key: "name", value: "returnAll" })) {
+    if (Navigator.isAssignment(node, { key: "name", value: "returnAll" })) {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "description" &&
@@ -27,7 +27,7 @@ export class MiscellaneousValidator implements SubValidator {
     ) {
       node.getChildAt(0).forEachChild((node) =>
         node.forEachChild((node) => {
-          if ($.isAssignment(node, { key: "required", value: false })) {
+          if (Navigator.isAssignment(node, { key: "required", value: false })) {
             this.log(LINTINGS.REQUIRED_FALSE)(node);
           }
         })

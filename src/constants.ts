@@ -71,4 +71,4 @@ export const DEFAULT_AUTODETECT_FILENAME = "nodelinter.config.json";
 /**
  * Start text for the comment that creates a lint exception for the next line in the source.
  */
-export const NEXT_LINE_LINT_EXCEPTION_TEXT = "// nodelinter-ignore-next-line";
+export const NEXT_LINE_EXCEPTION_TEXT = "// nodelinter-ignore-next-line";

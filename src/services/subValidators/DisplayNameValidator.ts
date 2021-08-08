@@ -2,7 +2,7 @@ import ts from "typescript";
 import { STANDARD_NAMES } from "../../constants";
 import { LINTINGS } from "../../lintings";
 import { isTitleCase } from "../../utils";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 
 export class DisplayNameValidator implements SubValidator {
   static lintArea = "displayName" as const;
@@ -10,7 +10,7 @@ export class DisplayNameValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if ($.isAssignment(node, { key: "name", value: "simple" })) {
+    if (Navigator.isAssignment(node, { key: "name", value: "simple" })) {
       node.parent.forEachChild((node) => {
         if (
           node.getChildAt(0).getText() === "displayName" &&
@@ -22,9 +22,9 @@ export class DisplayNameValidator implements SubValidator {
       });
     }
 
-    if ($.isAssignment(node, { key: "type", value: "collection" })) {
+    if (Navigator.isAssignment(node, { key: "type", value: "collection" })) {
       node.parent.forEachChild((child) => {
-        if ($.isAssignment(child, { key: "displayOptions" })) {
+        if (Navigator.isAssignment(child, { key: "displayOptions" })) {
           const objectLiteralAtShow = child
             .getChildAt(2)
             .getChildAt(1)
@@ -38,7 +38,7 @@ export class DisplayNameValidator implements SubValidator {
                 "'update'"
             ) {
               node.parent.forEachChild((child) => {
-                if ($.isAssignment(child, { key: "displayName" })) {
+                if (Navigator.isAssignment(child, { key: "displayName" })) {
                   if (child.getChildAt(2).getText() !== "'Update Fields'") {
                     this.log(LINTINGS.DISPLAYNAME_NOT_UPDATE_FIELDS)(child);
                   }
@@ -50,7 +50,7 @@ export class DisplayNameValidator implements SubValidator {
       });
     }
 
-    if ($.isAssignment(node, { key: "displayName" })) {
+    if (Navigator.isAssignment(node, { key: "displayName" })) {
       const displayNameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
       if (displayNameValue.includes("id") || displayNameValue.includes("Id")) {

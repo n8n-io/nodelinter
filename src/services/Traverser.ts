@@ -12,7 +12,7 @@ export class Traverser {
         this.sourceFile = sourceFile;
 
         const collectorVisitor: ts.Visitor = (node) => {
-          Collector.setNode(node).run();
+          Collector.run(node);
           return ts.visitEachChild(node, collectorVisitor, context);
         };
 

@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { isCamelCase } from "../../utils";
 import { LINTINGS } from "../../lintings";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 
 export class NameValidator implements SubValidator {
   static lintArea = "name" as const;
@@ -9,7 +9,7 @@ export class NameValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if ($.isAssignment(node, { key: "name" })) {
+    if (Navigator.isAssignment(node, { key: "name" })) {
       const hasDefaultsParent = node?.parent?.parent
         ?.getText()
         .startsWith("defaults"); // skip check for defaults
@@ -34,7 +34,7 @@ export class NameValidator implements SubValidator {
 
       let isOption = false;
       node.parent.forEachChild((node) => {
-        if ($.isAssignment(node, { key: "value" })) {
+        if (Navigator.isAssignment(node, { key: "value" })) {
           isOption = true;
         }
       });

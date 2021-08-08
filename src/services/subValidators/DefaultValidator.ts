@@ -1,7 +1,6 @@
 import ts from "typescript";
-import { isBooleanKeyword } from "../../utils";
 import { LINTINGS } from "../../lintings";
-import { Selector as $ } from "../Selector";
+import { Navigator } from "../Navigator";
 
 export class DefaultValidator implements SubValidator {
   static lintArea = "default" as const;
@@ -25,10 +24,10 @@ export class DefaultValidator implements SubValidator {
   }
 
   private validateDefaultExists(node: ts.Node) {
-    if ($.isAssignment(node, { key: "type" })) {
+    if (Navigator.isAssignment(node, { key: "type" })) {
       let hasDefault = false;
       node.parent.forEachChild((node) => {
-        if ($.isAssignment(node, { key: "default" })) {
+        if (Navigator.isAssignment(node, { key: "default" })) {
           hasDefault = true;
         }
       });
@@ -41,10 +40,13 @@ export class DefaultValidator implements SubValidator {
 
   private validateSimplifyDefault(node: ts.Node) {
     if (
-      $.isAssignment(node, { key: "displayName", value: "Simplify Response" })
+      Navigator.isAssignment(node, {
+        key: "displayName",
+        value: "Simplify Response",
+      })
     ) {
       node.parent.forEachChild((child) => {
-        if ($.isAssignment(child, { key: "default", value: false })) {
+        if (Navigator.isAssignment(child, { key: "default", value: false })) {
           this.log(LINTINGS.WRONG_DEFAULT_FOR_SIMPLIFY_PARAM)(child);
         }
       });
@@ -64,7 +66,7 @@ export class DefaultValidator implements SubValidator {
       linting: Linting
     ) =>
     (node: ts.Node) => {
-      if ($.isAssignment(node, { key: "type", value: typeName })) {
+      if (Navigator.isAssignment(node, { key: "type", value: typeName })) {
         node.parent.forEachChild((node) => {
           if (
             node.getChildAt(0).getText() === "default" &&
@@ -89,7 +91,7 @@ export class DefaultValidator implements SubValidator {
 
   private validateBooleanDefault = this.defaultValidatorGenerator(
     "boolean",
-    isBooleanKeyword,
+    Navigator.isBooleanKeyword,
     LINTINGS.WRONG_DEFAULT_FOR_BOOLEAN_TYPE_PARAM
   );
 
@@ -106,11 +108,11 @@ export class DefaultValidator implements SubValidator {
   );
 
   private validateOptionsDefault = (node: ts.Node) => {
-    if ($.isAssignment(node, { key: "type", value: "options" })) {
+    if (Navigator.isAssignment(node, { key: "type", value: "options" })) {
       let hasTypeOptionsSibling = false;
 
       node?.parent?.forEachChild((child) => {
-        if ($.isAssignment(node, { key: "typeOptions" })) {
+        if (Navigator.isAssignment(node, { key: "typeOptions" })) {
           hasTypeOptionsSibling = true;
         }
       });
@@ -122,7 +124,7 @@ export class DefaultValidator implements SubValidator {
       let optionValues: string[] = [];
 
       node.parent.forEachChild((node) => {
-        if ($.isAssignment(node, { key: "default" })) {
+        if (Navigator.isAssignment(node, { key: "default" })) {
           defaultOptionValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
           defaultNodeToReport = node;
         }
@@ -143,7 +145,7 @@ export class DefaultValidator implements SubValidator {
         node.getChildAt(2).forEachChild((node) => {
           if (!ts.isObjectLiteralExpression(node)) return;
           node.forEachChild((node) => {
-            if ($.isAssignment(node, { key: "value" })) {
+            if (Navigator.isAssignment(node, { key: "value" })) {
               optionValues.push(
                 node.getChildAt(2).getText().replace(/'/g, "") // remove single quotes
               );
