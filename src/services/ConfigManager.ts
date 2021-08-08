@@ -225,6 +225,8 @@ export class ConfigManager {
   //         state reporting
   // ----------------------------------
 
+  // TODO: Refactor to remove repetition
+
   static lintAreaIsDisabled(lintArea: LintArea, config: Config) {
     return !config.enable.lintAreas[lintArea];
   }
