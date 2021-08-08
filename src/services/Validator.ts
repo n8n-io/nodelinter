@@ -5,7 +5,7 @@ import { Logger, Traverser } from "../services";
 import { isRegularNode } from "../utils";
 import { Collector } from "./Collector";
 import { ConfigManager } from "./ConfigManager";
-import * as subValidators from "./subValidators";
+import * as subvalidators from "./subvalidators";
 
 export class Validator {
   public logs: Log[] = [];
@@ -26,10 +26,9 @@ export class Validator {
   }
 
   public run() {
-    Object.values(subValidators).forEach((subValidator) => {
-      if (ConfigManager.lintAreaIsDisabled(subValidator.lintArea, masterConfig))
-        return;
-      this.runSubValidator(subValidator);
+    Object.values(subvalidators).forEach((sub) => {
+      if (ConfigManager.lintAreaIsDisabled(sub.lintArea, masterConfig)) return;
+      this.runSubValidator(sub);
     });
   }
 
