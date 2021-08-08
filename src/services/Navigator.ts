@@ -4,6 +4,29 @@ import ts from "typescript";
  * Bundle of utility methods to navigate the AST.
  */
 export class Navigator {
+  /**
+   * Find a matching descendant node.
+   */
+  static findDescendant(
+    node: ts.Node,
+    testType: { [key in "text"]: string }
+  ): ts.Node | undefined {
+    if (node.getChildCount() === 0) return;
+
+    return node.forEachChild((child) => {
+      return Navigator.getTest(testType)(child)
+        ? child
+        : Navigator.findDescendant(child, testType);
+    });
+  }
+
+  static getTest = (testType: { [key in "text"]: string }) => {
+    if (testType.text)
+      return (node: ts.Node) => node.getText() === testType.text;
+
+    throw new Error("Unknown test type");
+  };
+
   static isBooleanKeyword(node: ts.Node) {
     return (
       node.kind === ts.SyntaxKind.TrueKeyword ||
