@@ -1,4 +1,4 @@
-import { printJson } from "../utils";
 import { LINTINGS } from "../lintings";
+import { Presenter } from "../services";
 
-printJson("lintRef", Object.keys(LINTINGS));
+Presenter.printJson("lintRef", Object.keys(LINTINGS));

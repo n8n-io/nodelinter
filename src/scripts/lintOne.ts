@@ -2,8 +2,8 @@ import chalk from "chalk";
 import fs from "fs";
 import ts from "typescript";
 import path from "path";
-import { Traverser, Validator, Presenter } from "../services";
-import { isLintable, printJson, terminate } from "../utils";
+import { Presenter, Traverser, Validator } from "../services";
+import { isLintable, terminate } from "../utils";
 import { ERRORS } from "../constants";
 
 export async function lintOne(
@@ -30,7 +30,7 @@ export async function lintOne(
   presenter.summarize(validator.logs, executionTimeMs);
 
   if (printLogs) {
-    printJson(printFileName, validator.logs);
+    Presenter.printJson(printFileName, validator.logs);
     console.log(
       chalk.bold(
         `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`

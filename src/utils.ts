@@ -27,11 +27,6 @@ export const hasAnchorLink = (str: string) => /<a href=/.test(str);
 
 export const hasTargetBlank = (str: string) => /target="_blank"/.test(str);
 
-// true utils
-
-export const printJson = (fileName: string, content: object) =>
-  fs.writeFileSync(`${fileName}.json`, JSON.stringify(content, null, 2));
-
 /**
  * Traverse a dir recursively and collect file paths that pass a test.
  */

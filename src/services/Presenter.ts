@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import fs from "fs";
 
 export class Presenter {
   config: Config;
@@ -404,5 +405,9 @@ export class Presenter {
 
   private sortByLineNumber(logs: Log[]) {
     return logs.sort((a, b) => a.line - b.line);
+  }
+
+  static printJson(fileName: string, content: object) {
+    fs.writeFileSync(`${fileName}.json`, JSON.stringify(content, null, 2));
   }
 }

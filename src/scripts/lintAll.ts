@@ -1,8 +1,8 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
-import { Traverser, Validator, Presenter } from "../services";
-import { collect, printJson } from "../utils";
+import { Presenter, Traverser, Validator } from "../services";
+import { collect } from "../utils";
 import chalk from "chalk";
 
 export async function lintAll(
@@ -36,7 +36,7 @@ export async function lintAll(
   presenter.summarize(allFilesLogs, executionTimeMs);
 
   if (printLogs) {
-    printJson(printFileName, allFilesLogs);
+    Presenter.printJson(printFileName, allFilesLogs);
     console.log(
       chalk.bold(
         `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`
