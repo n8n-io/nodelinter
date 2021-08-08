@@ -147,14 +147,11 @@ Lintings can be toggled on and off by lint area, by lint issue, or individually.
 
 ## Pending
 
-- More lintings
-- Add GitHub link as lint target
+- Collect all strings for review
 - Add PR diff as lint target
-- Add `GenericFunctions.ts` as lint target
 - Add redesigned nodes as lint target
 - Validate custom config file in full
 - Create PoC to auto-fix lintings
-- Write Contribution guide
 
 ## Author
 
