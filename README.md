@@ -39,8 +39,7 @@ See [full lintings list](./src/lintings.ts).
 Run via npx:
 
 ```sh
-cd <your_n8n_root_dir>
-npx nodelinter --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
+npx nodelinter --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
 ```
 
 Or run locally:
@@ -48,8 +47,7 @@ Or run locally:
 ```sh
 git clone https://github.com/n8n-io/nodelinter
 cd nodelinter; npm i
-cd <your_n8n_root_dir>
-npm run lint -- --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
+npm run lint -- --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
 ```
 
 ### Options
@@ -68,28 +66,28 @@ Examples:
 
 ```sh
 # lint a single file
-npx nodelinter --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
+--target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
 
 # lint all files in a dir
-npx nodelinter --target=./packages/nodes-base/nodes/Stripe
+--target=./packages/nodes-base/nodes/Stripe
 
 # use a custom config
-npx nodelinter --config=/Users/john/Documents/myConfig.json
+--config=/Users/john/Documents/myConfig.json
 
 # print logs to a JSON file, default filename
-npx nodelinter --print
+--print
 
 # print logs to a JSON file, custom filename
-npx nodelinter --print=myLintOutput
+--print=myLintOutput
 
 # lint files ending with these patterns
-npx nodelinter --target=./src/input/MyNode --patterns:.node.ts,Description.ts
+--target=./src/input/MyNode --patterns:.node.ts,Description.ts
 
 # lint files ending with this pattern
-npx nodelinter --target=./src/input/MyNode --patterns:.node.ts
+--target=./src/input/MyNode --patterns:.node.ts
 
 # lint only rules with error classification
-npx nodelinter --target=./src/input/MyNode --errors-only
+--target=./src/input/MyNode --errors-only
 ```
 
 ### Custom config
