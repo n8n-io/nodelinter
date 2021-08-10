@@ -135,6 +135,7 @@ interface SubValidatorConstructor {
 // ----------------------------------
 
 type CliArgs = {
+  _?: [];
   target?: string;
   config?: string;
   print?: boolean | string;

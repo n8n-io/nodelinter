@@ -29,23 +29,50 @@ export const SVG_ICON_SOURCES = [
 export const TECHNICAL_TERMS = ["string", "field"];
 
 export const ERRORS = {
-  UNKNOWN_KEY_IN_CUSTOM_CONFIG: "Invalid custom config: Unknown key",
-  FAILED_TO_IMPORT_CUSTOM_CONFIG:
-    "Failed to import config file: Ensure the path specified with --config is a valid JSON config file",
-  OVERSPECIFIED_TARGET:
-    "Overspecified target: Specify one target, either as a CLI flag with --target or as a key in the config file, not both",
-  UNSPECIFIED_TARGET:
-    "Unspecified target: Specify the target path (file or dir to lint) either as a CLI flag with --target or as a key in the config file",
-  CONFIG_AUTODETECTION_FAILED:
-    "Autodetection of `nodelinter.config.json` failed",
-  FAILED_TO_FIND_TARGET_AT_PATH:
-    "There is no file or dir at the path specified by the target key",
-  MULTIPLE_ONLY_ARGS:
-    "Multiple `--*-only` flags detected. Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
-  INVALID_PATTERNS:
-    "One or more invalid patterns detected. Specify: `.node.ts` or `Description.ts` or `.node.ts, Description.ts`",
-  NOT_LINTABLE_TARGET:
-    "Target is not lintable. Target a filepath that ends with `.node.ts` or `Description.ts`.",
+  UNKNOWN_KEY: {
+    title: "Invalid key",
+    message: "Unknown key found in custom config file",
+  },
+  UNKNOWN_OPTION: {
+    title: "Invalid option",
+    message: "Unknown option passed in",
+  },
+  FAILED_TO_IMPORT_CUSTOM_CONFIG: {
+    title: "Failed to import config file",
+    message:
+      "Ensure the path specified with --config is a valid JSON config file",
+  },
+  OVERSPECIFIED_TARGET: {
+    title: "Overspecified target",
+    message:
+      "Specify one target, either as a CLI flag with --target or as a key in the config file, not both",
+  },
+  UNSPECIFIED_TARGET: {
+    title: "Unspecified target",
+    message:
+      "Specify the target path (file or dir to lint) either as a CLI flag with --target or as a key in the config file",
+  },
+  CONFIG_AUTODETECTION_FAILED: {
+    title: "Autodetection of `nodelinter.config.json` failed",
+  },
+  FAILED_TO_FIND_TARGET_AT_PATH: {
+    title: "No such target",
+    message: "There is no file or dir at the path specified by the target key",
+  },
+  MULTIPLE_ONLY_ARGS: {
+    title: "Multiple `--*-only` flags detected",
+    message:
+      "Specify one of: `--errors-only`, `--warnings-only`, `--infos-only`",
+  },
+  INVALID_PATTERNS: {
+    title: "One or more invalid patterns detected",
+    message:
+      "Specify: `.node.ts` or `Description.ts` or `.node.ts, Description.ts`",
+  },
+  NOT_LINTABLE_TARGET: {
+    title: "Non-lintable target",
+    message: "Target a filepath that ends with `.node.ts` or `Description.ts`.",
+  },
 };
 
 /**
