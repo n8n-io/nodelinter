@@ -50,7 +50,7 @@ npx nodelinter --option
 Or locally:
 
 ```sh
-git clone https://github.com/ivov/nodelinter
+git clone https://github.com/n8n-io/nodelinter
 cd nodelinter; npm i
 npm run lint -- --option
 ```
@@ -73,12 +73,12 @@ npx nodelinter --print=myLintOutput
 
 Secondary options:
 
-| Option            | Effect                                                                                                                                 | Type                   |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `--patterns`      | [Lintable file patterns](https://github.com/ivov/nodelinter/blob/0236d5d767a3a2c1ef51163bd5052e8e87059b82/src/defaultConfig.ts#L9-L13) | Comma-separated string |
-| `--errors-only`   | Enable error logs only                                                                                                                 | Boolean                |
-| `--warnings-only` | Enable warning logs only                                                                                                               | Boolean                |
-| `--infos-only`    | Enable info logs only                                                                                                                  | Boolean                |
+| Option            | Effect                                                                                                                                   | Type                   |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `--patterns`      | [Lintable file patterns](https://github.com/n8n-io/nodelinter/blob/0236d5d767a3a2c1ef51163bd5052e8e87059b82/src/defaultConfig.ts#L9-L13) | Comma-separated string |
+| `--errors-only`   | Enable error logs only                                                                                                                   | Boolean                |
+| `--warnings-only` | Enable warning logs only                                                                                                                 | Boolean                |
+| `--infos-only`    | Enable info logs only                                                                                                                    | Boolean                |
 
 ```sh
 npx nodelinter --target=./src/input/MyNode --patterns:.node.ts,Description.ts
