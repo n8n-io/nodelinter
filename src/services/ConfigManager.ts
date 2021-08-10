@@ -35,7 +35,7 @@ export class ConfigManager {
     isNotTestRun && this.validateTargetKeyExists();
 
     if (this.customConfig) {
-      this.validateNoUnknownKeys();
+      this.validateNoUnknowns(this.customConfig, { type: "customConfig" });
       this.validateNoTargetKeyConflict();
       this.masterConfig = this.deepMerge(this.defaultConfig, this.customConfig);
       if (this.targetPath) this.masterConfig.target = this.targetPath;
@@ -53,13 +53,15 @@ export class ConfigManager {
   // ----------------------------------
 
   private parseArgs(args: string[]) {
-    const cliArgs = minimist<CliArgs>(args);
+    const { _, ...cliArgs } = minimist<CliArgs>(args);
 
     this.parseOnlyArgs({
-      "error-only": cliArgs["error-only"],
-      "warning-only": cliArgs["warning-only"],
-      "info-only": cliArgs["info-only"],
+      "error-only": cliArgs["errors-only"],
+      "warning-only": cliArgs["warnings-only"],
+      "info-only": cliArgs["infos-only"],
     });
+
+    this.validateNoUnknowns(cliArgs, { type: "cliArgs" });
 
     this.parsePrintArgs(cliArgs.print);
     this.parsePatternsArgs(cliArgs.patterns);
@@ -163,23 +165,82 @@ export class ConfigManager {
     ).pop();
 
     if (autodetected) {
-      console.log(chalk.bold(`Custom config autodetected:\n${autodetected}\n`));
+      console.log("Custom config autodetected:");
+      console.log(chalk.bold(autodetected + "\n"));
       this.configPath = autodetected;
     }
   }
 
   /**
-   * Validate that the custom config only contains keys
-   * found in the default config.
+   * Validate that the CLI options or the keys in custom config
+   * are only those found in the default config.
+   *
+   * // TODO: Refactor this method
    */
-  private validateNoUnknownKeys() {
-    // TODO: Validate nested keys in custom config
-    for (const key in this.customConfig) {
-      // @ts-ignore TODO
-      if (!Object.keys(this.defaultConfig).includes(key)) {
-        terminate(`${ERRORS.UNKNOWN_KEY_IN_CUSTOM_CONFIG} ${key}`);
+  private validateNoUnknowns(
+    arg: object,
+    { type }: { type: "cliArgs" | "customConfig" }
+  ) {
+    // @ts-ignore
+    delete arg["errors-only"];
+    // @ts-ignore
+    delete arg["warnings-only"];
+    // @ts-ignore
+    delete arg["infos-only"];
+
+    Object.keys(arg).forEach((keyOrOption) => {
+      if (!Object.keys(this.defaultConfig).includes(keyOrOption)) {
+        if (type === "cliArgs") {
+          console.log(
+            [
+              chalk.red.inverse(
+                "error".padStart(7, " ").padEnd(9, " ").toUpperCase()
+              ),
+              `${chalk.bold(ERRORS.UNKNOWN_OPTION.title + ":")}`,
+              `${ERRORS.UNKNOWN_OPTION.message + ":"} "--${keyOrOption}"`,
+              "\n",
+            ].join(" ")
+          );
+        } else {
+          console.log(
+            [
+              chalk.red.inverse(
+                "error".padStart(7, " ").padEnd(9, " ").toUpperCase()
+              ),
+              `${chalk.bold(ERRORS.UNKNOWN_KEY.title + ":")}`,
+              `${ERRORS.UNKNOWN_KEY.message + ":"} ${keyOrOption}"`,
+              "\n",
+            ].join(" ")
+          );
+        }
+
+        const options = [
+          "--target\t\tPath to the file or dir to lint",
+          "--config\t\tPath to the custom config to use",
+          "--print\t\tWhether to print logs as JSON",
+          "--patterns\t\tPatterns of filenames to lint",
+          "--errors-only\t\tEnable error logs only",
+          "--warnings-only\tEnable warning logs only",
+          "--infos-only\t\tEnable info logs only",
+        ];
+
+        console.log(
+          [
+            `Available ${type === "cliArgs" ? "options" : "keys"}:`,
+            ...(type === "cliArgs"
+              ? options
+              : options.map((option) => option.slice(2))
+            ).map((option, index) => {
+              return type === "customConfig" && (index === 2 || index === 5)
+                ? option.replace("\t", "\t\t")
+                : option;
+            }),
+          ].join("\n  ")
+        );
+
+        process.exit(0);
       }
-    }
+    });
   }
 
   private validateTargetKeyExists() {

@@ -49,16 +49,17 @@ export const collect = (
 };
 
 // TODO: stderr instead of stdout
-export function terminate(errorMessage: string): never {
+export function terminate(error: { title: string; message: string }): never {
   console.log(
     [
       chalk.red.inverse("error".padStart(7, " ").padEnd(9, " ").toUpperCase()),
-      chalk.bold(errorMessage),
+      `${chalk.bold(error.title + ":")}`,
+      error.message,
       "\n",
     ].join(" ")
   );
 
-  process.exit(1);
+  process.exit(0);
 }
 
 export const isLintable = (target: string) =>

@@ -23,76 +23,80 @@
   <img src="screenshot.png" width="450" alt="Nodelinter screenshot" />
 </p> -->
 
-**Nodelinter** is a static code analyzer for n8n node files, for linting:
+**Nodelinter** is a static code analyzer for n8n node files, with ~70 linting rules for:
 
 - default values based on param type,
 - casing for display names and descriptions,
 - alphabetization for params and options,
 - required and optional key-value pairs,
 - expected values for specific params,
-- codebase conventions and modern JS
+- etc.
 
 See [full lintings list](./src/lintings.ts).
-
-Lintable n8n node files:
-
-- `*.node.ts` (main node file)
-- `*Description.ts` (resource description file)
 
 ## Operation
 
 Run via npx:
 
 ```sh
-npx nodelinter --option
+cd <your_n8n_root_dir>
+npx nodelinter --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
 ```
 
-Or locally:
+Or run locally:
 
 ```sh
 git clone https://github.com/n8n-io/nodelinter
 cd nodelinter; npm i
-npm run lint -- --option
+cd <your_n8n_root_dir>
+npx run lint --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
 ```
 
-Primary options:
+### Options
 
-| Option     | Effect                                                        | Type              |
-| ---------- | ------------------------------------------------------------- | ----------------- |
-| `--target` | Lint this file or all files in this dir (recursive)           | String            |
-| `--config` | Use a [custom config](#custom-config) to override the default | String            |
-| `--print`  | Print output to JSON - if with arg, name the output file      | Boolean or String |
+| Option            | Effect                                             |
+| ----------------- | -------------------------------------------------- |
+| `--target`        | Path of the file or directory to lint              |
+| `--config`        | Path of the [custom config](#custom-config) to use |
+| `--print`         | Print output to JSON                               |
+| `--patterns`      | Lintable file patterns                             |
+| `--errors-only`   | Enable error logs only                             |
+| `--warnings-only` | Enable warning logs only                           |
+| `--infos-only`    | Enable info logs only                              |
+
+Examples:
 
 ```sh
-npx nodelinter --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe.node.ts
-npx nodelinter --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe
-npx nodelinter --config=/Users/john/Documents/myCustomConfig.json
+# lint a single file
+npx nodelinter --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
+
+# lint all files in a dir
+npx nodelinter --target=./packages/nodes-base/nodes/Stripe
+
+# use a custom config
+npx nodelinter --config=/Users/john/Documents/myConfig.json
+
+# print logs to a JSON file, default filename
 npx nodelinter --print
+
+# print logs to a JSON file, custom filename
 npx nodelinter --print=myLintOutput
-```
 
-Secondary options:
-
-| Option            | Effect                                                                                                                                   | Type                   |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `--patterns`      | [Lintable file patterns](https://github.com/n8n-io/nodelinter/blob/0236d5d767a3a2c1ef51163bd5052e8e87059b82/src/defaultConfig.ts#L9-L13) | Comma-separated string |
-| `--errors-only`   | Enable error logs only                                                                                                                   | Boolean                |
-| `--warnings-only` | Enable warning logs only                                                                                                                 | Boolean                |
-| `--infos-only`    | Enable info logs only                                                                                                                    | Boolean                |
-
-```sh
+# lint files ending with these patterns
 npx nodelinter --target=./src/input/MyNode --patterns:.node.ts,Description.ts
+
+# lint files ending with this pattern
 npx nodelinter --target=./src/input/MyNode --patterns:.node.ts
+
+# lint only rules with error classification
 npx nodelinter --target=./src/input/MyNode --errors-only
 ```
 
-Secondary options are applied last, overriding custom and default configs.
-
 ### Custom config
 
-The Nodelinter [default config](./src/defaultConfig.ts) can be overridden by a custom config.
+You can override the Nodelinter [default config](./src/defaultConfig.ts) with a custom config.
 
-To override it, create a JSON file containing any keys to overwrite:
+To do so, create a JSON file containing any keys to overwrite:
 
 ```json
 {
@@ -110,10 +114,10 @@ To override it, create a JSON file containing any keys to overwrite:
 }
 ```
 
-And set the `--config` option to specify the path to it:
+And use the `--config` option:
 
 ```sh
---config=/Users/john/Documents/myCustomConfig.json
+npx nodelinter --config=/Users/john/Documents/myConfig.json
 ```
 
 For convenience, when running locally, if you place a custom config file named `nodelinter.config.json` anywhere inside the nodelinter dir, the custom config file will be auto-detected.
@@ -144,14 +148,6 @@ Lintings are tagged with one or more **lint areas**, i.e. the section of code af
 Every linting also flags a single **lint issue**, i.e. the type of problem flagged by the linting, such as `alphabetization` (alphabetical sorting of params or options), `casing` (proper casing for user-facing param names and options), `missing` (for missing context-dependent key-value pairs), etc.
 
 Lintings can be toggled on and off by lint area, by lint issue, or individually. -->
-
-## Pending
-
-- Collect all strings for review
-- Add PR diff as lint target
-- Add redesigned nodes as lint target
-- Validate custom config file in full
-- Create PoC to auto-fix lintings
 
 ## Author
 

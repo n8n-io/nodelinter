@@ -21,7 +21,7 @@ if (isNotTestRun) {
   try {
     symlink = fs.lstatSync(masterConfig.target);
   } catch (error) {
-    terminate(`${ERRORS.FAILED_TO_FIND_TARGET_AT_PATH}: ${error.path}`);
+    terminate(ERRORS.FAILED_TO_FIND_TARGET_AT_PATH);
   }
 
   symlink.isDirectory()
