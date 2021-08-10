@@ -49,7 +49,7 @@ Or run locally:
 git clone https://github.com/n8n-io/nodelinter
 cd nodelinter; npm i
 cd <your_n8n_root_dir>
-npx run lint --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
+npm run lint -- --target=./packages/nodes-base/nodes/Stripe/Stripe.node.ts
 ```
 
 ### Options
