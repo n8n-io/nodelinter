@@ -1,6 +1,6 @@
 {
   "name": "nodelinter",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Linter for n8n nodes",
   "main": "dist/index.js",
   "files": [
@@ -10,7 +10,7 @@
     "nodelinter": "dist/index.js"
   },
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "rm -rf dist && tsc",
     "lint": "tsc && node dist/index.js",
     "ref": "tsc && node dist/scripts/lintRef.js",
     "clear": "rm -rf dist",
