@@ -45,7 +45,8 @@ export class MiscellaneousValidator implements SubValidator {
         .replace(/'/g, "");
 
       if (!Collector.loadOptionsMethods.includes(loadOptionsMethod)) {
-        this.log(LINTINGS.NON_EXISTENT_LOAD_OPTIONS_METHOD)(node.parent);
+        // TODO: misdetection
+        // this.log(LINTINGS.NON_EXISTENT_LOAD_OPTIONS_METHOD)(node.parent);
       }
     }
 
