@@ -112,7 +112,7 @@ export class DefaultValidator implements SubValidator {
       let hasTypeOptionsSibling = false;
 
       node?.parent?.forEachChild((child) => {
-        if (Navigator.isAssignment(node, { key: "typeOptions" })) {
+        if (Navigator.isAssignment(child, { key: "typeOptions" })) {
           hasTypeOptionsSibling = true;
         }
       });
