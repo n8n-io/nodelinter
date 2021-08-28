@@ -43,8 +43,8 @@ export class NameValidator implements SubValidator {
         if (
           (nameValue.length > 2 &&
             !nameValue.includes("_") &&
-            nameValue.includes("id")) ||
-          nameValue.includes("ID")
+            nameValue.match(/id$/)) ||
+          nameValue.match(/ID$/)
         ) {
           this.log(LINTINGS.NAME_WITH_MISCASED_ID)(node);
         }

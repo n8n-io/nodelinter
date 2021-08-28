@@ -51,7 +51,7 @@ export class DisplayNameValidator implements SubValidator {
     if (Navigator.isAssignment(node, { key: "displayName" })) {
       const displayNameValue = node.getChildAt(2).getText().replace(/'/g, ""); // remove single quotes
 
-      if (displayNameValue.includes("id") || displayNameValue.includes("Id")) {
+      if (displayNameValue.match(/id$/) || displayNameValue.match(/Id$/)) {
         this.log(LINTINGS.DISPLAYNAME_WITH_MISCASED_ID)(node);
       }
 
