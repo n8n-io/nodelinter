@@ -120,6 +120,15 @@
     description: 'A description containing the term string'
   },
 
+  // PARAM_DESCRIPTION_WITH_BRITISH_SUFFIX
+  {
+    displayName: 'User ID',
+    name: 'userId',
+    type: 'string',
+    default: '',
+    description: 'This is the colour of the object'
+  },
+
 ];
 
 // WEAK_PARAM_DESCRIPTION

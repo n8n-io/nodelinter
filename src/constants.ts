@@ -24,9 +24,14 @@ export const SVG_ICON_SOURCES = [
 ];
 
 /**
- * Technical terms that need to be replaced with user-friendly versions.
+ * Technical terms to be replaced with user-friendly versions.
  */
 export const TECHNICAL_TERMS = ["string", "field"];
+
+/**
+ * British English suffixes to be replaced with their American equivalents.
+ */
+export const BRITISH_ENGLISH_SUFFIXES = ["yse", "ise", "our"];
 
 export const ERRORS = {
   UNKNOWN_KEY: {

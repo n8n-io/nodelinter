@@ -1,5 +1,6 @@
 import ts from "typescript";
 import {
+  BRITISH_ENGLISH_SUFFIXES,
   STANDARD_DESCRIPTIONS,
   TECHNICAL_TERMS,
   WEAK_DESCRIPTIONS,
@@ -104,6 +105,16 @@ export class DescriptionValidator implements SubValidator {
         if (node.getChildAt(2).getText().includes(technicalTerm)) {
           this.log(LINTINGS.TECHNICAL_TERM_IN_PARAM_DESCRIPTION)(node);
         }
+      });
+
+      const descriptionText = node.getChildAt(2).getText().replace(/'/g, "");
+
+      BRITISH_ENGLISH_SUFFIXES.forEach((suffix) => {
+        descriptionText.split(" ").forEach((word) => {
+          if (word.endsWith(suffix)) {
+            this.log(LINTINGS.PARAM_DESCRIPTION_WITH_BRITISH_SUFFIX)(node);
+          }
+        });
       });
 
       WEAK_DESCRIPTIONS.forEach((weakDescription) => {
