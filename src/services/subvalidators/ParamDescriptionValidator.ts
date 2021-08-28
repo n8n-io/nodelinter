@@ -149,13 +149,6 @@ export class DescriptionValidator implements SubValidator {
       }
 
       this.checkFinalPeriod(descriptionValue, node);
-
-      if (
-        hasAnchorLink(descriptionValue) &&
-        !hasTargetBlank(descriptionValue)
-      ) {
-        this.log(LINTINGS.ANCHOR_LINK_WITH_TARGET_BLANK_MISSING)(node);
-      }
     }
 
     if (
