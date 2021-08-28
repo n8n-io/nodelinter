@@ -81,3 +81,78 @@ export class Drift implements INodeType {
 		outputs: ['main'],
 	};
 }
+
+// WRONG_NUMBER_OF_INPUTS_IN_REGULAR_NODE_DESCRIPTION
+export class Misp1 implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'MISP',
+		name: 'misp',
+		icon: 'file:misp.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the MISP API',
+		defaults: {
+			name: 'MISP',
+			color: '#ffffff',
+		},
+		inputs: [],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'mispApi',
+				required: true,
+			},
+		],
+	}
+}
+
+// WRONG_NUMBER_OF_INPUTS_IN_TRIGGER_NODE_DESCRIPTION
+export class MispTrigger implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'MISP',
+		name: 'misp',
+		icon: 'file:misp.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the MISP API',
+		defaults: {
+			name: 'MISP',
+			color: '#ffffff',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'mispApi',
+				required: true,
+			},
+		],
+	}
+}
+
+// WRONG_NUMBER_OF_OUTPUTS_IN_NODE_DESCRIPTION
+export class Misp2 implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'MISP',
+		name: 'misp',
+		icon: 'file:misp.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the MISP API',
+		defaults: {
+			name: 'MISP',
+			color: '#ffffff',
+		},
+		inputs: ['main'],
+		outputs: [],
+		credentials: [
+			{
+				name: 'mispApi',
+				required: true,
+			},
+		],
+	}
+}

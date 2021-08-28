@@ -8,8 +8,11 @@ export class Collector {
   public static loadOptionsMethods: string[] = [];
   public static sourceFileHasContinueOnFail = false;
   public static currentNode: ts.Node;
+  public static isRegularNode: boolean;
+  public static isTriggerNode: boolean;
 
   public static run(node: ts.Node) {
+    Collector.identifyRegularOrTrigger(node);
     Collector.collectComments(node);
     Collector.collectContinueOnFail(node);
     Collector.collectLoadOptionsMethods(node);
@@ -17,6 +20,20 @@ export class Collector {
 
   static get comments(): Comment[] {
     return Object.values(Object.fromEntries(Collector.commentsMap));
+  }
+
+  static identifyRegularOrTrigger(node: ts.Node) {
+    if (ts.isClassDeclaration(node)) {
+      node.forEachChild((child) => {
+        if (ts.isIdentifier(child)) {
+          if (child.getText().endsWith("Trigger")) {
+            Collector.isTriggerNode = true;
+          } else {
+            Collector.isRegularNode = true;
+          }
+        }
+      });
+    }
   }
 
   static collectContinueOnFail(node: ts.Node) {

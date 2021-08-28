@@ -2,6 +2,7 @@ import ts from "typescript";
 import { LINTINGS } from "../../lintings";
 import { STANDARD_DESCRIPTIONS } from "../../constants";
 import { Navigator } from "../Navigator";
+import { Collector } from "../Collector";
 
 export class NodeDescriptionValidator implements SubValidator {
   static lintArea = "nodeDescription" as const;
@@ -14,6 +15,7 @@ export class NodeDescriptionValidator implements SubValidator {
       (node.getChildAt(0).getText() === "displayName" ||
         node.getChildAt(0).getText() === "name")
     ) {
+      // TODO: Clean this up
       node.parent.parent.parent.parent.forEachChild((child) => {
         if (
           ts.isClassDeclaration(child) &&
@@ -44,6 +46,34 @@ export class NodeDescriptionValidator implements SubValidator {
 
       if (iconValue.endsWith(".png'")) {
         this.log(LINTINGS.PNG_ICON_IN_NODE_DESCRIPTION)(node);
+      }
+    }
+
+    if (Navigator.isAssignment(node, { key: "inputs" })) {
+      const inputsContents = node.getChildAt(2).getChildAt(1).getText();
+
+      const numberOfInputs =
+        inputsContents === "" ? 0 : inputsContents.split(",").length;
+
+      if (Collector.isRegularNode && numberOfInputs === 0) {
+        this.log(LINTINGS.WRONG_NUMBER_OF_INPUTS_IN_REGULAR_NODE_DESCRIPTION)(
+          node
+        );
+      } else if (Collector.isTriggerNode && numberOfInputs !== 0) {
+        this.log(LINTINGS.WRONG_NUMBER_OF_INPUTS_IN_TRIGGER_NODE_DESCRIPTION)(
+          node
+        );
+      }
+    }
+
+    if (Navigator.isAssignment(node, { key: "outputs" })) {
+      const outputsContents = node.getChildAt(2).getChildAt(1).getText();
+
+      const numberOfOutputs =
+        outputsContents === "" ? 0 : outputsContents.split(",").length;
+
+      if (Collector.isRegularNode && numberOfOutputs === 0) {
+        this.log(LINTINGS.WRONG_NUMBER_OF_OUTPUTS_IN_NODE_DESCRIPTION)(node);
       }
     }
 
