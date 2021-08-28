@@ -442,6 +442,15 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  PARAM_DESCRIPTION_WITH_BRITISH_SUFFIX: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "wording",
+    message: "Param description is using British English",
+    enabled: true,
+    logLevel: "warning",
+    details:
+      "Prefer American English over British English suffixes, i.e. prefer '-ize' over '-ise', '-ize' over '-yse', and '-our' over '-our'",
+  },
   PARAM_DESCRIPTION_UNTRIMMED: {
     lintAreas: ["paramDescription"],
     lintIssue: "whitespace",
