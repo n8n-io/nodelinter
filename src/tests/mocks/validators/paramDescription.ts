@@ -84,15 +84,6 @@
     description: 'Resource to consume',
   },
 
-  // ANCHOR_LINK_WITH_TARGET_BLANK_MISSING
-  {
-    displayName: 'User ID',
-    name: 'userId',
-    type: 'string',
-    default: '',
-    description: 'This is a <a href="https://www.hello.com">link</a>.',
-  },
-
   // PARAM_DESCRIPTION_AS_EMPTY_STRING
   {
 		displayName: 'User ID',

@@ -435,13 +435,6 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "warning",
   },
-  ANCHOR_LINK_WITH_TARGET_BLANK_MISSING: {
-    lintAreas: ["paramDescription"],
-    lintIssue: "missing",
-    message: 'Anchor link without attribute `target="_blank"`',
-    enabled: true,
-    logLevel: "error",
-  },
   PARAM_DESCRIPTION_AS_EMPTY_STRING: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
