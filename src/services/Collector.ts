@@ -36,9 +36,13 @@ export class Collector {
       node.getText() === "loadOptions"
     ) {
       const objectLiteralExpression = node.parent.getChildAt(2);
-      objectLiteralExpression.forEachChild((methodDeclaration) => {
-        const identifier = methodDeclaration.getChildAt(1);
-        Collector.loadOptionsMethods.push(identifier.getText());
+      objectLiteralExpression.forEachChild((method) => {
+        if (ts.isShorthandPropertyAssignment(method)) {
+          Collector.loadOptionsMethods.push(method.getText());
+        } else {
+          const identifier = method.getChildAt(1);
+          Collector.loadOptionsMethods.push(identifier.getText());
+        }
       });
     }
   }
