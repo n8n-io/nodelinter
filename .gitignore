@@ -5,3 +5,4 @@ node_modules
 dist
 nodelinter.config.json
 lintRef.json
+src/input/*
