@@ -34,7 +34,11 @@ export class MiscellaneousValidator implements SubValidator {
       );
     }
 
-    if (ts.isIdentifier(node) && node.getText() === "Error") {
+    if (
+      ts.isIdentifier(node) &&
+      !ts.isTypeReferenceNode(node.parent) &&
+      node.getText() === "Error"
+    ) {
       this.log(LINTINGS.WRONG_ERROR_THROWN)(node.parent);
     }
 
