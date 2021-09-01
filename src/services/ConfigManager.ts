@@ -189,7 +189,9 @@ export class ConfigManager {
     delete arg["infos-only"];
 
     Object.keys(arg).forEach((keyOrOption) => {
-      if (!Object.keys(this.defaultConfig).includes(keyOrOption)) {
+      if (
+        ![...Object.keys(this.defaultConfig), "print"].includes(keyOrOption)
+      ) {
         if (type === "cliArgs") {
           console.log(
             [
