@@ -111,7 +111,7 @@ export class DescriptionValidator implements SubValidator {
 
       BRITISH_ENGLISH_SUFFIXES.forEach((suffix) => {
         descriptionText.split(" ").forEach((word) => {
-          if (word.endsWith(suffix)) {
+          if (word.endsWith(suffix) && word !== "your") {
             this.log(LINTINGS.PARAM_DESCRIPTION_WITH_BRITISH_SUFFIX)(node);
           }
         });
