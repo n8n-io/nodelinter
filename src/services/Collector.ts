@@ -8,8 +8,8 @@ export class Collector {
   public static loadOptionsMethods: string[] = [];
   public static sourceFileHasContinueOnFail = false;
   public static currentNode: ts.Node;
-  public static isRegularNode: boolean;
-  public static isTriggerNode: boolean;
+  public static isRegularNode = false;
+  public static isTriggerNode = false;
 
   public static run(node: ts.Node) {
     Collector.identifyRegularOrTrigger(node);
@@ -70,7 +70,7 @@ export class Collector {
   static getLineNumber(node: ts.Node) {
     const { line } = getLineAndCharacterOfPosition(
       Traverser.sourceFile,
-      node.getEnd()
+      node?.getEnd() ?? 0 // TODO: Detect undefined node upstream
     );
     return line;
   }
