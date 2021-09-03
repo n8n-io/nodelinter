@@ -363,7 +363,7 @@ export const LINTINGS: {
     lintAreas: ["options"],
     lintIssue: "casing",
     message: "No camel case in `options` value",
-    enabled: true,
+    enabled: false, // TODO: Decide whether to remove linting
     logLevel: "error",
   },
 
@@ -470,7 +470,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "wording",
     message: "Param description is using British English",
-    enabled: true,
+    enabled: false, // TODO: Decide whether to remove linting
     logLevel: "warning",
     details:
       "Prefer American English over British English suffixes, i.e. prefer '-ize' over '-ise', '-ize' over '-yse', and '-our' over '-our'",
@@ -514,7 +514,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "wording",
     message: "Technical term in param description",
-    enabled: true,
+    enabled: false, // TODO: Decide whether to remove linting
     logLevel: "info",
     details: "Prefer 'text' over 'string' and 'field' over 'key'",
   },
