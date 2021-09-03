@@ -224,7 +224,7 @@ export const LINTINGS: {
     lintAreas: ["name"],
     lintIssue: "casing",
     message: "No camel case in `name` property",
-    enabled: true,
+    enabled: false, // TODO: Decide whether to remove linting
     logLevel: "error",
   },
   NON_SUFFIXED_CREDENTIALS_NAME: {
@@ -438,7 +438,7 @@ export const LINTINGS: {
     lintAreas: ["paramDescription"],
     lintIssue: "missing",
     message: "Param description is missing where it is required",
-    enabled: true,
+    enabled: false, // TODO: Decide whether to remove linting
     logLevel: "error",
     details:
       "All param and options descriptions are required, except for resource option, credentials option, and defaults option",
