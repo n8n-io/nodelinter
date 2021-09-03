@@ -1,5 +1,5 @@
 export const STANDARD_DESCRIPTIONS = {
-  limit: "How many results to return",
+  limit: "Max number of results to return",
   returnAll: "Whether to return all results or only up to a given limit",
   subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
   upsert:

@@ -31,7 +31,7 @@ export const properties = [
 		name: 'limit',
 		type: 'number',
 		default: 5,
-		description: 'How many results to return',
+		description: 'This is wrong',
 		typeOptions: {
 			minValue: 1,
 			maxValue: 1000,
