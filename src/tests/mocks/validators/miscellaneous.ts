@@ -70,3 +70,75 @@ export const abc = [
 
 // WRONG_ERROR_THROWN
 throw Error();
+
+// RESOURCE_WITHOUT_NO_DATA_EXPRESSION
+export class Splunk implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Splunk',
+		name: 'splunk',
+		icon: 'file:splunk.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the Splunk Enterprise API',
+		defaults: {
+			name: 'Splunk',
+			color: '#e20082',
+		},
+		inputs: ['main'],
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				options: [
+					{
+						name: 'Fired Alert',
+						value: 'firedAlert',
+					},
+					{
+						name: 'Search Configuration',
+						value: 'searchConfiguration',
+					},
+					{
+						name: 'Search Job',
+						value: 'searchJob',
+					},
+					{
+						name: 'Search Result',
+						value: 'searchResult',
+					},
+					{
+						name: 'User',
+						value: 'user',
+					},
+				],
+				default: 'searchJob',
+			},
+		]
+	}
+};
+
+// OPERATION_WITHOUT_NO_DATA_EXPRESSION
+export const firedAlertOperations: INodeProperties[] = [
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		displayOptions: {
+			show: {
+				resource: [
+					'firedAlert',
+				],
+			},
+		},
+		options: [
+			{
+				name: 'Get Report',
+				value: 'getReport',
+				description: 'Retrieve a fired alerts report',
+			},
+		],
+		default: 'getReport',
+	},
+];

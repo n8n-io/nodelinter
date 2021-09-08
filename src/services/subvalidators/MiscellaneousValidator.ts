@@ -10,6 +10,40 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
+    if (Navigator.isAssignment(node, { key: "name", value: "resource" })) {
+      let resourceHasNoDataExpression = false;
+
+      node.parent.forEachChild((node) => {
+        if (
+          node.getChildAt(0).getText() === "noDataExpression" &&
+          node.getChildAt(2).getText() === "true"
+        ) {
+          resourceHasNoDataExpression = true;
+        }
+      });
+
+      if (!resourceHasNoDataExpression) {
+        this.log(LINTINGS.RESOURCE_WITHOUT_NO_DATA_EXPRESSION)(node);
+      }
+    }
+
+    if (Navigator.isAssignment(node, { key: "name", value: "operation" })) {
+      let operationHasNoDataExpression = false;
+
+      node.parent.forEachChild((node) => {
+        if (
+          node.getChildAt(0).getText() === "noDataExpression" &&
+          node.getChildAt(2).getText() === "true"
+        ) {
+          operationHasNoDataExpression = true;
+        }
+      });
+
+      if (!operationHasNoDataExpression) {
+        this.log(LINTINGS.OPERATION_WITHOUT_NO_DATA_EXPRESSION)(node);
+      }
+    }
+
     if (Navigator.isAssignment(node, { key: "name", value: "returnAll" })) {
       node.parent.forEachChild((node) => {
         if (
