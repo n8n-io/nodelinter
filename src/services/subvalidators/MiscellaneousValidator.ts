@@ -44,13 +44,15 @@ export class MiscellaneousValidator implements SubValidator {
 
     if (ts.isIdentifier(node) && node.getText() === "loadOptionsMethod") {
       const loadOptionsMethod = node.parent
-        ?.getChildAt(2)
-        ?.getChildAt(1)
-        ?.getChildAt(0)
         .getText()
-        .replace(/'/g, "");
+        .split(":")
+        .map((i) => i.trim().replace(/'/g, ""))
+        .pop();
 
-      if (!Collector.loadOptionsMethods.includes(loadOptionsMethod)) {
+      if (
+        loadOptionsMethod &&
+        !Collector.loadOptionsMethods.includes(loadOptionsMethod)
+      ) {
         this.log(LINTINGS.NON_EXISTENT_LOAD_OPTIONS_METHOD)(node.parent);
       }
     }
