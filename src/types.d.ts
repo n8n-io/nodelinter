@@ -138,14 +138,14 @@ type CliArgs = {
   _?: [];
   target?: string;
   config?: string;
-  print?: boolean | string;
+  print?: boolean;
   patterns?: string;
 } & MultiWordArgs;
 
 type MultiWordArgs = {
-  "error-only"?: boolean;
-  "warning-only"?: boolean;
-  "info-only"?: boolean;
+  "errors-only"?: boolean;
+  "warnings-only"?: boolean;
+  "infos-only"?: boolean;
 };
 
 type AdjustPatternArg = {

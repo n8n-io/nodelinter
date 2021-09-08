@@ -8,7 +8,7 @@ import { ERRORS } from "../constants";
 
 export async function lintOne(
   config: Config,
-  { printLogs, printFileName }: { printLogs: boolean; printFileName: string }
+  { printLogs }: { printLogs: boolean }
 ) {
   if (!isLintable(config.target)) {
     terminate(ERRORS.NOT_LINTABLE_TARGET);
@@ -30,11 +30,8 @@ export async function lintOne(
   presenter.summarize(validator.logs, executionTimeMs);
 
   if (printLogs) {
-    Presenter.printJson(printFileName, validator.logs);
-    console.log(
-      chalk.bold(
-        `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`
-      )
-    );
+    Presenter.printJson("lintOutput", validator.logs);
+    console.log("Logs printed to:");
+    console.log(chalk.bold(`${path.join(process.cwd(), "lintOutput.json")}`));
   }
 }

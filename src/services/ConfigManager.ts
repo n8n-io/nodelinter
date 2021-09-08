@@ -12,7 +12,6 @@ import { isNotTestRun } from "..";
 
 export class ConfigManager {
   printLogs: boolean;
-  printFileName: string;
   only: LogLevel;
   patterns: LintableFilePattern[];
 
@@ -35,6 +34,7 @@ export class ConfigManager {
     isNotTestRun && this.validateTargetKeyExists();
 
     if (this.customConfig) {
+      // @ts-ignore TODO
       this.validateNoUnknowns(this.customConfig, { type: "customConfig" });
       this.validateNoTargetKeyConflict();
       this.masterConfig = this.deepMerge(this.defaultConfig, this.customConfig);
@@ -56,9 +56,9 @@ export class ConfigManager {
     const { _, ...cliArgs } = minimist<CliArgs>(args);
 
     this.parseOnlyArgs({
-      "error-only": cliArgs["errors-only"],
-      "warning-only": cliArgs["warnings-only"],
-      "info-only": cliArgs["infos-only"],
+      "errors-only": cliArgs["errors-only"],
+      "warnings-only": cliArgs["warnings-only"],
+      "infos-only": cliArgs["infos-only"],
     });
 
     this.validateNoUnknowns(cliArgs, { type: "cliArgs" });
@@ -78,21 +78,16 @@ export class ConfigManager {
     if (quantity > 1) terminate(ERRORS.MULTIPLE_ONLY_ARGS);
 
     if (quantity === 1) {
-      if (multiWordArgs["error-only"]) this.only = "error";
-      else if (multiWordArgs["warning-only"]) this.only = "warning";
-      else if (multiWordArgs["info-only"]) this.only = "info";
+      if (multiWordArgs["errors-only"]) this.only = "error";
+      else if (multiWordArgs["warnings-only"]) this.only = "warning";
+      else if (multiWordArgs["infos-only"]) this.only = "info";
     }
   }
 
-  private parsePrintArgs(print?: string | boolean) {
+  private parsePrintArgs(print?: boolean) {
     if (!print) return;
 
     this.printLogs = true;
-
-    this.printFileName =
-      typeof print === "string" && print !== ""
-        ? print
-        : DEFAULT_PRINT_FILENAME;
   }
 
   private parsePatternsArgs(patterns?: string) {
@@ -178,14 +173,11 @@ export class ConfigManager {
    * // TODO: Refactor this method
    */
   private validateNoUnknowns(
-    arg: object,
+    arg: MultiWordArgs,
     { type }: { type: "cliArgs" | "customConfig" }
   ) {
-    // @ts-ignore
     delete arg["errors-only"];
-    // @ts-ignore
     delete arg["warnings-only"];
-    // @ts-ignore
     delete arg["infos-only"];
 
     Object.keys(arg).forEach((keyOrOption) => {

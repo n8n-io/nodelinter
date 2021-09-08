@@ -11,7 +11,7 @@ export const isNotTestRun = process.argv[1].split("/").pop() !== "jest";
 
 const configManager = new ConfigManager(process.argv.slice(2));
 
-const { masterConfig, printLogs, printFileName } = configManager;
+const { masterConfig, printLogs } = configManager;
 
 export { masterConfig };
 
@@ -25,6 +25,6 @@ if (isNotTestRun) {
   }
 
   symlink.isDirectory()
-    ? lintAll(masterConfig, { printLogs, printFileName })
-    : lintOne(masterConfig, { printLogs, printFileName });
+    ? lintAll(masterConfig, { printLogs })
+    : lintOne(masterConfig, { printLogs });
 }

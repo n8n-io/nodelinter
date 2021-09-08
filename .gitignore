@@ -6,3 +6,4 @@ dist
 nodelinter.config.json
 lintRef.json
 src/input/*
+lintOutput.json

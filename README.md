@@ -56,7 +56,7 @@ npm run lint -- --target=/Users/john/n8n/packages/nodes-base/nodes/Stripe/Stripe
 | ----------------- | -------------------------------------------------- |
 | `--target`        | Path of the file or directory to lint              |
 | `--config`        | Path of the [custom config](#custom-config) to use |
-| `--print`         | Print output to JSON                               |
+| `--print`         | Whether to print output to `lintOutput.json`       |
 | `--patterns`      | Lintable file patterns                             |
 | `--errors-only`   | Enable error logs only                             |
 | `--warnings-only` | Enable warning logs only                           |
@@ -74,11 +74,8 @@ Examples:
 # use a custom config
 --config=/Users/john/Documents/myConfig.json
 
-# print logs to a JSON file, default filename
+# print logs to lintOutput.json
 --print
-
-# print logs to a JSON file, custom filename
---print=myLintOutput
 
 # lint files ending with these patterns
 --target=./src/input/MyNode --patterns:.node.ts,Description.ts

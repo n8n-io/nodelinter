@@ -7,7 +7,7 @@ import chalk from "chalk";
 
 export async function lintAll(
   config: Config,
-  { printLogs, printFileName }: { printLogs: boolean; printFileName: string }
+  { printLogs }: { printLogs: boolean }
 ) {
   const isFileToLint = (fileName: string) =>
     config.patterns.some((pattern) => fileName.endsWith(pattern));
@@ -36,11 +36,8 @@ export async function lintAll(
   presenter.summarize(allFilesLogs, executionTimeMs);
 
   if (printLogs) {
-    Presenter.printJson(printFileName, allFilesLogs);
-    console.log(
-      chalk.bold(
-        `Logs printed to ${path.join(process.cwd(), `${printFileName}.json`)}`
-      )
-    );
+    Presenter.printJson("lintOutput", allFilesLogs);
+    console.log("Logs printed to:");
+    console.log(chalk.bold(`${path.join(process.cwd(), "lintOutput.json")}`));
   }
 }
