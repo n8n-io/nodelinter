@@ -419,6 +419,8 @@ export const LINTINGS: {
     message: "Missing final period in multiple-sentence param description",
     enabled: true,
     logLevel: "warning",
+    details:
+      "A single-sentence description must have no final period. A multiple-sentence description must have final periods for all sentences, except if the last sentence ends with a `</code>` element.",
   },
   PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD: {
     lintAreas: ["paramDescription"],
@@ -426,6 +428,8 @@ export const LINTINGS: {
     message: "Excess final period in single-sentence param description",
     enabled: true,
     logLevel: "warning",
+    details:
+      "A single-sentence description must have no final period. A multiple-sentence description must have final periods for all sentences, except if the last sentence ends with a `</code>` element.",
   },
   PARAM_DESCRIPTION_WITH_EXCESS_WHITESPACE: {
     lintAreas: ["paramDescription"],
