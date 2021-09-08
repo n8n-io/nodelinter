@@ -466,6 +466,15 @@ export const LINTINGS: {
     enabled: true,
     logLevel: "error",
   },
+  PARAM_DESCRIPTION_WITH_MISSING_PROTOCOL_LINK: {
+    lintAreas: ["paramDescription"],
+    lintIssue: "missing",
+    message: "Param description has link without protocol",
+    enabled: true,
+    logLevel: "error",
+    details:
+      "A protocol `https://` or `http://` needs to be specified in the param description link.",
+  },
   PARAM_DESCRIPTION_WITH_BRITISH_SUFFIX: {
     lintAreas: ["paramDescription"],
     lintIssue: "wording",

@@ -6,7 +6,12 @@ import {
   WEAK_DESCRIPTIONS,
 } from "../../constants";
 import { LINTINGS } from "../../lintings";
-import { hasAnchorLink, hasTargetBlank, startsWithCapital } from "../../utils";
+import {
+  hasAnchorLink,
+  hasProtocol,
+  hasTargetBlank,
+  startsWithCapital,
+} from "../../utils";
 
 // TODO: Refactor for readability
 
@@ -94,6 +99,13 @@ export class DescriptionValidator implements SubValidator {
           }
         }
       });
+
+      if (
+        hasAnchorLink(node.getChildAt(2).getText()) &&
+        !hasProtocol(node.getChildAt(2).getText())
+      ) {
+        this.log(LINTINGS.PARAM_DESCRIPTION_WITH_MISSING_PROTOCOL_LINK)(node);
+      }
 
       if (node.getChildAt(2).getText().includes("<br />")) {
         this.log(LINTINGS.NON_STANDARD_HTML_LINE_BREAK)(node);

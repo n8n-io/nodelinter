@@ -128,8 +128,34 @@
     default: '',
     description: 'This is the colour of the object'
   },
-
 ];
+
+// PARAM_DESCRIPTION_WITH_MISSING_PROTOCOL_LINK
+const whoa = [
+	{
+		displayName: ' Additional Fields',
+		name: 'additionalFieldsJson',
+		type: 'json',
+		typeOptions: {
+			alwaysOpenEditWindow: true,
+		},
+		default: '',
+		displayOptions: {
+			show: {
+				resource: [
+					'company',
+				],
+				operation: [
+					'create',
+				],
+				jsonParameters: [
+					true,
+				],
+			},
+		},
+		description: 'Object of values to set as described <a href="WRONG://github.com/agilecrm/rest-api#1-companys---companies-api" target="_blank">here</a>.',
+	},
+]
 
 // WEAK_PARAM_DESCRIPTION
 export class OpenWeatherMap implements INodeType {

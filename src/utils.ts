@@ -25,6 +25,8 @@ export const isCamelCase = (str: string) =>
 
 export const hasAnchorLink = (str: string) => /<a href=/.test(str);
 
+export const hasProtocol = (str: string) => /href="https:\/\//.test(str);
+
 export const hasTargetBlank = (str: string) => /target="_blank"/.test(str);
 
 /**
