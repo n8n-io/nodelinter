@@ -150,6 +150,24 @@ export const LINTINGS: {
     )}`,
   },
 
+  RESOURCE_WITHOUT_NO_DATA_EXPRESSION: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Resource param without `noDataExpression: true`",
+    enabled: true,
+    logLevel: "error",
+    details:
+      "A resource param must have `noDataExpression: true` since it does not allow for expressions.",
+  },
+  OPERATION_WITHOUT_NO_DATA_EXPRESSION: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Operation param without `noDataExpression: true`",
+    enabled: true,
+    logLevel: "error",
+    details:
+      "An operation param must have `noDataExpression: true` since it does not allow for expressions.",
+  },
   NON_EXISTENT_LOAD_OPTIONS_METHOD: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wrong",

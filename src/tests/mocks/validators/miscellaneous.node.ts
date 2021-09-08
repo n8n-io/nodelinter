@@ -1,3 +1,8 @@
+/**
+ * Attention: Do _not_ use this file for testing miscellaneous lintings.
+ * This file is only intended for the MISSING_CONTINUE_ON_FAIL linting
+ */
+
 // MISSING_CONTINUE_ON_FAIL
 // Separated from the main miscellaneous input file because the file name
 // is checked and the continueOnFail check runs after traversal of the entire AST
@@ -252,3 +257,5 @@ export class Todoist implements INodeType {
 		return [this.helpers.returnJsonArray(returnData)];
 	}
 }
+
+
