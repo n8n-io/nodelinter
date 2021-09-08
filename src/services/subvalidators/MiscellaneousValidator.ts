@@ -10,6 +10,13 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
+    if (
+      ts.isAsExpression(node) &&
+      node.getChildAt(2).getText() === "INodeProperties[]"
+    ) {
+      this.log(LINTINGS.I_NODE_PROPERTIES_MISCASTING)(node);
+    }
+
     if (Navigator.isAssignment(node, { key: "name", value: "resource" })) {
       let resourceHasNoDataExpression = false;
 

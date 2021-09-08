@@ -142,3 +142,28 @@ export const firedAlertOperations: INodeProperties[] = [
 		default: 'getReport',
 	},
 ];
+
+// I_NODE_PROPERTIES_MISCASTING
+export const firedAlertOperations = [
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+		displayOptions: {
+			show: {
+				resource: [
+					'firedAlert',
+				],
+			},
+		},
+		options: [
+			{
+				name: 'Get Report',
+				value: 'getReport',
+				description: 'Retrieve a fired alerts report',
+			},
+		],
+		default: 'getReport',
+	},
+] as INodeProperties[];

@@ -168,6 +168,15 @@ export const LINTINGS: {
     details:
       "An operation param must have `noDataExpression: true` since it does not allow for expressions.",
   },
+  I_NODE_PROPERTIES_MISCASTING: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Casting instead of typing for `INodeProperties[]`",
+    enabled: true,
+    logLevel: "warning",
+    details:
+      "Type node params instead of casting them: `export const userOperations: INodeProperties[] = [ ... ]`",
+  },
   NON_EXISTENT_LOAD_OPTIONS_METHOD: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wrong",
