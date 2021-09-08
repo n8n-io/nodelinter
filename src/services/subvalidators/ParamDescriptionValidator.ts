@@ -6,12 +6,7 @@ import {
   WEAK_DESCRIPTIONS,
 } from "../../constants";
 import { LINTINGS } from "../../lintings";
-import {
-  hasAnchorLink,
-  hasProtocol,
-  hasTargetBlank,
-  startsWithCapital,
-} from "../../utils";
+import { hasAnchorLink, hasProtocol, startsWithCapital } from "../../utils";
 
 // TODO: Refactor for readability
 
@@ -22,7 +17,8 @@ export class DescriptionValidator implements SubValidator {
 
   /**
    * Validate that a single-sentence description has no final period, and
-   * that a multiple-sentence description has final periods for all sentences.
+   * that a multiple-sentence description has final periods for all sentences,
+   * except if the sentence ends with a `</code>` element.
    */
   private checkFinalPeriod(description: string, node: ts.Node) {
     const sentences = description.split(". ");
@@ -40,6 +36,15 @@ export class DescriptionValidator implements SubValidator {
 
     // restore periods removed by split() in all but last
     const restored = [...allButLast.map((s) => (s += ".")), last];
+
+    const lastSentence = restored[restored.length - 1];
+
+    if (lastSentence.endsWith("</code>")) return;
+
+    if (lastSentence.endsWith("</code>.")) {
+      this.log(LINTINGS.PARAM_DESCRIPTION_WITH_EXCESS_FINAL_PERIOD)(node);
+      return;
+    }
 
     if (!restored.every((sentence) => sentence.endsWith("."))) {
       this.log(LINTINGS.PARAM_DESCRIPTION_WITH_MISSING_FINAL_PERIOD)(node);
