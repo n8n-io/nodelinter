@@ -49,8 +49,6 @@ export class DescriptionValidator implements SubValidator {
       node.getChildAt(0).getText() === "name" &&
       node?.parent?.parent?.parent?.kind === ts.SyntaxKind.ArrowFunction;
 
-    if (isNameInArrowFunction) console.log(node.getText());
-
     // skip object inside `execute()` that happens to have `name` property
     const isNameWithVariableDeclarationParent =
       ts.isPropertyAssignment(node) &&
