@@ -60,6 +60,5 @@ const extract = (sourceFilePaths: string[]) => {
     });
   });
 
-  // console.log(Traverser.extractedDescriptions);
   Presenter.printJson("extractedDescriptions", Traverser.extractedDescriptions);
 };

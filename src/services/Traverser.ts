@@ -48,14 +48,11 @@ export class Traverser {
             let { line } = getLine(sourceFile, node.getEnd());
             line += 1;
 
-            // @ts-ignore
-            Traverser.extractedDescriptions.push(description);
-
-            // Traverser.extractedDescriptions.push({
-            //   description,
-            //   line,
-            //   sourceFilePath: Traverser.sourceFilePath.split("n8n").pop()!,
-            // });
+            Traverser.extractedDescriptions.push({
+              description,
+              line,
+              sourceFilePath: Traverser.sourceFilePath.split("n8n").pop()!,
+            });
           }
 
           return ts.visitEachChild(node, extractorVisitor, context);
