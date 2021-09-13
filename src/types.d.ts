@@ -7,6 +7,7 @@ type Config = {
   patterns: LintableFilePattern[];
   sortMethod: "lineNumber" | "importance";
   showDetails: boolean;
+  extractDescriptions: boolean;
   logLevelColors: {
     [key in LogLevel]: string; // hex color
   };
@@ -26,6 +27,16 @@ type Config = {
 };
 
 type LintableFilePattern = ".node.ts" | "Description.ts";
+
+// ----------------------------------
+//      description extraction
+// ----------------------------------
+
+type ExtractedDescription = {
+  description: string;
+  line: number;
+  sourceFilePath: string;
+};
 
 // ----------------------------------
 //             lint
@@ -146,6 +157,7 @@ type MultiWordArgs = {
   "errors-only"?: boolean;
   "warnings-only"?: boolean;
   "infos-only"?: boolean;
+  "extract-descriptions"?: boolean;
 };
 
 type AdjustPatternArg = {
@@ -173,3 +185,8 @@ type ObjectKeys<T> = T extends object
   : never;
 
 type Constructor = new (...args: any[]) => {};
+
+interface String {
+  unquote(): string;
+  clean(): string;
+}

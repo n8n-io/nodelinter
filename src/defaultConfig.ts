@@ -23,6 +23,11 @@ export const defaultConfig: Config = {
   showDetails: true,
 
   /**
+   * Whether to extract all param descriptions instead of linting.
+   */
+  extractDescriptions: false,
+
+  /**
    * Hex values e.g. `#FFFFFF` to customize log level colors in stdout. Hash symbol `#` required.
    */
   logLevelColors: {

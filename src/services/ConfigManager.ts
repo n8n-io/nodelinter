@@ -2,7 +2,6 @@ import chalk from "chalk";
 import minimist from "minimist";
 import {
   DEFAULT_AUTODETECT_FILENAME,
-  DEFAULT_PRINT_FILENAME,
   ERRORS,
   LINTABLE_FILE_PATTERNS,
 } from "../constants";
@@ -14,6 +13,7 @@ export class ConfigManager {
   printLogs: boolean;
   only: LogLevel;
   patterns: LintableFilePattern[];
+  extractDescriptions = false;
 
   configPath: string;
   targetPath: string;
@@ -46,6 +46,8 @@ export class ConfigManager {
     // overrides
     if (this.only) this.overrideLogLevels();
     if (this.patterns) this.masterConfig.patterns = this.patterns;
+    if (this.extractDescriptions)
+      this.masterConfig.extractDescriptions = this.extractDescriptions;
   }
 
   // ----------------------------------
@@ -60,6 +62,8 @@ export class ConfigManager {
       "warnings-only": cliArgs["warnings-only"],
       "infos-only": cliArgs["infos-only"],
     });
+
+    this.extractDescriptions = cliArgs["extract-descriptions"] !== undefined;
 
     this.validateNoUnknowns(cliArgs, { type: "cliArgs" });
 
@@ -182,7 +186,11 @@ export class ConfigManager {
 
     Object.keys(arg).forEach((keyOrOption) => {
       if (
-        ![...Object.keys(this.defaultConfig), "print"].includes(keyOrOption)
+        ![
+          ...Object.keys(this.defaultConfig),
+          "print",
+          "extract-descriptions",
+        ].includes(keyOrOption)
       ) {
         if (type === "cliArgs") {
           console.log(
