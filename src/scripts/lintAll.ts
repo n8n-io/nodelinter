@@ -12,8 +12,15 @@ export async function lintAll(
   const isFileToLint = (fileName: string) =>
     config.patterns.some((pattern) => fileName.endsWith(pattern));
 
-  const executionStart = new Date().getTime();
   const sourceFilePaths = collect(config.target, isFileToLint);
+
+  if (config.extractDescriptions) {
+    extract(sourceFilePaths);
+    process.exit(0);
+  }
+
+  const executionStart = new Date().getTime();
+
   const allFilesLogs: Log[] = [];
   const presenter = new Presenter(config);
 
@@ -41,3 +48,17 @@ export async function lintAll(
     console.log(chalk.bold(`${path.join(process.cwd(), "lintOutput.json")}`));
   }
 }
+
+const extract = (sourceFilePaths: string[]) => {
+  sourceFilePaths.forEach((sourceFilePath) => {
+    Traverser.sourceFilePath = sourceFilePath;
+
+    const sourceFileContents = fs.readFileSync(sourceFilePath, "utf8");
+
+    ts.transpileModule(sourceFileContents.toString(), {
+      transformers: { before: [Traverser.extract()] },
+    });
+  });
+
+  Presenter.printJson("extractedDescriptions", Traverser.extractedDescriptions);
+};
