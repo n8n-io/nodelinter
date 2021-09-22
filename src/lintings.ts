@@ -273,6 +273,22 @@ export const LINTINGS: {
       "Having the authentication param (allowing the user to select API key, OAuth2, etc.) in a node description is legacy node design. Relocate it to the credentials file at `packages/nodes-base/credentials/*.credentials.ts`.",
   },
 
+  MISSING_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE: {
+    lintAreas: ["nodeDescription"],
+    lintIssue: "missing",
+    message: "Missing test method reference in non-OAuth2 credentials",
+    enabled: true,
+    logLevel: "error",
+    details: "Non-OAuth2 credentials must refer to a credentials test method using the `testedBy` key.",
+  },
+  MISMATCHED_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE: {
+    lintAreas: ["nodeDescription"],
+    lintIssue: "missing",
+    message: "Missing credentials test method in non-OAuth2 credentials",
+    enabled: true,
+    logLevel: "error",
+    details: "Non-OAuth2 credentials must have a test method reference to a method defined in `methods.credentialTest`.",
+  },
   PNG_ICON_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription"],
     lintIssue: "icon",
