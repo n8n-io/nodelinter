@@ -1,21 +1,30 @@
 import ts, { getLineAndCharacterOfPosition } from "typescript";
 import { Traverser } from ".";
 import { NEXT_LINE_EXCEPTION_TEXT } from "../constants";
+import { Navigator } from "./Navigator";
 
 export class Collector {
   private static commentsMap = new Map();
 
   public static loadOptionsMethods: string[] = [];
+  public static credentialsTestMethods: string[] = [];
   public static sourceFileHasContinueOnFail = false;
   public static currentNode: ts.Node;
   public static isRegularNode = false;
   public static isTriggerNode = false;
+  public static credentialsTestNamesSet: Set<string> = new Set();
 
   public static run(node: ts.Node) {
     Collector.identifyRegularOrTrigger(node);
     Collector.collectComments(node);
     Collector.collectContinueOnFail(node);
+    Collector.collectCredentialsTestName(node);
     Collector.collectLoadOptionsMethods(node);
+    Collector.collectCredentialsTestMethods(node);
+  }
+
+  static get credentialsTestNames() {
+    return [...Collector.credentialsTestNamesSet];
   }
 
   static get comments(): Comment[] {
@@ -33,6 +42,16 @@ export class Collector {
           }
         }
       });
+    }
+  }
+
+  static collectCredentialsTestName(node: ts.Node) {
+    if (!Traverser.sourceFilePath.endsWith(".node.ts")) return;
+
+    const found = Navigator.findDescendant(node, { text: "testedBy" });
+
+    if (found) {
+      Collector.credentialsTestNamesSet.add(found.parent.getChildAt(2).getText().clean())
     }
   }
 
@@ -59,6 +78,25 @@ export class Collector {
         } else {
           const identifier = method.getChildAt(1);
           Collector.loadOptionsMethods.push(identifier.getText());
+        }
+      });
+    }
+  }
+
+  static collectCredentialsTestMethods(node: ts.Node) {
+    if (
+      Traverser.sourceFilePath.endsWith(".node.ts") &&
+      ts.isIdentifier(node) &&
+      node.getText() === "credentialTest"
+    ) {
+      const objectLiteralExpression = node.parent.getChildAt(2);
+
+      objectLiteralExpression.forEachChild((method) => {
+        if (ts.isShorthandPropertyAssignment(method)) {
+          Collector.credentialsTestMethods.push(method.getText());
+        } else {
+          const identifier = method.getChildAt(1);
+          Collector.credentialsTestMethods.push(identifier.getText());
         }
       });
     }

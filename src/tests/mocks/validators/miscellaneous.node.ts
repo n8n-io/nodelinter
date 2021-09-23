@@ -205,7 +205,7 @@ export class Todoist implements INodeType {
 
 				const projectId = this.getCurrentNodeParameter('project') as number;
 				if (projectId) {
-					const qs: IDataObject = {project_id: projectId};
+					const qs: IDataObject = { project_id: projectId };
 					const sections = await todoistApiRequest.call(this, 'GET', '/sections', {}, qs);
 					for (const section of sections) {
 						const sectionName = section.name;
@@ -252,7 +252,7 @@ export class Todoist implements INodeType {
 		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
 
-		for (let i = 0; i < length; i++) {}
+		for (let i = 0; i < length; i++) { }
 
 		return [this.helpers.returnJsonArray(returnData)];
 	}

@@ -77,6 +77,30 @@ export class NodeDescriptionValidator implements SubValidator {
       }
     }
 
+    if (Navigator.isAssignment(node, { key: "credentials" })) {
+      const arrayLiteralExpression = node.getChildAt(2);
+
+      arrayLiteralExpression.forEachChild(credentialsObject => {
+        let isNonOAuth = false;
+        let hasTestedBy = false;
+
+        credentialsObject.forEachChild(propertyAssignment => {
+          const key = propertyAssignment.getChildAt(0).getText();
+          const value = propertyAssignment.getChildAt(2).getText().clean();
+
+          if (key === "name" && value.endsWith("Api") && !value.endsWith("OAuth2Api")) {
+            isNonOAuth = true;
+          } else if (key === 'testedBy') {
+            hasTestedBy = true;
+          }
+        });
+
+        if (isNonOAuth && !hasTestedBy) {
+          this.log(LINTINGS.MISSING_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE)(credentialsObject)
+        }
+      });
+    }
+
     if (
       ts.isObjectLiteralExpression(node) &&
       ts.isPropertyDeclaration(node.parent) &&
