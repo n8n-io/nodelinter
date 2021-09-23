@@ -10,6 +10,23 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
+    if (Navigator.isAssignment(node, { key: 'displayName' })) {
+      const value = node.getChildAt(2).getText().clean();
+      if (value.toLowerCase().match(/colo(u?)r/)) {
+
+        let hasColorTypeParam = false;
+        node.parent.forEachChild(propertyAssignment => {
+          if (Navigator.isAssignment(propertyAssignment, { key: 'type', value: 'color' })) {
+            hasColorTypeParam = true;
+          }
+        })
+
+        if (!hasColorTypeParam) {
+          this.log(LINTINGS.COLOR_TYPE_NOT_USED_FOR_COLOR_PARAM)(node);
+        }
+      }
+    }
+
     if (
       ts.isAsExpression(node) &&
       node.getChildAt(2).getText() === "INodeProperties[]"
@@ -56,7 +73,7 @@ export class MiscellaneousValidator implements SubValidator {
         if (
           node.getChildAt(0).getText() === "description" &&
           node.getChildAt(2).getText() !==
-            `'${STANDARD_DESCRIPTIONS.returnAll}'`
+          `'${STANDARD_DESCRIPTIONS.returnAll}'`
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });

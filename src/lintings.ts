@@ -238,6 +238,13 @@ export const LINTINGS: {
     details:
       "Use `NodeApiError` for unsuccessful API calls and `NodeOperationError` for functionality errors. Reference: n8n/packages/workflow/src/NodeErrors.ts",
   },
+  COLOR_TYPE_NOT_USED_FOR_COLOR_PARAM: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "`color`-type not used for color-related parameter",
+    enabled: true,
+    logLevel: "warning",
+  },
 
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],
