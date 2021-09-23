@@ -246,6 +246,14 @@ export const LINTINGS: {
     logLevel: "warning",
   },
 
+  NAME_USING_STAR_INSTEAD_OF_ALL: {
+    lintAreas: ["name"],
+    lintIssue: "naming",
+    message: "Name in options using `'*'` instead of `'[All]'`",
+    enabled: true,
+    logLevel: "warning",
+    details: "Prefer `[All]` over the more technical `'*'`."
+  },
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],
     lintIssue: "casing",
