@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
   "search.exclude": {
     "dist": true,
     "node_modules": true
@@ -7,5 +8,5 @@
   "files.exclude": {
     "node_modules": true
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
 }
