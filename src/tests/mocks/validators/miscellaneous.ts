@@ -1,13 +1,13 @@
 export const properties = [
-  // REQUIRED_FALSE
-  {
-    displayName: 'Required False',
-    name: 'requiredFalse',
-    required: false,
-    type: 'string',
-    default: '',
-    description: 'This has a required false.'
-  },
+	// REQUIRED_FALSE
+	{
+		displayName: 'Required False',
+		name: 'requiredFalse',
+		required: false,
+		type: 'string',
+		default: '',
+		description: 'This has a required false.'
+	},
 ] as INodeProperties[]; // Removing casing causes test to fail, for unknown reason.
 
 // NON_STANDARD_RETURNALL_DESCRIPTION
@@ -33,17 +33,17 @@ export const accountContactOperations = [
 
 // TS_IGNORE
 export const webinarOperations = [
-  {
-    displayName: 'Timezone',
-    name: 'timeZone',
-    // @ts-ignore
-    type: 'string',
-    typeOptions: {
-      loadOptionsMethod: 'getTimezones',
-    },
-    default: '',
-    description: 'Time zone used in the response.  The default is the time zone of the calendar.',
-  },
+	{
+		displayName: 'Timezone',
+		name: 'timeZone',
+		// @ts-ignore
+		type: 'string',
+		typeOptions: {
+			loadOptionsMethod: 'getTimezones',
+		},
+		default: '',
+		description: 'Time zone used in the response.  The default is the time zone of the calendar.',
+	},
 ];
 
 // TODO
@@ -167,3 +167,23 @@ export const firedAlertOperations = [
 		default: 'getReport',
 	},
 ] as INodeProperties[];
+
+// COLOR_TYPE_NOT_USED_FOR_COLOR_PARAM
+const abc = {
+	displayName: 'Foreground Colour',
+	name: 'foregroundColor',
+	type: 'coXlor',
+	default: '#000000',
+	displayOptions: {
+		show: {
+			resource: [
+				'spaceTag',
+			],
+			operation: [
+				'create',
+				'update',
+			],
+		},
+	},
+	required: true,
+};

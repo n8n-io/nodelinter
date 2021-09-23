@@ -9,6 +9,10 @@ export class NameValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
+    if (Navigator.isAssignment(node, { key: "name", value: "*" })) {
+      this.log(LINTINGS.NAME_USING_STAR_INSTEAD_OF_ALL)(node);
+    }
+
     if (Navigator.isAssignment(node, { key: "name" })) {
       const hasDefaultsParent = node?.parent?.parent
         ?.getText()

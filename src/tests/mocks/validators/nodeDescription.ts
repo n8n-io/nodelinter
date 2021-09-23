@@ -156,3 +156,94 @@ export class Misp2 implements INodeType {
 		],
 	}
 }
+
+export class ElasticSecurity implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Elastic Security',
+		name: 'elasticSecurity',
+		icon: 'file:elasticSecurity.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the Elastic Security API',
+		defaults: {
+			name: 'Elastic Security',
+			color: '#f3d337',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'elasticSecurityApi',
+				required: true,
+				// testedBy: 'elasticSecurityApiTest', // should trigger lint
+			},
+		],
+	};
+
+	methods = {
+		loadOptions: {
+			async getTags(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const tags = await elasticSecurityApiRequest.call(this, 'GET', '/cases/tags') as string[];
+				return tags.map(tag => ({ name: tag, value: tag }));
+			},
+
+			async getConnectors(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const endpoint = '/cases/configure/connectors/_find';
+				const connectors = await elasticSecurityApiRequest.call(this, 'GET', endpoint) as Connector[];
+				return connectors.map(({ name, id }) => ({ name, value: id }));
+			},
+		},
+		credentialTest: {
+			async elasticSecurityApiTest(this: ICredentialTestFunctions, credential: ICredentialsDecrypted): Promise<NodeCredentialTestResult> {
+				// ...
+			},
+		},
+	};
+}
+
+// MISSING_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE
+export class ElasticSecurity implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Elastic Security',
+		name: 'elasticSecurity',
+		icon: 'file:elasticSecurity.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume the Elastic Security API',
+		defaults: {
+			name: 'Elastic Security',
+			color: '#f3d337',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'elasticSecurityApi',
+				required: true,
+				testedBy: 'elasticSecurityApiTest',
+			},
+		],
+	};
+
+	methods = {
+		loadOptions: {
+			async getTags(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const tags = await elasticSecurityApiRequest.call(this, 'GET', '/cases/tags') as string[];
+				return tags.map(tag => ({ name: tag, value: tag }));
+			},
+
+			async getConnectors(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				const endpoint = '/cases/configure/connectors/_find';
+				const connectors = await elasticSecurityApiRequest.call(this, 'GET', endpoint) as Connector[];
+				return connectors.map(({ name, id }) => ({ name, value: id }));
+			},
+		},
+		credentialTest: {
+			async XXXelasticSecurityApiTest(this: ICredentialTestFunctions, credential: ICredentialsDecrypted): Promise<NodeCredentialTestResult> {
+				// ...
+			},
+		},
+	};
+}

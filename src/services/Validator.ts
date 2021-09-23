@@ -43,6 +43,16 @@ export class Validator {
    * Run checks _after_ the source file AST has been traversed.
    */
   public postTraversalChecks(sourceFile: ts.SourceFile) {
+    if (
+      Collector.credentialsTestNames.sort().join('') !==
+      Collector.credentialsTestMethods.sort().join()
+    ) {
+      this.addToLogs(
+        LINTINGS.MISMATCHED_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE,
+        { line: 1, text: "<large excerpt omitted>" },
+      )
+    }
+
     if (Collector.tsIgnores.length) {
       Collector.tsIgnores.forEach(({ line, text }) => {
         this.addToLogs(LINTINGS.TS_IGNORE, { line, text });

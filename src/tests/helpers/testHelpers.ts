@@ -54,15 +54,20 @@ export const lintingsByGroup = groupByLintArea(Object.values(LINTINGS));
  */
 const partition =
   (test: (linting: Linting) => boolean) =>
-  (array: Linting[]): [Linting, Linting[]] => {
-    const pass: Linting[] = [];
-    const fail: Linting[] = [];
-    array.forEach((item) => (test(item) ? pass : fail).push(item));
+    (array: Linting[]): [Linting, Linting[]] => {
+      const pass: Linting[] = [];
+      const fail: Linting[] = [];
+      array.forEach((item) => (test(item) ? pass : fail).push(item));
 
-    return [pass[0], fail];
-  };
+      return [pass[0], fail];
+    };
 
 export const separateContinueOnFail = partition(
   (linting: Linting) =>
     linting.message === masterConfig.lintings.MISSING_CONTINUE_ON_FAIL.message
+);
+
+export const separateCheckCredTestFunctions = partition(
+  (linting: Linting) =>
+    linting.message === masterConfig.lintings.MISMATCHED_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE.message
 );

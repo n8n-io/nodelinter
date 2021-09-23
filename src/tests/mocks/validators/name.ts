@@ -1,19 +1,19 @@
 export const properties = [
-  // NAME_WITH_MISCASED_ID
-  {
-    displayName: 'User ID',
-    name: 'user ID',
-    type: 'string',
-    default: '',
-  },
+	// NAME_WITH_MISCASED_ID
+	{
+		displayName: 'User ID',
+		name: 'user ID',
+		type: 'string',
+		default: '',
+	},
 
-  // NAME_WITH_NO_CAMELCASE
-  {
-    displayName: 'User ID',
-    name: 'User Id',
-    type: 'string',
-    default: '',
-  },
+	// NAME_WITH_NO_CAMELCASE
+	{
+		displayName: 'User ID',
+		name: 'User Id',
+		type: 'string',
+		default: '',
+	},
 ];
 
 // AUTHENTICATION_PARAM_NOT_IN_CREDENTIALS
@@ -95,5 +95,28 @@ export class Stripe implements INodeType {
 				required: true,
 			},
 		],
-  }
+	}
 }
+
+// NAME_USING_STAR_INSTEAD_OF_ALL
+const abc = {
+	displayName: 'Events',
+	name: 'events',
+	type: 'multiOptions',
+	required: true,
+	default: [],
+	options: [
+		{
+			name: '*',
+			value: '*',
+		},
+		{
+			name: 'folder.created',
+			value: 'folderCreated',
+		},
+		{
+			name: 'folder.deleted',
+			value: 'folderDeleted',
+		},
+	],
+};
