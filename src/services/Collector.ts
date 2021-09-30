@@ -51,7 +51,9 @@ export class Collector {
     const found = Navigator.findDescendant(node, { text: "testedBy" });
 
     if (found) {
-      Collector.credentialsTestNamesSet.add(found.parent.getChildAt(2).getText().clean())
+      Collector.credentialsTestNamesSet.add(
+        found.parent.getChildAt(2).getText().clean()
+      );
     }
   }
 
@@ -72,6 +74,8 @@ export class Collector {
       node.getText() === "loadOptions"
     ) {
       const objectLiteralExpression = node.parent.getChildAt(2);
+      if (!objectLiteralExpression) return;
+
       objectLiteralExpression.forEachChild((method) => {
         if (ts.isShorthandPropertyAssignment(method)) {
           Collector.loadOptionsMethods.push(method.getText());
@@ -90,6 +94,7 @@ export class Collector {
       node.getText() === "credentialTest"
     ) {
       const objectLiteralExpression = node.parent.getChildAt(2);
+      if (!objectLiteralExpression) return;
 
       objectLiteralExpression.forEachChild((method) => {
         if (ts.isShorthandPropertyAssignment(method)) {

@@ -39,11 +39,10 @@ export class Navigator {
    * - the key-value pair matches, or
    * - the key matches.
    *
-   * Note: For the value, `getText()` returns a string from the source, i.e.
+   * Note: The value to compare to needs to be twice-quoted (if a string) or stringified (if not a string).
+   * `getText()` returns a string from the source, so
    * - a twice-quoted string for a string in the source (e.g. `'value'` → `"'value'"`), and
    * - a normal string for a non-string in the source (e.g. `false` → `'false'`).
-   *
-   * Therefore, the value to compare to needs to be twice-quoted or stringified.
    */
   static isAssignment(
     node: ts.Node,

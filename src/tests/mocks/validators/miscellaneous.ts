@@ -187,3 +187,175 @@ const abc = {
 	},
 	required: true,
 };
+
+// TOP_LEVEL_OPTIONAL_FIXED_COLLECTION
+export const objectOperations = [
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		default: 'get',
+		description: 'Operation to perform',
+		options: [
+			{
+				name: 'Create',
+				value: 'create',
+			},
+			{
+				name: 'Delete',
+				value: 'delete',
+			},
+			{
+				name: 'Get',
+				value: 'get',
+			},
+			{
+				name: 'Get All',
+				value: 'getAll',
+			},
+			{
+				name: 'Update',
+				value: 'update',
+			},
+		],
+		displayOptions: {
+			show: {
+				resource: [
+					'object',
+				],
+			},
+		},
+	},
+] as INodeProperties[];
+
+export const objectFields = [
+	// ----------------------------------
+	//         object: create
+	// ----------------------------------
+	{
+		displayName: 'Type Name',
+		name: 'typeName',
+		type: 'string',
+		required: true,
+		description: 'Name of data type of the object to create.',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: [
+					'object',
+				],
+				operation: [
+					'create',
+				],
+			},
+		},
+	},
+	{
+		displayName: 'Properties',
+		name: 'properties',
+		placeholder: 'Add Property',
+		type: 'fixedCollection',
+		typeOptions: {
+			multipleValues: true,
+		},
+		default: {},
+		displayOptions: {
+			show: {
+				resource: [
+					'object',
+				],
+				operation: [
+					'create',
+				],
+			},
+		},
+		options: [
+			{
+				displayName: 'Property',
+				name: 'property',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+						description: 'Field to set for the object to create.',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+						description: 'Value to set for the object to create.',
+					},
+					{
+						displayName: 'Elements',
+						name: 'elementsUi',
+						placeholder: 'Add Element',
+						type: 'fixedCollection',
+						typeOptions: {
+							multipleValues: true,
+						},
+						displayOptions: {
+							show: {
+								type: [
+									'actions',
+								],
+							},
+						},
+						default: {},
+						options: [
+							{
+								name: 'elementsValues',
+								displayName: 'Element',
+								values: [
+									{
+										displayName: 'Type',
+										name: 'type',
+										type: 'options',
+										options: [
+											{
+												name: 'Button',
+												value: 'button',
+											},
+										],
+										default: 'button',
+										description: 'The type of element',
+									},
+									{
+										displayName: 'Text',
+										name: 'text',
+										type: 'string',
+										displayOptions: {
+											show: {
+												type: [
+													'button',
+												],
+											},
+										},
+										default: '',
+										description: 'The text for the block.',
+									},
+									{
+										displayName: 'Emoji',
+										name: 'emoji',
+										type: 'boolean',
+										displayOptions: {
+											show: {
+												type: [
+													'button',
+												],
+											},
+										},
+										default: false,
+										description: 'Indicates whether emojis in a text field should be escaped into the colon emoji format.',
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+] as INodeProperties[];
