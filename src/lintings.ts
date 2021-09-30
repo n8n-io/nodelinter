@@ -150,6 +150,15 @@ export const LINTINGS: {
     )}`,
   },
 
+  TOP_LEVEL_OPTIONAL_FIXED_COLLECTION: {
+    lintAreas: ["miscellaneous"],
+    lintIssue: "wrong",
+    message: "Top-level fixed collection without `required: true`",
+    enabled: true,
+    logLevel: "warning",
+    details:
+      'A top-level fixed collection is required and therefore must be marked `required: true`. Otherwise it is optional and must be nested in "Additional Fields", "Options", "Filters", "Update Fields", etc.',
+  },
   RESOURCE_WITHOUT_NO_DATA_EXPRESSION: {
     lintAreas: ["miscellaneous"],
     lintIssue: "wrong",
@@ -252,7 +261,7 @@ export const LINTINGS: {
     message: "Name in options using `'*'` instead of `'[All]'`",
     enabled: true,
     logLevel: "warning",
-    details: "Prefer `[All]` over the more technical `'*'`."
+    details: "Prefer `[All]` over the more technical `'*'`.",
   },
   NAME_WITH_MISCASED_ID: {
     lintAreas: ["name"],
@@ -294,7 +303,8 @@ export const LINTINGS: {
     message: "Missing test method reference in non-OAuth2 credentials",
     enabled: true,
     logLevel: "error",
-    details: "Non-OAuth2 credentials must refer to a credentials test method using the `testedBy` key.",
+    details:
+      "Non-OAuth2 credentials must refer to a credentials test method using the `testedBy` key.",
   },
   MISMATCHED_NONOAUTH_CREDENTIALS_TEST_METHOD_REFERENCE: {
     lintAreas: ["nodeDescription"],
@@ -302,7 +312,8 @@ export const LINTINGS: {
     message: "Missing credentials test method in non-OAuth2 credentials",
     enabled: true,
     logLevel: "error",
-    details: "Non-OAuth2 credentials must have a test method reference to a method defined in `methods.credentialTest`.",
+    details:
+      "Non-OAuth2 credentials must have a test method reference to a method defined in `methods.credentialTest`.",
   },
   PNG_ICON_IN_NODE_DESCRIPTION: {
     lintAreas: ["nodeDescription"],

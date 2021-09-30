@@ -10,16 +10,48 @@ export class MiscellaneousValidator implements SubValidator {
   log: LogFunction;
 
   public run(node: ts.Node) {
-    if (Navigator.isAssignment(node, { key: 'displayName' })) {
+    if (
+      Navigator.isAssignment(node, { key: "type", value: "fixedCollection" })
+    ) {
+      let isOptionalFixedCollection = true;
+      node.parent.forEachChild((propertyAssignment) => {
+        if (
+          propertyAssignment.getChildAt(0).getText() === "required" &&
+          propertyAssignment.getChildAt(2).getText() === "true"
+        ) {
+          isOptionalFixedCollection = false;
+        }
+      });
+
+      if (isOptionalFixedCollection) {
+        const paramsContainingArray = node.parent.parent;
+        if (ts.isArrayLiteralExpression(paramsContainingArray)) {
+          const arrayParentKind = ts.SyntaxKind[node.parent.parent.parent.kind];
+          const isTopLevelFixedCollection =
+            arrayParentKind === "VariableDeclaration" ||
+            arrayParentKind === "AsExpression";
+
+          if (isTopLevelFixedCollection) {
+            this.log(LINTINGS.TOP_LEVEL_OPTIONAL_FIXED_COLLECTION)(node);
+          }
+        }
+      }
+    }
+
+    if (Navigator.isAssignment(node, { key: "displayName" })) {
       const value = node.getChildAt(2).getText().clean();
       if (value.toLowerCase().match(/colo(u?)r/)) {
-
         let hasColorTypeParam = false;
-        node.parent.forEachChild(propertyAssignment => {
-          if (Navigator.isAssignment(propertyAssignment, { key: 'type', value: 'color' })) {
+        node.parent.forEachChild((propertyAssignment) => {
+          if (
+            Navigator.isAssignment(propertyAssignment, {
+              key: "type",
+              value: "color",
+            })
+          ) {
             hasColorTypeParam = true;
           }
-        })
+        });
 
         if (!hasColorTypeParam) {
           this.log(LINTINGS.COLOR_TYPE_NOT_USED_FOR_COLOR_PARAM)(node);
@@ -73,7 +105,7 @@ export class MiscellaneousValidator implements SubValidator {
         if (
           node.getChildAt(0).getText() === "description" &&
           node.getChildAt(2).getText() !==
-          `'${STANDARD_DESCRIPTIONS.returnAll}'`
+            `'${STANDARD_DESCRIPTIONS.returnAll}'`
         )
           this.log(LINTINGS.NON_STANDARD_RETURNALL_DESCRIPTION)(node);
       });
