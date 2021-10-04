@@ -10,7 +10,7 @@
     "nodelinter": "dist/index.js"
   },
   "scripts": {
-    "prepare": "rm -rf dist && tsc",
+    "prepare": "rm -rf dist && tsc && husky install",
     "lint": "tsc && node dist/index.js",
     "ref": "tsc && node dist/scripts/lintRef.js",
     "clear": "rm -rf dist",
@@ -25,6 +25,7 @@
     "@types/jest": "^26.0.23",
     "@types/minimist": "^1.2.2",
     "@types/node": "^15.6.0",
+    "husky": "^7.0.2",
     "jest": "^27.0.4",
     "prettier": "^2.3.0",
     "ts-jest": "^27.0.3"
